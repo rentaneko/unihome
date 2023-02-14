@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
-import 'package:unihome/views/login.controller.dart';
+import 'package:unihome/views/login/login.controller.dart';
 
 class LoginScreen extends GetWidget<LoginController> {
   const LoginScreen({super.key});
@@ -10,7 +10,7 @@ class LoginScreen extends GetWidget<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.background,
+      backgroundColor: AppColor.white,
       body: SizedBox(
         height: getHeightDevice(),
         width: getWidthDevice(),

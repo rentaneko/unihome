@@ -8,7 +8,7 @@ class BaseResponse {
   factory BaseResponse.fromMap(dynamic map) {
     return map is Map
         ? BaseResponse(
-            code: map['code'] as String?,
+            code: map['status'] as String?,
             message: map['message'] as String?,
             data: map['data'],
           )
@@ -16,7 +16,7 @@ class BaseResponse {
   }
 
   Map<String, dynamic> toMap() => {
-        'code': code,
+        'status': code,
         'message': message,
         'data': data,
       };

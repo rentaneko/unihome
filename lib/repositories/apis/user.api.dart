@@ -10,7 +10,7 @@ class UserApi extends BaseConnect {
       String username, String password) async {
     String? deviceId = await PlatformDeviceId.getDeviceId;
     return await postRequest(
-      '$BASE_URL/api/auth/user/v1/login',
+      '/api/auth/user/v1/login',
       body: jsonEncode(
         <String, String>{
           "username": username,

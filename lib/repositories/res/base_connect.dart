@@ -9,12 +9,12 @@ class BaseConnect extends GetConnect {
   void onInit() {
     httpClient
       ..baseUrl = BASE_URL
-      ..maxAuthRetries = maxAuthRetries
+      ..maxAuthRetries = MAX_AUTH_RETRIES
       ..timeout = const Duration(seconds: MAX_TIME_OUT)
       ..defaultContentType = CONTENT_TYPE
       ..addAuthenticator<dynamic>((request) async {
-        SharedPreferences _pref = await SharedPreferences.getInstance();
-        var token = _pref.getString(TOKEN);
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        var token = pref.getString(TOKEN);
         Get.log('[TOKEN] $token');
         if (token != null) request.headers[AUTHORIZATION] = "$BEARER $token";
         return request;

@@ -1,12 +1,18 @@
+import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:platform_device_id/platform_device_id.dart';
+import 'package:unihome/constant/value.constant.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:unihome/utils/metric.dart';
 
 class LoginController extends GetxController {
   late TextEditingController usernameCtrl;
   late TextEditingController passwordCtrl;
+  late SharedPreferences _preferences;
+
   final formKey = GlobalKey<FormState>();
 
   final _userRepo = Get.find<UserRepo>();
@@ -48,16 +54,22 @@ class LoginController extends GetxController {
   }
 
   Future<void> login() async {
+    _preferences = await SharedPreferences.getInstance();
     if (formKey.currentState!.validate()) {
-      log('True');
+      showLoading('Waiting');
+      await _userRepo
+          .loginWithRenter(usernameCtrl.text.trim(), passwordCtrl.text.trim())
+          .then((value) {
+        hideLoading();
+        if (value != null) {
+          _preferences.setString(TOKEN, value.data['token'].toString());
+          _preferences.setString(USER_ID, value.data['id'].toString());
+        } else {
+          showToast('Username or password is wrong');
+        }
+      });
     } else {
       log('False');
     }
-    // await _userRepo
-    //     .loginWithRenter(
-    //       usernameCtrl.text.trim(),
-    //       passwordCtrl.text.trim(),
-    //     )
-    //     .then((value) => inspect(value));
   }
 }
