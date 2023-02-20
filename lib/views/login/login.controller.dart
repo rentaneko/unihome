@@ -6,6 +6,7 @@ import 'package:platform_device_id/platform_device_id.dart';
 import 'package:unihome/constant/value.constant.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:unihome/routes/pages.dart';
 import 'package:unihome/utils/metric.dart';
 
 class LoginController extends GetxController {
@@ -64,6 +65,7 @@ class LoginController extends GetxController {
         if (value != null) {
           _preferences.setString(TOKEN, value.data['token'].toString());
           _preferences.setString(USER_ID, value.data['id'].toString());
+          goTo(screen: ROUTE_NAV_BAR);
         } else {
           showToast('Username or password is wrong');
         }
