@@ -1,14 +1,14 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unihome/constant/value.constant.dart';
-import 'package:unihome/repositories/models/contract.model.dart';
+import 'package:unihome/repositories/models/invoice.model.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
 import 'package:unihome/utils/metric.dart';
 
-class HomeController extends GetxController {
+class InvoiceController extends GetxController {
   //
-  var contract = Contract().obs;
   var isLoading = true.obs;
+  var invoice = Invoice().obs;
 
   late SharedPreferences _preferences;
 
@@ -16,19 +16,19 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    getContractByRenterId();
+    getListInvoiceByRenterId();
     super.onInit();
   }
 
-  Future<void> getContractByRenterId() async {
+  Future<void> getListInvoiceByRenterId() async {
     _preferences = await SharedPreferences.getInstance();
     await _userRepo
-        .getContractByRenterId(_preferences.getString(USER_ID).toString())
+        .getListInvoiceByRenterId(_preferences.getString(USER_ID)!, '3')
         .then((value) {
       if (value != null) {
-        contract.value = value;
+        invoice.value = value;
       } else {
-        showToast('BUG');
+        showToast('BUG!!!');
       }
       isLoading.value = false;
     });

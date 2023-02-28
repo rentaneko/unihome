@@ -51,10 +51,8 @@ class BaseConnect extends GetConnect {
     }
   }
 
-  Future<BaseResponse?> pathRequest(String url,
-      {dynamic body,
-      Map<String, dynamic>? query,
-      Map<String, String>? headers}) async {
+  Future<BaseResponse?> pathRequest(String url, dynamic body,
+      Map<String, dynamic>? query, Map<String, String>? headers) async {
     var response = await patch(url, body,
         decoder: (map) => BaseResponse.fromMap(map),
         query: query,

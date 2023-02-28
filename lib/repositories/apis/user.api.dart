@@ -20,4 +20,13 @@ class UserApi extends BaseConnect {
       ),
     );
   }
+
+  Future<BaseResponse?> getContractByRenterId(String idRenter) async {
+    return await getResponse('/api/contracts/user/$idRenter/active');
+  }
+
+  Future<BaseResponse?> getListInvoiceByRenterId(
+      String idRenter, String invoiceId) async {
+    return await getResponse('/api/invoices/$invoiceId/user/$idRenter');
+  }
 }
