@@ -8,9 +8,23 @@ import 'package:unihome/views/invoices/invoice.binding.dart';
 import 'package:unihome/views/invoices/invoice.view.dart';
 import 'package:unihome/views/login/login.binding.dart';
 import 'package:unihome/views/login/login.view.dart';
+import 'package:unihome/views/profile/profile.binding.dart';
+import 'package:unihome/views/profile/profile.view.dart';
+import 'package:unihome/views/service/service.binding.dart';
+import 'package:unihome/views/service/service.view.dart';
 
 class RoutePage {
   static final routes = [
+    GetPage(
+      name: ROUTE_SERVICE,
+      page: () => const ServiceScreen(),
+      binding: ServiceBinding(),
+    ),
+    GetPage(
+      name: ROUTE_PROFILE,
+      page: () => const ProfileScreen(),
+      binding: ProfileBinding(),
+    ),
     GetPage(
       name: ROUTE_INVOICE,
       page: () => const InvoiceScreen(),

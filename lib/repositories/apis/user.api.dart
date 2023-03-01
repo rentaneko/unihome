@@ -29,4 +29,12 @@ class UserApi extends BaseConnect {
       String idRenter, String invoiceId) async {
     return await getResponse('/api/invoices/$invoiceId/user/$idRenter');
   }
+
+  Future<BaseResponse?> getRenterProfile(String idRenter) async {
+    return await getResponse('/api/renters/$idRenter');
+  }
+
+  Future<BaseResponse?> getListService() async {
+    return await getResponse('/api/services');
+  }
 }

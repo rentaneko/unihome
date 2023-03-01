@@ -6,6 +6,7 @@ import 'package:unihome/styles/color.dart';
 import 'package:unihome/views/bottom_nav_bar/botton_nav_bar.controller.dart';
 import 'package:unihome/views/home/home.view.dart';
 import 'package:unihome/views/invoices/invoice.view.dart';
+import 'package:unihome/views/profile/profile.view.dart';
 
 class BottomNavBarScreen extends GetWidget<BottomNavBarController> {
   const BottomNavBarScreen({super.key});
@@ -17,11 +18,7 @@ class BottomNavBarScreen extends GetWidget<BottomNavBarController> {
         body: Obx(
           () => IndexedStack(
             index: controller.selectedIndex.value,
-            children: [
-              HomeScreen(),
-              InvoiceScreen(),
-              Container(color: AppColor.secondary),
-            ],
+            children: const [HomeScreen(), InvoiceScreen(), ProfileScreen()],
           ),
         ),
         bottomNavigationBar: Obx(

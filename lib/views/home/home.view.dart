@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unihome/routes/pages.dart';
 import 'package:unihome/styles/color.dart';
+import 'package:unihome/utils/metric.dart';
 import 'package:unihome/views/home/home.controller.dart';
 
 class HomeScreen extends GetWidget<HomeController> {
@@ -9,6 +11,11 @@ class HomeScreen extends GetWidget<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: ElevatedButton(
+            onPressed: () => goTo(screen: ROUTE_SERVICE),
+            child: Text('Add Service')),
+      ),
       body: Obx(
         () => controller.isLoading.value
             ? const Center(child: CircularProgressIndicator.adaptive())
