@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:math';
+import 'package:get/get.dart';
 import 'package:unihome/constant/value.constant.dart';
 import 'package:unihome/repositories/apis/user.api.dart';
 import 'package:unihome/repositories/models/contract.model.dart';
@@ -40,5 +42,10 @@ class UserRepo {
     return res!.code == SUCCESS
         ? List.from(res.data as List).map((e) => Services.fromJson(e)).toList()
         : null;
+  }
+
+  Future<void> editProfileRenter(String idRenter) async {
+    var res = await userApi.editProfileRenter(idRenter);
+    Get.log('[RESULT] ================== ${res!.code}');
   }
 }

@@ -31,6 +31,9 @@ class ProfileScreen extends GetWidget<ProfileController> {
                   Text(
                       '[ADDRESS] ========== ${controller.renter.value.address}'),
                   Text('[GENDER] ========== ${controller.renter.value.gender}'),
+                  ElevatedButton(
+                      onPressed: () => controller.editRenterProfile(),
+                      child: Text('EDIT')),
                 ],
               ),
       ),

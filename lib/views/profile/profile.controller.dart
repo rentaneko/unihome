@@ -33,4 +33,11 @@ class ProfileController extends GetxController {
       },
     );
   }
+
+  Future<void> editRenterProfile() async {
+    _preferences = await SharedPreferences.getInstance();
+    Get.log(
+        '[ID RENTER] =================== ${_preferences.getString(USER_ID)!}');
+    await _userRepo.editProfileRenter(_preferences.getString(USER_ID)!);
+  }
 }

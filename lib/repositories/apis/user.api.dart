@@ -37,4 +37,28 @@ class UserApi extends BaseConnect {
   Future<BaseResponse?> getListService() async {
     return await getResponse('/api/services');
   }
+
+  Future<BaseResponse?> editProfileRenter(String idRenter) async {
+    String? deviceId = await PlatformDeviceId.getDeviceId;
+    return await putRequest(
+      '/api/renters/$idRenter',
+      body: jsonEncode(
+        <String, dynamic>{
+          "username": "renter3",
+          "email": "example@gmail.com",
+          "password": "renter3",
+          "phone": "0123456789",
+          "fullName": "Dev Test",
+          "birthDate": "2005-08-18T17:18:18.303Z",
+          "status": true,
+          "contractId": 3,
+          "address": "Dev Test",
+          "gender": "Male",
+          "universityId": 1,
+          "majorId": 1,
+          "deviceToken": deviceId.toString(),
+        },
+      ),
+    );
+  }
 }

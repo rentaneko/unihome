@@ -65,4 +65,20 @@ class BaseConnect extends GetConnect {
           message: response.statusText, code: response.status.code.toString());
     }
   }
+
+  Future<BaseResponse?> putRequest(String url,
+      {dynamic body,
+      Map<String, dynamic>? query,
+      Map<String, String>? headers}) async {
+    var response = await put(url, body,
+        decoder: (map) => BaseResponse.fromMap(map),
+        query: query,
+        headers: headers);
+
+    if (response.isOk) {
+      return response.body;
+    } else {
+      return BaseResponse(code: response.status.code.toString());
+    }
+  }
 }
