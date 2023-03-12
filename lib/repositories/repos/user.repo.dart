@@ -7,6 +7,7 @@ import 'package:unihome/repositories/models/contract.model.dart';
 import 'package:unihome/repositories/models/invoice.model.dart';
 import 'package:unihome/repositories/models/renter.model.dart';
 import 'package:unihome/repositories/models/service.model.dart';
+import 'package:unihome/repositories/models/ticket.model.dart';
 import 'package:unihome/repositories/res/base_response.dart';
 
 class UserRepo {
@@ -44,8 +45,23 @@ class UserRepo {
         : null;
   }
 
-  Future<void> editProfileRenter(String idRenter) async {
-    var res = await userApi.editProfileRenter(idRenter);
-    Get.log('[RESULT] ================== ${res!.code}');
+  Future<bool> editProfileRenter(String idRenter, String email, String phone,
+      String fullname, String address, int universityId, int majorId) async {
+    var res = await userApi.editProfileRenter(
+        idRenter, email, phone, fullname, address, universityId, majorId);
+    return res!.code == SUCCESS ? true : false;
+  }
+
+  Future<bool> requestTicket(
+      String renterId, String ticketName, String ticketDesc) async {
+    var res = await userApi.requestTicket(renterId, ticketName, ticketDesc);
+    return res!.code == SUCCESS ? true : false;
+  }
+
+  Future<List<Ticket>?> getListTicket() async {
+    var res = await userApi.getListTicket();
+    return res!.code == SUCCESS
+        ? List.from(res.data as List).map((e) => Ticket.fromJson(e)).toList()
+        : null;
   }
 }

@@ -27,8 +27,8 @@ class LoginController extends GetxController {
 
   @override
   void onClose() {
-    usernameCtrl.dispose();
-    passwordCtrl.dispose();
+    usernameCtrl.clear();
+    passwordCtrl.clear();
     super.onClose();
   }
 
@@ -65,7 +65,7 @@ class LoginController extends GetxController {
         if (value != null) {
           _preferences.setString(TOKEN, value.data['token'].toString());
           _preferences.setString(USER_ID, value.data['id'].toString());
-          goTo(screen: ROUTE_NAV_BAR);
+          goTo(screen: ROUTE_HOME);
         } else {
           showToast('Username or password is wrong');
         }

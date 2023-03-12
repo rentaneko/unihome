@@ -1,7 +1,6 @@
 import 'dart:convert';
-
+import 'package:get/get.dart';
 import 'package:platform_device_id/platform_device_id.dart';
-import 'package:unihome/constant/value.constant.dart';
 import 'package:unihome/repositories/res/base_connect.dart';
 import 'package:unihome/repositories/res/base_response.dart';
 
@@ -38,27 +37,50 @@ class UserApi extends BaseConnect {
     return await getResponse('/api/services');
   }
 
-  Future<BaseResponse?> editProfileRenter(String idRenter) async {
+  Future<BaseResponse?> editProfileRenter(
+      String idRenter,
+      String email,
+      String phone,
+      String fullname,
+      String address,
+      int universityId,
+      int majorId) async {
     String? deviceId = await PlatformDeviceId.getDeviceId;
     return await putRequest(
       '/api/renters/$idRenter',
       body: jsonEncode(
         <String, dynamic>{
           "username": "renter3",
-          "email": "example@gmail.com",
+          "email": email,
           "password": "renter3",
-          "phone": "0123456789",
-          "fullName": "Dev Test",
+          "phone": int.parse(phone),
+          "fullName": fullname,
           "birthDate": "2005-08-18T17:18:18.303Z",
           "status": true,
           "contractId": 3,
-          "address": "Dev Test",
+          "address": address,
           "gender": "Male",
-          "universityId": 1,
-          "majorId": 1,
+          "universityId": universityId,
+          "majorId": majorId,
           "deviceToken": deviceId.toString(),
         },
       ),
     );
+  }
+
+  Future<BaseResponse?> requestTicket(
+      String renterId, String ticketName, String ticketDesc) async {
+    return await postRequest(
+      '/api/tickets',
+      body: jsonEncode(<String, dynamic>{
+        "ticketTypeId": 1,
+        "ticketName": ticketName,
+        "description": ticketDesc,
+      }),
+    );
+  }
+
+  Future<BaseResponse?> getListTicket() async {
+    return await getResponse('/api/tickets');
   }
 }

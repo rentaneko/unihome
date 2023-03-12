@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:unihome/routes/pages.dart';
 import 'package:unihome/views/bottom_nav_bar/bottom_nav_bar.binding.dart';
 import 'package:unihome/views/bottom_nav_bar/bottom_nav_bar.view.dart';
+import 'package:unihome/views/contract/contract.binding.dart';
+import 'package:unihome/views/contract/contract.view.dart';
 import 'package:unihome/views/home/home.binding.dart';
 import 'package:unihome/views/home/home.view.dart';
 import 'package:unihome/views/invoices/invoice.binding.dart';
@@ -12,9 +14,21 @@ import 'package:unihome/views/profile/profile.binding.dart';
 import 'package:unihome/views/profile/profile.view.dart';
 import 'package:unihome/views/service/service.binding.dart';
 import 'package:unihome/views/service/service.view.dart';
+import 'package:unihome/views/ticket/ticket.binding.dart';
+import 'package:unihome/views/ticket/ticket.view.dart';
 
 class RoutePage {
   static final routes = [
+    GetPage(
+      name: ROUTE_CONTRACT,
+      page: () => const ContractScreen(),
+      binding: ContractBinding(),
+    ),
+    GetPage(
+      name: ROUTE_TICKET,
+      page: () => const TicketScreen(),
+      binding: TicketBinding(),
+    ),
     GetPage(
       name: ROUTE_SERVICE,
       page: () => const ServiceScreen(),
