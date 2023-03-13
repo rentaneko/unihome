@@ -14,6 +14,18 @@ class InvoiceScreen extends GetWidget<InvoiceController> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'HOÁ ĐƠN',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: responsiveFont(22),
+              color: AppColor.white,
+            ),
+          ),
+          centerTitle: true,
+          backgroundColor: AppColor.primary,
+        ),
         backgroundColor: AppColor.white,
         body: Obx(
           () => controller.isLoading.value

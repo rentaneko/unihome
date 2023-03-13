@@ -15,12 +15,20 @@ class TicketController extends GetxController {
   var ticketType = 0.obs;
   var isLoading = true.obs;
   var listTicket = <Ticket>[].obs;
+  var listTicketType = <TicketType>[].obs;
+  var selectedType = TicketType().obs;
 
   final _userRepo = Get.find<UserRepo>();
 
   @override
   void onInit() {
-    getListTicket();
+    Future.wait(
+      [
+        getListTicket(),
+        getTicketType(),
+      ],
+    ).then((_) => isLoading.value = false);
+
     super.onInit();
   }
 
@@ -36,7 +44,6 @@ class TicketController extends GetxController {
       if (value != null) {
         listTicket.value = value;
       }
-      isLoading.value = false;
     });
   }
 
@@ -47,10 +54,14 @@ class TicketController extends GetxController {
       _preferences.getString(USER_ID)!,
       ticketName.text.trim(),
       ticketDesc.text.trim(),
+      selectedType.value.id!,
     )
         .then(
       (value) {
         if (value == true) {
+          ticketName.clear();
+          ticketDesc.clear();
+          selectedType.value = listTicketType[0];
           getListTicket();
           goBack();
           showToast('SUCCESSFUL');
@@ -59,5 +70,21 @@ class TicketController extends GetxController {
         }
       },
     );
+  }
+
+  Future<void> getTicketType() async {
+    await _userRepo.getTicketType().then(
+          (value) => {
+            if (value != null)
+              {
+                listTicketType.value = value,
+                selectedType.value = listTicketType[0],
+              }
+            else
+              {
+                showToast('BUG!!!!'),
+              }
+          },
+        );
   }
 }

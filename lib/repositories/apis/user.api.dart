@@ -69,11 +69,11 @@ class UserApi extends BaseConnect {
   }
 
   Future<BaseResponse?> requestTicket(
-      String renterId, String ticketName, String ticketDesc) async {
+      String renterId, String ticketName, String ticketDesc, int type) async {
     return await postRequest(
       '/api/tickets',
       body: jsonEncode(<String, dynamic>{
-        "ticketTypeId": 1,
+        "ticketTypeId": type,
         "ticketName": ticketName,
         "description": ticketDesc,
       }),
@@ -82,5 +82,9 @@ class UserApi extends BaseConnect {
 
   Future<BaseResponse?> getListTicket() async {
     return await getResponse('/api/tickets');
+  }
+
+  Future<BaseResponse?> getListTicketType() async {
+    return await getResponse('/api/tickets/type');
   }
 }

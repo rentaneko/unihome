@@ -1,7 +1,9 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:unihome/repositories/models/ticket.model.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
 import 'package:unihome/views/ticket/ticket.controller.dart';
@@ -174,17 +176,81 @@ class TicketScreen extends GetWidget<TicketController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('Name ticket'),
-          TextFormField(controller: controller.ticketName),
-          Text('Desc ticket'),
-          TextFormField(controller: controller.ticketDesc),
+          Obx(
+            () => DropdownButtonHideUnderline(
+              child: DropdownButton2<TicketType>(
+                items: controller.listTicketType
+                    .map((type) => _buildDropDown(type))
+                    .toList(),
+                value: controller.selectedType.value,
+                onChanged: (value) => controller.selectedType.value = value!,
+                style: TextStyle(
+                  color: AppColor.primary,
+                  fontSize: responsiveFont(14),
+                ),
+                buttonStyleData: ButtonStyleData(
+                  width: double.infinity,
+                  padding:
+                      EdgeInsets.symmetric(horizontal: responsiveWidth(12)),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColor.grayLight),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                ),
+                dropdownStyleData: DropdownStyleData(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColor.grayLight),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: responsiveHeight(16)),
+          TextFormField(
+            controller: controller.ticketName,
+            decoration: InputDecoration(
+              labelText: 'Tên sự cố',
+              labelStyle: TextStyle(
+                fontSize: responsiveFont(16),
+                color: AppColor.primary,
+              ),
+              focusColor: AppColor.primary,
+              prefixIconColor: AppColor.primary,
+              focusedErrorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: AppColor.price),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: AppColor.primary),
+              ),
+            ),
+          ),
+          SizedBox(height: responsiveHeight(16)),
+          TextFormField(
+            controller: controller.ticketDesc,
+            decoration: InputDecoration(
+              labelText: 'Miêu tả',
+              labelStyle: TextStyle(
+                fontSize: responsiveFont(16),
+                color: AppColor.primary,
+              ),
+              focusColor: AppColor.primary,
+              prefixIconColor: AppColor.primary,
+              focusedErrorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: AppColor.price),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: AppColor.primary),
+              ),
+            ),
+          ),
         ],
       ),
       actions: [
         ElevatedButton(
           onPressed: () {
-            // controller.ticketName.clear();
-            // controller.ticketDesc.clear();
+            controller.ticketName.clear();
+            controller.ticketDesc.clear();
             goBack();
           },
           child: Text('Close'),
@@ -194,6 +260,13 @@ class TicketScreen extends GetWidget<TicketController> {
           child: Text('Create'),
         ),
       ],
+    );
+  }
+
+  DropdownMenuItem<TicketType> _buildDropDown(TicketType type) {
+    return DropdownMenuItem(
+      value: type,
+      child: Text(type.name.toString()),
     );
   }
 }

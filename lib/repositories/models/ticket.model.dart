@@ -31,3 +31,21 @@ class Ticket {
         json['Amount'] == null ? 0 : double.parse(json['Amount'].toString());
   }
 }
+
+class TicketType {
+  int? id;
+  String? name;
+  String? desc;
+
+  TicketType({this.desc, this.id, this.name});
+
+  TicketType.fromJson(dynamic json) {
+    id = json['TicketTypeId'] == null
+        ? null
+        : int.parse(json['TicketTypeId'].toString());
+    name = json['TicketTypeName'] == null
+        ? null
+        : json['TicketTypeName'] as String;
+    desc = json['Description'] == null ? null : json['Description'] as String;
+  }
+}

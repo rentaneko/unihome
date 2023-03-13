@@ -53,8 +53,9 @@ class UserRepo {
   }
 
   Future<bool> requestTicket(
-      String renterId, String ticketName, String ticketDesc) async {
-    var res = await userApi.requestTicket(renterId, ticketName, ticketDesc);
+      String renterId, String ticketName, String ticketDesc, int type) async {
+    var res =
+        await userApi.requestTicket(renterId, ticketName, ticketDesc, type);
     return res!.code == SUCCESS ? true : false;
   }
 
@@ -62,6 +63,15 @@ class UserRepo {
     var res = await userApi.getListTicket();
     return res!.code == SUCCESS
         ? List.from(res.data as List).map((e) => Ticket.fromJson(e)).toList()
+        : null;
+  }
+
+  Future<List<TicketType>?> getTicketType() async {
+    var res = await userApi.getListTicketType();
+    return res!.code == SUCCESS
+        ? List.from(res.data as List)
+            .map((e) => TicketType.fromJson(e))
+            .toList()
         : null;
   }
 }

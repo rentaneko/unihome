@@ -6,6 +6,8 @@ import 'package:unihome/views/contract/contract.binding.dart';
 import 'package:unihome/views/contract/contract.view.dart';
 import 'package:unihome/views/home/home.binding.dart';
 import 'package:unihome/views/home/home.view.dart';
+import 'package:unihome/views/house/house.binding.dart';
+import 'package:unihome/views/house/house.view.dart';
 import 'package:unihome/views/invoices/invoice.binding.dart';
 import 'package:unihome/views/invoices/invoice.view.dart';
 import 'package:unihome/views/login/login.binding.dart';
@@ -19,6 +21,11 @@ import 'package:unihome/views/ticket/ticket.view.dart';
 
 class RoutePage {
   static final routes = [
+    GetPage(
+      name: ROUTE_HOUSE,
+      page: () => const HouseScreen(),
+      binding: HouseBinding(),
+    ),
     GetPage(
       name: ROUTE_CONTRACT,
       page: () => const ContractScreen(),
