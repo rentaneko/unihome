@@ -8,3 +8,4 @@ const ROUTE_SERVICE = '/services';
 const ROUTE_TICKET = '/ticket';
 const ROUTE_CONTRACT = '/contract';
 const ROUTE_HOUSE = '/house';
+const ROUTE_CONTRACT_DETAIL = '/contractDetail';

@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:unihome/routes/pages.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
 import 'package:unihome/views/contract/contract.controller.dart';
@@ -12,155 +13,94 @@ class ContractScreen extends GetWidget<ContractController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => controller.isLoading.value
-          ? const Center(child: CircularProgressIndicator.adaptive())
-          : SafeArea(
-              child: Scaffold(
-                appBar: AppBar(
-                  title: Text(
-                    'HỢP ĐỒNG',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: responsiveFont(22),
-                      color: AppColor.white,
-                    ),
-                  ),
-                  centerTitle: true,
-                  backgroundColor: AppColor.primary,
-                ),
-                body: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: responsiveWidth(16)),
-                  child: Column(
-                    children: [
-                      SizedBox(height: responsiveHeight(24)),
-                      Text(
-                        'Thông tin hợp đồng',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: responsiveFont(18),
-                          color: AppColor.primary,
-                        ),
-                      ),
-                      SizedBox(height: responsiveHeight(24)),
-                      _buildRow(
-                        title: 'Tên',
-                        value: controller.contract.value.name!,
-                      ),
-                      const Divider(color: AppColor.grayLight, thickness: 1),
-                      _buildRow(
-                        title: 'Giá nhà',
-                        value:
-                            controller.contract.value.priceForRent.toString(),
-                      ),
-                      const Divider(color: AppColor.grayLight, thickness: 1),
-                      _buildRow(
-                        title: 'Ngày kí',
-                        value: Jiffy.parse(
-                                controller.contract.value.dateSigned.toString())
-                            .format(pattern: 'dd/MM/yyyy'),
-                      ),
-                      const Divider(color: AppColor.grayLight, thickness: 1),
-                      _buildRow(
-                        title: 'Ngày bắt đầu',
-                        value: Jiffy.parse(
-                                controller.contract.value.startDate.toString())
-                            .format(pattern: 'dd/MM/yyyy'),
-                      ),
-                      const Divider(color: AppColor.grayLight, thickness: 1),
-                      _buildRow(
-                        title: 'Ngày kết thúc',
-                        value: 'Chưa cập nhật',
-                        // value: Jiffy.parse(
-                        //         controller.contract.value.endDate.toString())
-                        //     .format(pattern: 'dd/MM/yyyy'),
-                      ),
-                      const Divider(color: AppColor.grayLight, thickness: 1),
-                      _buildRow(
-                        title: 'Ngày cập nhật',
-                        value: Jiffy.parse(controller.contract.value.lastUpdated
-                                .toString())
-                            .format(pattern: 'dd/MM/yyyy'),
-                      ),
-                      const Divider(color: AppColor.grayLight, thickness: 1),
-                      SizedBox(height: responsiveHeight(16)),
-                      Text(
-                        'Dịch vụ sử dụng',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: responsiveFont(18),
-                          color: AppColor.primary,
-                        ),
-                      ),
-                      SizedBox(height: responsiveHeight(24)),
-                      ListTile(
-                        leading: Image.asset('assets/icons/water.png'),
-                        title: Text(
-                          'Tiền nước theo đồng hồ',
-                          style: TextStyle(
-                            fontSize: responsiveFont(18),
-                            color: AppColor.black,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        subtitle: Text(
-                          '${controller.contract.value.priceForWater}đ/m3',
-                          style: TextStyle(
-                            fontSize: responsiveFont(18),
-                            color: AppColor.black,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      ListTile(
-                        leading: Image.asset('assets/icons/electric.png'),
-                        title: Text(
-                          'Tiền điện theo đồng hồ',
-                          style: TextStyle(
-                            fontSize: responsiveFont(18),
-                            color: AppColor.black,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        subtitle: Text(
-                          '${controller.contract.value.priceForElectricity}đ/Kwh',
-                          style: TextStyle(
-                            fontSize: responsiveFont(18),
-                            color: AppColor.black,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Danh sách hợp đồng',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: responsiveFont(22),
+              color: AppColor.white,
             ),
+          ),
+          centerTitle: true,
+          backgroundColor: AppColor.primary,
+        ),
+        body: Obx(
+          () => controller.isLoading.value
+              ? const Center(child: CircularProgressIndicator.adaptive())
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.contract.length,
+                  itemBuilder: (context, index) {
+                    return _contractContainer(index);
+                  },
+                ),
+        ),
+      ),
     );
   }
 
-  Widget _buildRow({required String title, required String value}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: responsiveFont(16),
-            fontWeight: FontWeight.w400,
-            color: AppColor.black,
-          ),
+  Widget _contractContainer(int index) {
+    return InkWell(
+      onTap: () => goTo(
+        screen: ROUTE_CONTRACT_DETAIL,
+        argument: controller.contract[index].id,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColor.lighter,
+          borderRadius: BorderRadius.circular(24),
         ),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: responsiveFont(16),
-            fontWeight: FontWeight.w500,
-            color: AppColor.black,
-          ),
+        margin: EdgeInsets.symmetric(
+          vertical: responsiveHeight(8),
+          horizontal: responsiveWidth(16),
         ),
-      ],
+        padding: EdgeInsets.all(responsiveHeight(16)),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${controller.contract[index].name}',
+              style: TextStyle(
+                fontFamily: 'SF Pro Display',
+                fontWeight: FontWeight.w400,
+                fontSize: responsiveFont(20),
+                color: AppColor.blackText,
+              ),
+            ),
+            Text(
+              '${controller.contract[index].startDate} - ${controller.contract[index].endDate}',
+              style: TextStyle(
+                fontFamily: 'SF Pro Display',
+                fontWeight: FontWeight.w400,
+                fontSize: responsiveFont(14),
+                color: AppColor.blackText,
+              ),
+            ),
+            Text(
+              '${controller.contract[index].status}',
+              style: TextStyle(
+                fontFamily: 'SF Pro Display',
+                fontWeight: FontWeight.w400,
+                fontSize: responsiveFont(14),
+                color: AppColor.blackText,
+              ),
+            ),
+            Text(
+              '${controller.contract[index].description}',
+              style: TextStyle(
+                fontFamily: 'SF Pro Display',
+                fontWeight: FontWeight.w400,
+                fontSize: responsiveFont(14),
+                color: AppColor.blackText,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

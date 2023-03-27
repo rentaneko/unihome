@@ -20,8 +20,9 @@ class UserApi extends BaseConnect {
     );
   }
 
-  Future<BaseResponse?> getContractByRenterId(String idRenter) async {
-    return await getResponse('/api/contracts/user/$idRenter/active');
+  Future<BaseResponse?> getContractByRenterId(
+      {required String idContract, required String idRenter}) async {
+    return await getResponse('/api/contracts/$idContract/user/$idRenter');
   }
 
   Future<BaseResponse?> getListInvoiceByRenterId(
@@ -86,5 +87,17 @@ class UserApi extends BaseConnect {
 
   Future<BaseResponse?> getListTicketType() async {
     return await getResponse('/api/tickets/type');
+  }
+
+  Future<BaseResponse?> getRentalDetail(String renterId) async {
+    return await getResponse('/api/renters/rental');
+  }
+
+  Future<BaseResponse?> getListInvoice() async {
+    return await getResponse('/api/invoices/user/all');
+  }
+
+  Future<BaseResponse?> getListContract() async {
+    return await getResponse('/api/contracts/renter');
   }
 }

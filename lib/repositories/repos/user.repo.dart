@@ -5,6 +5,7 @@ import 'package:unihome/constant/value.constant.dart';
 import 'package:unihome/repositories/apis/user.api.dart';
 import 'package:unihome/repositories/models/contract.model.dart';
 import 'package:unihome/repositories/models/invoice.model.dart';
+import 'package:unihome/repositories/models/rental.model.dart';
 import 'package:unihome/repositories/models/renter.model.dart';
 import 'package:unihome/repositories/models/service.model.dart';
 import 'package:unihome/repositories/models/ticket.model.dart';
@@ -20,10 +21,12 @@ class UserRepo {
     return res!.code == SUCCESS ? res : null;
   }
 
-  Future<Contract?> getContractByRenterId(String idRenter) async {
-    var res = await userApi.getContractByRenterId(idRenter);
+  Future<ContractDetail?> getContractByRenterId(
+      {required String idRenter, required String contractId}) async {
+    var res = await userApi.getContractByRenterId(
+        idContract: contractId, idRenter: idRenter);
 
-    return res!.code == SUCCESS ? Contract.fromJson(res.data) : null;
+    return res!.code == SUCCESS ? ContractDetail.fromJson(res.data) : null;
   }
 
   Future<Invoice?> getListInvoiceByRenterId(
@@ -72,6 +75,19 @@ class UserRepo {
         ? List.from(res.data as List)
             .map((e) => TicketType.fromJson(e))
             .toList()
+        : null;
+  }
+
+  Future<Rental?> getRentalDetail(String renterId) async {
+    var res = await userApi.getRentalDetail(renterId);
+
+    return res!.code == SUCCESS ? Rental.fromJson(res.data) : null;
+  }
+
+  Future<List<Contract>?> getListContract() async {
+    var res = await userApi.getListContract();
+    return res!.code == SUCCESS
+        ? (res.data as List).map((e) => Contract.fromJson(e)).toList()
         : null;
   }
 }

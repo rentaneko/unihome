@@ -6,7 +6,7 @@ import 'package:unihome/repositories/repos/user.repo.dart';
 import 'package:unihome/utils/metric.dart';
 
 class ContractController extends GetxController {
-  var contract = Contract().obs;
+  var contract = <Contract>[].obs;
   var isLoading = true.obs;
 
   late SharedPreferences _preferences;
@@ -15,24 +15,16 @@ class ContractController extends GetxController {
 
   @override
   void onInit() {
-    getContractByRenterId();
+    getListContract();
     super.onInit();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  Future<void> getContractByRenterId() async {
-    _preferences = await SharedPreferences.getInstance();
-    await _userRepo
-        .getContractByRenterId(_preferences.getString(USER_ID).toString())
-        .then((value) {
+  Future<void> getListContract() async {
+    await _userRepo.getListContract().then((value) {
       if (value != null) {
         contract.value = value;
       } else {
-        showToast('BUG');
+        showToast('BUG !!!!!');
       }
       isLoading.value = false;
     });

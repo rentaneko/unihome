@@ -17,6 +17,11 @@ class ProfileController extends GetxController {
   TextEditingController universityCtrl = TextEditingController();
   TextEditingController majorCtrl = TextEditingController();
 
+  // change pw
+  TextEditingController passCtrl = TextEditingController();
+  TextEditingController passNewCtrl = TextEditingController();
+  TextEditingController passNewRepeatCtrl = TextEditingController();
+
   var isLoading = true.obs;
   var renter = Renter().obs;
   var isEditing = false.obs;
@@ -40,8 +45,6 @@ class ProfileController extends GetxController {
           phoneCtrl.text = renter.value.phone!;
           fullnameCtrl.text = renter.value.fullname!;
           addressCtrl.text = renter.value.address!;
-          universityCtrl.text = renter.value.universityId.toString();
-          majorCtrl.text = renter.value.majorId.toString();
         } else {
           showToast('BUG!!!');
         }

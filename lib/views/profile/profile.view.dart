@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
+import 'package:unihome/utils/widget.dart';
 import 'package:unihome/views/profile/profile.controller.dart';
+import 'package:expandable/expandable.dart';
 
 class ProfileScreen extends GetWidget<ProfileController> {
   const ProfileScreen({super.key});
@@ -14,106 +17,136 @@ class ProfileScreen extends GetWidget<ProfileController> {
           ? const Center(child: CircularProgressIndicator.adaptive())
           : SafeArea(
               child: Scaffold(
+                appBar: AppBar(
+                  backgroundColor: AppColor.white,
+                  elevation: 0,
+                  automaticallyImplyLeading: false,
+                  leading: IconButton(
+                    onPressed: () => goBack(),
+                    icon: Icon(
+                      Icons.arrow_back_ios,
+                      color: AppColor.black,
+                      size: responsiveFont(18),
+                    ),
+                  ),
+                ),
                 body: SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        width: double.infinity,
-                        decoration: const BoxDecoration(
-                          color: AppColor.secondary,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(24),
-                            bottomRight: Radius.circular(24),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                      Center(child: _avatarBlock()),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: responsiveWidth(16)),
+                        child: const Divider(
+                            color: AppColor.gray300, thickness: 1),
+                      ),
+                      ExpandablePanel(
+                        header: Row(
                           children: [
-                            ListTile(
-                              leading: IconButton(
-                                onPressed: () => goBack(),
-                                icon: const Icon(Icons.arrow_back_ios,
-                                    color: AppColor.white),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: responsiveWidth(16),
+                                  right: responsiveWidth(12)),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: responsiveWidth(10),
+                                vertical: responsiveHeight(10),
                               ),
-                              minLeadingWidth: responsiveWidth(60),
-                              title: Text(
-                                'THÔNG TIN CƠ BẢN',
-                                style: TextStyle(
-                                  fontSize: responsiveFont(22),
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColor.white,
-                                ),
+                              decoration: BoxDecoration(
+                                color: AppColor.darkBlue,
+                                borderRadius: BorderRadius.circular(10),
                               ),
+                              child: Image.asset('assets/icons/user.png',
+                                  color: AppColor.white),
                             ),
-                            SizedBox(
-                              height: responsiveHeight(128),
-                              width: responsiveWidth(128),
-                              child: Stack(
-                                children: [
-                                  const CircleAvatar(
-                                    backgroundImage:
-                                        AssetImage('assets/icons/user-2.png'),
-                                    minRadius: 100,
-                                  ),
-                                  Positioned(
-                                    bottom: -5,
-                                    right: -5,
-                                    child: IconButton(
-                                      onPressed: () {},
-                                      icon: Image.asset(
-                                        'assets/icons/change-avatar.png',
-                                        color: AppColor.white,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: responsiveHeight(16)),
                             Text(
-                              '${controller.renter.value.fullname}',
+                              'Thông tin cá nhân',
                               style: TextStyle(
-                                fontSize: responsiveFont(20),
-                                fontWeight: FontWeight.w600,
-                                color: AppColor.white,
+                                fontWeight: FontWeight.w500,
+                                fontSize: responsiveFont(16),
+                                color: AppColor.darkBlue,
+                                fontFamily: 'SF Pro Display',
                               ),
                             ),
                           ],
                         ),
+                        collapsed: const SizedBox(),
+                        expanded: _buildInformationBlock(),
                       ),
-                      SizedBox(height: responsiveHeight(10)),
                       Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: responsiveWidth(16),
-                          ),
-                          child: _buildInformationBlock()),
-                      ListTile(
-                        leading: Text(
-                          'Đổi mật khẩu',
-                          style: TextStyle(
-                            fontSize: responsiveFont(16),
-                            color: AppColor.black,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        trailing: const Icon(Icons.arrow_forward_ios,
-                            color: AppColor.black),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: responsiveWidth(16)),
+                        child: const Divider(
+                            color: AppColor.grayBorder, thickness: 1),
                       ),
-                      ListTile(
-                        onTap: () => controller.logOut(),
-                        leading: Text(
-                          'Đăng xuất',
-                          style: TextStyle(
-                            fontSize: responsiveFont(16),
-                            color: AppColor.price,
-                            fontWeight: FontWeight.w600,
-                          ),
+                      ExpandablePanel(
+                        header: Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: responsiveWidth(16),
+                                  right: responsiveWidth(12)),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: responsiveWidth(10),
+                                vertical: responsiveHeight(10),
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColor.darkBlue,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Image.asset('assets/icons/setting.png',
+                                  color: AppColor.white),
+                            ),
+                            Text(
+                              'Đổi mật khẩu',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: responsiveFont(16),
+                                color: AppColor.darkBlue,
+                                fontFamily: 'SF Pro Display',
+                              ),
+                            ),
+                          ],
                         ),
-                        trailing: const Icon(
-                          Icons.exit_to_app_outlined,
-                          color: AppColor.price,
+                        collapsed: const SizedBox(),
+                        expanded: _changePasswordBlock(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: responsiveWidth(16)),
+                        child: const Divider(
+                            color: AppColor.grayBorder, thickness: 1),
+                      ),
+                      InkWell(
+                        onTap: () => controller.logOut(),
+                        child: Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: responsiveWidth(16),
+                                  right: responsiveWidth(12)),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: responsiveWidth(10),
+                                vertical: responsiveHeight(10),
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColor.darkBlue,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Icon(Icons.exit_to_app,
+                                  color: AppColor.white,
+                                  size: responsiveFont(20)),
+                            ),
+                            Text(
+                              'Đăng xuất',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: responsiveFont(16),
+                                color: AppColor.darkBlue,
+                                fontFamily: 'SF Pro Display',
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -124,62 +157,235 @@ class ProfileScreen extends GetWidget<ProfileController> {
     );
   }
 
+  Widget _changePasswordBlock() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: responsiveWidth(12)),
+      padding: EdgeInsets.symmetric(
+        horizontal: responsiveWidth(16),
+        vertical: responsiveHeight(16),
+      ),
+      decoration: BoxDecoration(
+        color: AppColor.lightBlue,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Mật khẩu cũ',
+            style: TextStyle(
+              fontFamily: 'SF Pro Display',
+              fontSize: responsiveFont(14),
+              color: AppColor.blue,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: responsiveHeight(10)),
+          TextFormField(
+            controller: controller.passCtrl,
+            decoration: InputDecoration(
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(100),
+                borderSide: const BorderSide(color: AppColor.price),
+              ),
+              prefixIcon: Image.asset(
+                'assets/icons/password.png',
+                color: AppColor.primary,
+              ),
+              focusColor: AppColor.primary,
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(100),
+                borderSide: const BorderSide(color: AppColor.price),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(100),
+                borderSide: const BorderSide(color: AppColor.primary),
+              ),
+              filled: true,
+              fillColor: AppColor.white,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(100),
+                borderSide: const BorderSide(color: AppColor.grayBorder),
+              ),
+            ),
+          ),
+          SizedBox(height: responsiveHeight(14)),
+          Text(
+            'Mật khẩu mới',
+            style: TextStyle(
+              fontFamily: 'SF Pro Display',
+              fontSize: responsiveFont(14),
+              color: AppColor.blue,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: responsiveHeight(10)),
+          TextFormField(
+            controller: controller.passNewCtrl,
+            decoration: InputDecoration(
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(100),
+                borderSide: const BorderSide(color: AppColor.price),
+              ),
+              prefixIcon: Image.asset(
+                'assets/icons/new-pass.png',
+                color: AppColor.primary,
+              ),
+              focusColor: AppColor.primary,
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(100),
+                borderSide: const BorderSide(color: AppColor.price),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(100),
+                borderSide: const BorderSide(color: AppColor.primary),
+              ),
+              filled: true,
+              fillColor: AppColor.white,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(100),
+                borderSide: const BorderSide(color: AppColor.grayBorder),
+              ),
+            ),
+          ),
+          SizedBox(height: responsiveHeight(14)),
+          Text(
+            'Xác nhận lại mật khẩu mới',
+            style: TextStyle(
+              fontFamily: 'SF Pro Display',
+              fontSize: responsiveFont(14),
+              color: AppColor.blue,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: responsiveHeight(10)),
+          TextFormField(
+            controller: controller.passNewRepeatCtrl,
+            decoration: InputDecoration(
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(100),
+                borderSide: const BorderSide(color: AppColor.price),
+              ),
+              prefixIcon: Image.asset(
+                'assets/icons/repeat.png',
+                color: AppColor.primary,
+              ),
+              focusColor: AppColor.primary,
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(100),
+                borderSide: const BorderSide(color: AppColor.price),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(100),
+                borderSide: const BorderSide(color: AppColor.primary),
+              ),
+              filled: true,
+              fillColor: AppColor.white,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(100),
+                borderSide: const BorderSide(color: AppColor.grayBorder),
+              ),
+            ),
+          ),
+          SizedBox(height: responsiveHeight(16)),
+          button('Xác nhận', () {}),
+        ],
+      ),
+    );
+  }
+
   Widget _buildInformationBlock() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: responsiveWidth(12)),
+      padding: EdgeInsets.symmetric(
+        horizontal: responsiveWidth(16),
+        vertical: responsiveHeight(16),
+      ),
+      decoration: BoxDecoration(
+        color: AppColor.lightBlue,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Column(
+        children: [
+          _buildRow(
+            title: 'Username',
+            value: '${controller.renter.value.username}',
+          ),
+          const Divider(color: AppColor.grayLight, thickness: 1),
+          SizedBox(height: responsiveHeight(10)),
+          _buildRow(
+            title: 'Email',
+            value: '${controller.renter.value.email}',
+          ),
+          const Divider(color: AppColor.grayLight, thickness: 1),
+          SizedBox(height: responsiveHeight(10)),
+          _buildRow(
+            title: 'Số điện thoại',
+            value: '${controller.renter.value.phone}',
+          ),
+          const Divider(color: AppColor.grayLight, thickness: 1),
+          SizedBox(height: responsiveHeight(10)),
+          _buildRow(
+            title: 'Ngày sinh',
+            value: Jiffy('${controller.renter.value.birthdate}')
+                .format('dd/MM/yyyy'),
+          ),
+          const Divider(color: AppColor.grayLight, thickness: 1),
+          SizedBox(height: responsiveHeight(10)),
+          _buildRow(
+            title: 'Địa chỉ',
+            value: '${controller.renter.value.address}',
+          ),
+          const Divider(color: AppColor.grayLight, thickness: 1),
+          SizedBox(height: responsiveHeight(10)),
+          _buildRow(
+            title: 'Giới tính',
+            value: '${controller.renter.value.gender}',
+          ),
+          const Divider(color: AppColor.grayLight, thickness: 1),
+        ],
+      ),
+    );
+  }
+
+  Widget _avatarBlock() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _buildRow(
-          title: 'Username',
-          value: '${controller.renter.value.username}',
-        ),
-        const Divider(color: AppColor.grayLight, thickness: 1),
+        Container(
+            height: responsiveHeight(150),
+            width: responsiveWidth(150),
+            clipBehavior: Clip.hardEdge,
+            alignment: Alignment.center,
+            decoration: const BoxDecoration(
+              color: AppColor.white,
+              shape: BoxShape.circle,
+            ),
+            child:
+                // controller.renter.value.imageUrl == null?
+                Image.asset('assets/icons/user-2.png')
+            // : Image.network('${controller.renter.value.imageUrl}'),
+            ),
         SizedBox(height: responsiveHeight(10)),
-        _buildRow(
-          title: 'Email',
-          value: '${controller.renter.value.email}',
+        Text(
+          '${controller.renter.value.fullname}',
+          style: TextStyle(
+            fontFamily: 'SF Pro Display',
+            fontWeight: FontWeight.w600,
+            color: AppColor.blackText,
+            fontSize: responsiveFont(24),
+          ),
         ),
-        const Divider(color: AppColor.grayLight, thickness: 1),
-        SizedBox(height: responsiveHeight(10)),
-        _buildRow(
-          title: 'Số điện thoại',
-          value: '${controller.renter.value.phone}',
+        SizedBox(height: responsiveHeight(4)),
+        Text(
+          '${controller.renter.value.email}',
+          style: TextStyle(
+            fontFamily: 'SF Pro Display',
+            fontWeight: FontWeight.w400,
+            color: AppColor.grayText,
+            fontSize: responsiveFont(16),
+          ),
         ),
-        const Divider(color: AppColor.grayLight, thickness: 1),
-        SizedBox(height: responsiveHeight(10)),
-        _buildRow(
-          title: 'Ngày sinh',
-          value: '${controller.renter.value.birthdate}',
-        ),
-        const Divider(color: AppColor.grayLight, thickness: 1),
-        SizedBox(height: responsiveHeight(10)),
-        _buildRow(
-          title: 'Số CMND',
-          value: '${controller.renter.value.citizenNumber}',
-        ),
-        const Divider(color: AppColor.grayLight, thickness: 1),
-        SizedBox(height: responsiveHeight(10)),
-        _buildRow(
-          title: 'Địa chỉ',
-          value: '${controller.renter.value.address}',
-        ),
-        const Divider(color: AppColor.grayLight, thickness: 1),
-        SizedBox(height: responsiveHeight(10)),
-        _buildRow(
-          title: 'Giới tính',
-          value: '${controller.renter.value.gender}',
-        ),
-        const Divider(color: AppColor.grayLight, thickness: 1),
-        SizedBox(height: responsiveHeight(10)),
-        _buildRow(
-          title: 'Ngành',
-          value: '${controller.renter.value.major!.name}',
-        ),
-        const Divider(color: AppColor.grayLight, thickness: 1),
-        SizedBox(height: responsiveHeight(10)),
-        _buildRow(
-          title: 'Đại học',
-          value: '${controller.renter.value.university!.name}',
-        ),
-        const Divider(color: AppColor.grayLight, thickness: 1),
       ],
     );
   }

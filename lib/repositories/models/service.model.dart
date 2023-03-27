@@ -4,7 +4,7 @@ class Services {
   String? description;
   bool? status;
 
-  double? amount;
+  int? amount;
 
   int? serviceTypeId;
 
@@ -23,7 +23,7 @@ class Services {
     description =
         json['Description'] == null ? null : json['Description'] as String;
     status = json['Status'] == null ? null : json['Status'] as bool;
-    amount = json['Amount'] == null ? null : json['Amount'] as double;
+    amount = json['Amount'] == null ? null : json['Amount'] as int;
     serviceTypeId =
         json['ServiceTypeId'] == null ? null : json['ServiceTypeId'] as int;
   }

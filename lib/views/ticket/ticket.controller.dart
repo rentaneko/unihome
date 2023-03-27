@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unihome/constant/value.constant.dart';
 import 'package:unihome/repositories/models/ticket.model.dart';
@@ -10,6 +14,7 @@ class TicketController extends GetxController {
   TextEditingController ticketName = TextEditingController();
   TextEditingController ticketDesc = TextEditingController();
 
+  File? img;
   late SharedPreferences _preferences;
 
   var ticketType = 0.obs;
@@ -17,6 +22,7 @@ class TicketController extends GetxController {
   var listTicket = <Ticket>[].obs;
   var listTicketType = <TicketType>[].obs;
   var selectedType = TicketType().obs;
+  var fileImagePath = 'no-image'.obs;
 
   final _userRepo = Get.find<UserRepo>();
 
@@ -86,5 +92,16 @@ class TicketController extends GetxController {
               }
           },
         );
+  }
+
+  Future pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      img = File(image.path);
+      fileImagePath.value = img!.path;
+    } on PlatformException catch (e) {
+      print(e);
+    }
   }
 }

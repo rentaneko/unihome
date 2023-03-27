@@ -14,6 +14,8 @@ class LoginController extends GetxController {
   late TextEditingController passwordCtrl;
   late SharedPreferences _preferences;
 
+  var isVisible = true.obs;
+
   final formKey = GlobalKey<FormState>();
 
   final _userRepo = Get.find<UserRepo>();
@@ -61,7 +63,6 @@ class LoginController extends GetxController {
       await _userRepo
           .loginWithRenter(usernameCtrl.text.trim(), passwordCtrl.text.trim())
           .then((value) {
-        hideLoading();
         if (value != null) {
           _preferences.setString(TOKEN, value.data['token'].toString());
           _preferences.setString(USER_ID, value.data['id'].toString());
@@ -70,6 +71,7 @@ class LoginController extends GetxController {
           showToast('Username or password is wrong');
         }
       });
+      hideLoading();
     } else {
       log('False');
     }

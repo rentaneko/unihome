@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
+import 'package:unihome/utils/widget.dart';
 import 'package:unihome/views/login/login.controller.dart';
 
 class LoginScreen extends GetWidget<LoginController> {
@@ -11,6 +12,18 @@ class LoginScreen extends GetWidget<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.white,
+      appBar: AppBar(
+        backgroundColor: AppColor.white,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => goBack(),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: AppColor.black,
+            size: responsiveFont(18),
+          ),
+        ),
+      ),
       body: Container(
         height: getHeightDevice(),
         width: getWidthDevice(),
@@ -19,87 +32,136 @@ class LoginScreen extends GetWidget<LoginController> {
           key: controller.formKey,
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset('assets/logos/logo.png'),
-                Text(
-                  'Chào mừng quý cư dân',
-                  style: TextStyle(
-                    fontSize: responsiveFont(28),
-                    color: AppColor.primary,
-                    fontWeight: FontWeight.w600,
+                Center(
+                  child: Text(
+                    'Chào mừng trở lại!',
+                    style: TextStyle(
+                      fontFamily: 'SF Pro Display',
+                      fontSize: responsiveFont(24),
+                      fontWeight: FontWeight.w700,
+                      color: AppColor.black,
+                    ),
                   ),
                 ),
-                SizedBox(height: responsiveHeight(32)),
+                SizedBox(height: responsiveHeight(10)),
+                Center(
+                  child: Text(
+                    'Vui lòng đăng nhập để sử dụng hệ thống.',
+                    style: TextStyle(
+                      fontFamily: 'SF Pro Display',
+                      fontSize: responsiveFont(14),
+                      fontWeight: FontWeight.w400,
+                      color: AppColor.grayText,
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Image.asset(
+                    'assets/logos/logo.png',
+                    height: responsiveHeight(250),
+                  ),
+                ),
+                Text(
+                  'Tài khoản',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Display',
+                    fontSize: responsiveFont(14),
+                    fontWeight: FontWeight.w400,
+                    color: AppColor.blackText,
+                  ),
+                ),
+                SizedBox(height: responsiveHeight(10)),
                 TextFormField(
                   controller: controller.usernameCtrl,
                   validator: (value) => controller.validateUsername(value),
                   decoration: InputDecoration(
-                    prefixIcon:
-                        const Icon(Icons.person_2, color: AppColor.primary),
-                    labelText: 'Tên tài khoản',
-                    labelStyle: TextStyle(
-                      fontSize: responsiveFont(16),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(100),
+                      borderSide: const BorderSide(color: AppColor.price),
+                    ),
+                    prefixIcon: Image.asset(
+                      'assets/icons/user.png',
                       color: AppColor.primary,
                     ),
                     focusColor: AppColor.primary,
-                    prefixIconColor: AppColor.primary,
-                    focusedErrorBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColor.price),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(100),
+                      borderSide: const BorderSide(color: AppColor.price),
                     ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColor.primary),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(100),
+                      borderSide: const BorderSide(color: AppColor.primary),
+                    ),
+                    filled: true,
+                    fillColor: AppColor.lightBlue,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(100),
+                      borderSide: const BorderSide(color: AppColor.grayBorder),
+                    ),
+                    hintText: 'example@gmail.com',
+                    hintStyle: TextStyle(
+                      fontFamily: 'SF Pro Display',
+                      fontSize: responsiveFont(16),
+                      fontWeight: FontWeight.w400,
+                      color: AppColor.grayText,
                     ),
                   ),
                 ),
                 SizedBox(height: responsiveHeight(32)),
+                Text(
+                  'Mật khẩu',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Display',
+                    fontSize: responsiveFont(14),
+                    fontWeight: FontWeight.w400,
+                    color: AppColor.blackText,
+                  ),
+                ),
+                SizedBox(height: responsiveHeight(10)),
                 TextFormField(
                   controller: controller.passwordCtrl,
                   validator: (value) => controller.validatePassword(value),
                   obscureText: true,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock, color: AppColor.primary),
-                    labelText: 'Mật khẩu',
-                    labelStyle: TextStyle(
-                      fontSize: responsiveFont(16),
+                    prefixIcon: Image.asset(
+                      'assets/icons/key.png',
                       color: AppColor.primary,
                     ),
                     focusColor: AppColor.primary,
-                    prefixIconColor: AppColor.primary,
-                    focusedErrorBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColor.price),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(100),
+                      borderSide: const BorderSide(color: AppColor.price),
                     ),
-                    suffixIcon: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.visibility_off_outlined,
-                          color: AppColor.primary),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(100),
+                      borderSide: const BorderSide(color: AppColor.price),
                     ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColor.primary),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(100),
+                      borderSide: const BorderSide(color: AppColor.primary),
+                    ),
+                    filled: true,
+                    fillColor: AppColor.lightBlue,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(100),
+                      borderSide: const BorderSide(color: AppColor.grayBorder),
+                    ),
+                    hintText: 'Nhập mật khẩu ở đây',
+                    hintStyle: TextStyle(
+                      fontFamily: 'SF Pro Display',
+                      fontSize: responsiveFont(16),
+                      fontWeight: FontWeight.w400,
+                      color: AppColor.grayText,
                     ),
                   ),
                 ),
                 SizedBox(height: responsiveHeight(64)),
+                button('Đăng nhập', () => controller.login()),
               ],
-            ),
-          ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(
-            vertical: responsiveHeight(16), horizontal: responsiveWidth(16)),
-        child: ElevatedButton(
-          onPressed: () => controller.login(),
-          style: ElevatedButton.styleFrom(
-              backgroundColor: AppColor.primary,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              minimumSize: Size(double.infinity, responsiveHeight(48))),
-          child: Text(
-            'Đăng nhập',
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              color: AppColor.white,
-              fontSize: responsiveFont(18),
             ),
           ),
         ),
