@@ -20,6 +20,9 @@ class TicketController extends GetxController {
   var ticketType = 0.obs;
   var isLoading = true.obs;
   var listTicket = <Ticket>[].obs;
+  var listTicketSend = <Ticket>[].obs;
+  var listTicketProcess = <Ticket>[].obs;
+  var listTicketDone = <Ticket>[].obs;
   var listTicketType = <TicketType>[].obs;
   var selectedType = TicketType().obs;
   var fileImagePath = 'no-image'.obs;
@@ -49,6 +52,17 @@ class TicketController extends GetxController {
     await _userRepo.getListTicket().then((value) {
       if (value != null) {
         listTicket.value = value;
+        for (var e in listTicket) {
+          if (e.status!.toLowerCase() == 'active') {
+            listTicketSend.add(e);
+          }
+          if (e.status!.toLowerCase() == 'processing') {
+            listTicketProcess.add(e);
+          }
+          if (e.status!.toLowerCase() == 'completed') {
+            listTicketDone.add(e);
+          }
+        }
       }
     });
   }
