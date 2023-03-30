@@ -86,9 +86,8 @@ class BaseConnect extends GetConnect {
 
   Future<BaseResponse?> putFormDataRequest(String url, File file,
       {dynamic body, dynamic query, headers}) async {
-    Get.log('[BODY] : ${body.toString()}');
     final form = FormData({
-      "Image": MultipartFile(file, filename: "file"),
+      "Image": MultipartFile(file.path, filename: "file"),
     });
     var response = await put(url, form,
         decoder: (map) => BaseResponse.fromMap(map),

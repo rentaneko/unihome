@@ -7,7 +7,7 @@ class Renter {
   String? phone;
   String? fullname;
   String? birthdate;
-  // String? imageUrl;
+  String? imageUrl;
   String? address;
   String? gender;
   int? renterId;
@@ -19,7 +19,7 @@ class Renter {
     phone = json['Phone'] == null ? null : json['Phone'] as String;
     fullname = json['FullName'] == null ? null : json['FullName'] as String;
     birthdate = json['BirthDate'] == null ? null : json['BirthDate'] as String;
-    // imageUrl = json['ImageUrl'] == null ? null : json['ImageUrl'] as String;
+    imageUrl = json['ImageUrl'] == null ? null : json['ImageUrl'] as String;
     address = json['Address'] == null ? null : json['Address'] as String;
     gender = json['Gender'] == null ? null : json['Gender'] as String;
   }
@@ -33,5 +33,6 @@ class Renter {
     this.phone,
     this.renterId,
     this.username,
+    this.imageUrl,
   });
 }

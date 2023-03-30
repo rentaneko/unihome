@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unihome/constant/value.constant.dart';
 import 'package:unihome/repositories/models/renter.model.dart';
@@ -28,6 +30,7 @@ class ProfileController extends GetxController {
   var renter = Renter().obs;
   var isEditing = false.obs;
   var birthdate = DateTime.now();
+  var _image;
 
   File? avatar;
 
@@ -89,5 +92,20 @@ class ProfileController extends GetxController {
     _preferences.remove(USER_ID);
     _preferences.remove(TOKEN);
     goToAndRemoveAll(screen: ROUTE_SPLASH);
+  }
+
+  Future<void> uploadImage() async {
+    await _userRepo.uploadFile(_image).then((_) => getRenterProfile());
+  }
+
+  Future pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+      _image = File(image.path);
+      uploadImage();
+    } on PlatformException catch (e) {
+      print(e);
+    }
   }
 }

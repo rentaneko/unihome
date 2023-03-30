@@ -193,7 +193,7 @@ class TicketScreen extends GetWidget<TicketController> {
           ),
           SizedBox(height: responsiveHeight(12)),
           // button
-          button('Gửi', () => controller.uploadImage()),
+          button('Gửi', () => controller.requestTicket()),
         ],
       ),
     );

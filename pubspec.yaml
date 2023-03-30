@@ -25,6 +25,7 @@ dependencies:
   image_picker: ^0.8.7
   intl: ^0.17.0
   flutter_format_money_vietnam: ^0.0.2
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:

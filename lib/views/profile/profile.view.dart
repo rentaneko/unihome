@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
@@ -352,20 +354,51 @@ class ProfileScreen extends GetWidget<ProfileController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(
-            height: responsiveHeight(150),
-            width: responsiveWidth(150),
-            clipBehavior: Clip.hardEdge,
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: AppColor.white,
-              shape: BoxShape.circle,
+        Stack(
+          children: [
+            Container(
+              height: responsiveHeight(150),
+              width: responsiveWidth(150),
+              decoration: const BoxDecoration(shape: BoxShape.circle),
+              child: controller.renter.value.imageUrl == null
+                  ? ClipRRect(
+                      clipBehavior: Clip.hardEdge,
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image.asset(
+                        'assets/icons/user-2.png',
+                        fit: BoxFit.contain,
+                      ),
+                    )
+                  : ClipRRect(
+                      clipBehavior: Clip.hardEdge,
+                      borderRadius: BorderRadius.circular(100),
+                      child: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: "${controller.renter.value.imageUrl}",
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator.adaptive(),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      ),
+                    ),
             ),
-            child:
-                // controller.renter.value.imageUrl == null?
-                Image.asset('assets/icons/user-2.png')
-            // : Image.network('${controller.renter.value.imageUrl}'),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: AppColor.gray100,
+                  border: Border.all(color: AppColor.blackText),
+                ),
+                child: IconButton(
+                  onPressed: () => controller.pickImage(ImageSource.gallery),
+                  icon: const Icon(Icons.camera_alt),
+                ),
+              ),
             ),
+          ],
+        ),
         SizedBox(height: responsiveHeight(10)),
         Text(
           '${controller.renter.value.fullname}',
