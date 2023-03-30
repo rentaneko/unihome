@@ -1,20 +1,20 @@
+import 'package:unihome/repositories/models/service_type.model.dart';
+
 class Services {
   int? id;
   String? name;
   String? description;
-  bool? status;
+  bool? checked;
+  double? amount;
 
-  int? amount;
-
-  int? serviceTypeId;
+  ServiceType? serviceType;
 
   Services({
     this.amount,
     this.description,
     this.id,
     this.name,
-    this.serviceTypeId,
-    this.status,
+    this.serviceType,
   });
 
   Services.fromJson(dynamic json) {
@@ -22,9 +22,10 @@ class Services {
     name = json['Name'] == null ? null : json['Name'] as String;
     description =
         json['Description'] == null ? null : json['Description'] as String;
-    status = json['Status'] == null ? null : json['Status'] as bool;
-    amount = json['Amount'] == null ? null : json['Amount'] as int;
-    serviceTypeId =
-        json['ServiceTypeId'] == null ? null : json['ServiceTypeId'] as int;
+    amount = json['Amount'] == null ? null : json['Amount'] as double;
+    serviceType = json['ServiceType'] == null
+        ? null
+        : ServiceType.fromJson(json['ServiceType']);
+    checked = false;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
@@ -46,6 +47,47 @@ class HouseScreen extends GetWidget<HouseController> {
                       ),
                       SizedBox(height: responsiveHeight(12)),
                       _infoHouse(),
+                      SizedBox(height: responsiveHeight(16)),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: responsiveWidth(16),
+                          right: responsiveWidth(16),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Tiện ích',
+                              style: TextStyle(
+                                fontFamily: 'SF Pro Display',
+                                fontWeight: FontWeight.w600,
+                                fontSize: responsiveFont(20),
+                                color: AppColor.blackText,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return Obx(() => _addMoreService());
+                                  },
+                                );
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(responsiveHeight(2)),
+                                decoration: BoxDecoration(
+                                  color: AppColor.gray400,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: const Icon(Icons.add),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: responsiveHeight(12)),
+                      _serviceBlock(),
                       SizedBox(height: responsiveHeight(16)),
                       Padding(
                         padding: EdgeInsets.only(left: responsiveWidth(16)),
@@ -244,6 +286,80 @@ class HouseScreen extends GetWidget<HouseController> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _serviceBlock() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: responsiveWidth(16)),
+      padding: EdgeInsets.all(responsiveWidth(16)),
+      decoration: BoxDecoration(
+        color: AppColor.lighter,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: MasonryGridView.builder(
+        shrinkWrap: true,
+        itemCount: controller.rental.value.listService!.length,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+        ),
+        crossAxisSpacing: responsiveWidth(12),
+        mainAxisSpacing: responsiveHeight(12),
+        itemBuilder: (context, index) {
+          return Container(
+            padding: EdgeInsets.symmetric(
+              vertical: responsiveHeight(10),
+              horizontal: responsiveWidth(24),
+            ),
+            decoration: BoxDecoration(
+              color: AppColor.main,
+              borderRadius: BorderRadius.circular(92),
+            ),
+            child: Text(
+              '${controller.rental.value.listService![index].name}',
+              overflow: TextOverflow.clip,
+              maxLines: 1,
+              style: TextStyle(
+                fontFamily: 'SF Pro Display',
+                fontWeight: FontWeight.w400,
+                fontSize: responsiveFont(16),
+                color: AppColor.white,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _addMoreService() {
+    return Column(
+      children: [
+        Text(
+          'Danh sách tiện ích',
+          style: TextStyle(
+            fontFamily: 'SF Pro Display',
+            fontSize: responsiveFont(16),
+            fontWeight: FontWeight.w600,
+            color: AppColor.blackText,
+          ),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: controller.listService.length,
+          itemBuilder: (BuildContext context, int index) {
+            return CheckboxListTile(
+              value: controller.listService[index].checked,
+              onChanged: (bool? value) {
+                controller.checkDuplicate(value!, index);
+              },
+              title: Text('${controller.listService[index].name}'),
+              activeColor: AppColor.complete,
+            );
+          },
+        ),
+      ],
     );
   }
 }

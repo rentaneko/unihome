@@ -2,12 +2,14 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unihome/constant/value.constant.dart';
 import 'package:unihome/repositories/models/rental.model.dart';
+import 'package:unihome/repositories/models/service.model.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
 import 'package:unihome/utils/metric.dart';
 
 class HouseController extends GetxController {
   var isLoading = true.obs;
   var rental = Rental().obs;
+  var listService = <Services>[].obs;
 
   final _userRepo = Get.find<UserRepo>();
 
@@ -15,7 +17,13 @@ class HouseController extends GetxController {
 
   @override
   void onInit() {
-    getRentalDetail();
+    Future.wait(
+      [
+        getRentalDetail(),
+        getListServices(),
+      ],
+    ).then((_) => isLoading.value = false);
+
     super.onInit();
   }
 
@@ -26,10 +34,25 @@ class HouseController extends GetxController {
         .then((value) {
       if (value != null) {
         rental.value = value;
-        isLoading.value = false;
       } else {
         showToast('BUG!!!!');
       }
     });
+  }
+
+  Future<void> getListServices() async {
+    await _userRepo.getListService().then(
+      (value) {
+        if (value != null) {
+          listService.value = value;
+        } else {
+          showToast('BUG!!!!');
+        }
+      },
+    );
+  }
+
+  void checkDuplicate(bool? value, int index) {
+    listService[index].checked = value;
   }
 }

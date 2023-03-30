@@ -1,4 +1,5 @@
 import 'package:unihome/repositories/models/renter.model.dart';
+import 'package:unihome/repositories/models/service.model.dart';
 
 class Rental {
   String? flatName;
@@ -20,6 +21,8 @@ class Rental {
   int? priceForService;
 
   List<Renter>? renters;
+
+  List<Services>? listService;
 
   Rental.fromJson(dynamic json) {
     renters = json['Renters'] == null
@@ -70,6 +73,9 @@ class Rental {
     priceForRent = json['FlatMeterEntity']['PriceForRent'] == null
         ? 0
         : int.parse(json['FlatMeterEntity']['PriceForRent']);
+    listService = json['Services'] == null
+        ? null
+        : (json['Services'] as List).map((e) => Services.fromJson(e)).toList();
   }
 
   Rental({
