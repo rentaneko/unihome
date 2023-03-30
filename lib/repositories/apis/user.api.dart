@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:get/get.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:unihome/repositories/res/base_connect.dart';
@@ -99,5 +100,9 @@ class UserApi extends BaseConnect {
 
   Future<BaseResponse?> getListContract() async {
     return await getResponse('/api/contracts/renter');
+  }
+
+  Future<BaseResponse?> uploadFiles(File image) async {
+    return await putFormDataRequest('/api/upload/renter', image);
   }
 }

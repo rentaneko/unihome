@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'package:get/get.dart';
 import 'package:unihome/constant/value.constant.dart';
@@ -29,11 +30,12 @@ class UserRepo {
     return res!.code == SUCCESS ? ContractDetail.fromJson(res.data) : null;
   }
 
-  Future<Invoice?> getListInvoiceByRenterId(
-      String idRenter, String invoiceId) async {
-    var res = await userApi.getListInvoiceByRenterId(idRenter, invoiceId);
+  Future<List<Invoice>?> getListInvoice() async {
+    var res = await userApi.getListInvoice();
 
-    return res!.code == SUCCESS ? Invoice.fromJson(res.data) : null;
+    return res!.code == SUCCESS
+        ? (res.data as List).map((e) => Invoice.fromJson(e)).toList()
+        : null;
   }
 
   Future<Renter?> getRenterProfile(String idRenter) async {
@@ -89,5 +91,10 @@ class UserRepo {
     return res!.code == SUCCESS
         ? (res.data as List).map((e) => Contract.fromJson(e)).toList()
         : null;
+  }
+
+  Future<bool> uploadFile(File image) async {
+    var res = await userApi.uploadFiles(image);
+    return res!.code == SUCCESS ? true : false;
   }
 }

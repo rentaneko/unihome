@@ -26,6 +26,7 @@ class TicketController extends GetxController {
   var listTicketType = <TicketType>[].obs;
   var selectedType = TicketType().obs;
   var fileImagePath = 'no-image'.obs;
+  var _image;
 
   final _userRepo = Get.find<UserRepo>();
 
@@ -114,8 +115,13 @@ class TicketController extends GetxController {
       if (image == null) return;
       img = File(image.path);
       fileImagePath.value = img!.path;
+      _image = img;
     } on PlatformException catch (e) {
       print(e);
     }
+  }
+
+  Future<void> uploadImage() async {
+    await _userRepo.uploadFile(_image);
   }
 }

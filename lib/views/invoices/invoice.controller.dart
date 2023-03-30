@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unihome/constant/value.constant.dart';
@@ -9,7 +8,7 @@ import 'package:unihome/utils/metric.dart';
 class InvoiceController extends GetxController {
   //
 
-  var invoice = Invoice().obs;
+  var listInvoice = <Invoice>[].obs;
   var isLoading = true.obs;
 
   late SharedPreferences _preferences;
@@ -24,11 +23,9 @@ class InvoiceController extends GetxController {
 
   Future<void> getListInvoiceByRenterId() async {
     _preferences = await SharedPreferences.getInstance();
-    await _userRepo
-        .getListInvoiceByRenterId(_preferences.getString(USER_ID)!, '1')
-        .then((value) {
+    await _userRepo.getListInvoice().then((value) {
       if (value != null) {
-        invoice.value = value;
+        listInvoice.value = value;
       } else {
         showToast('BUG!!!');
       }

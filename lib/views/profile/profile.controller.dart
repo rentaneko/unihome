@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,6 +28,8 @@ class ProfileController extends GetxController {
   var renter = Renter().obs;
   var isEditing = false.obs;
   var birthdate = DateTime.now();
+
+  File? avatar;
 
   final _userRepo = Get.find<UserRepo>();
 
@@ -84,6 +88,6 @@ class ProfileController extends GetxController {
     _preferences = await SharedPreferences.getInstance();
     _preferences.remove(USER_ID);
     _preferences.remove(TOKEN);
-    goToAndRemoveAll(screen: ROUTE_LOGIN);
+    goToAndRemoveAll(screen: ROUTE_SPLASH);
   }
 }

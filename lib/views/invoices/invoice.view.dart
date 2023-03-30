@@ -28,15 +28,19 @@ class InvoiceScreen extends GetWidget<InvoiceController> {
           backgroundColor: AppColor.primary,
         ),
         backgroundColor: AppColor.white,
-        body: DefaultTabController(
-          length: 3,
-          child: Column(
-            children: [
-              SizedBox(height: responsiveHeight(12)),
-              _buildTabbar(),
-              _buildBody(),
-            ],
-          ),
+        body: Obx(
+          () => controller.isLoading.value
+              ? const Center(child: CircularProgressIndicator.adaptive())
+              : DefaultTabController(
+                  length: 3,
+                  child: Column(
+                    children: [
+                      SizedBox(height: responsiveHeight(12)),
+                      _buildTabbar(),
+                      _buildBody(),
+                    ],
+                  ),
+                ),
         ),
       ),
     );
