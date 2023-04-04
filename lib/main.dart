@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       builder: (_, child) => FlutterEasyLoading(child: child),
       getPages: RoutePage.routes,
-      initialRoute: ROUTE_SPLASH,
+      initialRoute: ROUTE_NAV_BAR,
     );
   }
 }
