@@ -174,44 +174,6 @@ class ProfileScreen extends GetWidget<ProfileController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Mật khẩu cũ',
-            style: TextStyle(
-              fontFamily: 'SF Pro Display',
-              fontSize: responsiveFont(14),
-              color: AppColor.blue,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          SizedBox(height: responsiveHeight(10)),
-          TextFormField(
-            controller: controller.passCtrl,
-            decoration: InputDecoration(
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(100),
-                borderSide: const BorderSide(color: AppColor.price),
-              ),
-              prefixIcon: Image.asset(
-                'assets/icons/password.png',
-                color: AppColor.primary,
-              ),
-              focusColor: AppColor.primary,
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(100),
-                borderSide: const BorderSide(color: AppColor.price),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(100),
-                borderSide: const BorderSide(color: AppColor.primary),
-              ),
-              filled: true,
-              fillColor: AppColor.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(100),
-                borderSide: const BorderSide(color: AppColor.grayBorder),
-              ),
-            ),
-          ),
           SizedBox(height: responsiveHeight(14)),
           Text(
             'Mật khẩu mới',
@@ -224,7 +186,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
           ),
           SizedBox(height: responsiveHeight(10)),
           TextFormField(
-            controller: controller.passNewCtrl,
+            controller: controller.passCtrl,
             decoration: InputDecoration(
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(100),
@@ -263,7 +225,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
           ),
           SizedBox(height: responsiveHeight(10)),
           TextFormField(
-            controller: controller.passNewRepeatCtrl,
+            controller: controller.confirmCtrl,
             decoration: InputDecoration(
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(100),
@@ -291,7 +253,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
             ),
           ),
           SizedBox(height: responsiveHeight(16)),
-          button('Xác nhận', () {}),
+          button('Xác nhận', () => controller.changePassword()),
         ],
       ),
     );

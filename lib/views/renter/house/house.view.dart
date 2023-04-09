@@ -3,7 +3,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
-import 'package:unihome/utils/widget.dart';
 import 'package:unihome/views/renter/house/house.controller.dart';
 
 class HouseScreen extends GetWidget<HouseController> {
@@ -28,36 +27,27 @@ class HouseScreen extends GetWidget<HouseController> {
         body: Obx(
           () => controller.isLoading.value
               ? const Center(child: CircularProgressIndicator.adaptive())
-              : SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: responsiveHeight(16)),
-                      Padding(
-                        padding: EdgeInsets.only(left: responsiveWidth(16)),
-                        child: Text(
-                          'Thông tin',
-                          style: TextStyle(
-                            fontFamily: 'SF Pro Display',
-                            fontWeight: FontWeight.w600,
-                            fontSize: responsiveFont(20),
-                            color: AppColor.blackText,
-                          ),
+              : (controller.rental.value.accountName == null
+                  ? Center(
+                      child: Text(
+                        'Hệ thống đang lỗi, vui lòng thử lại sau',
+                        style: TextStyle(
+                          fontFamily: 'SF Pro Display',
+                          fontWeight: FontWeight.w700,
+                          fontSize: responsiveFont(16),
+                          color: AppColor.blackText,
                         ),
                       ),
-                      SizedBox(height: responsiveHeight(12)),
-                      _infoHouse(),
-                      SizedBox(height: responsiveHeight(16)),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: responsiveWidth(16),
-                          right: responsiveWidth(16),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Tiện ích',
+                    )
+                  : SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: responsiveHeight(16)),
+                          Padding(
+                            padding: EdgeInsets.only(left: responsiveWidth(16)),
+                            child: Text(
+                              'Thông tin',
                               style: TextStyle(
                                 fontFamily: 'SF Pro Display',
                                 fontWeight: FontWeight.w600,
@@ -65,47 +55,69 @@ class HouseScreen extends GetWidget<HouseController> {
                                 color: AppColor.blackText,
                               ),
                             ),
-                            InkWell(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (BuildContext context) {
-                                    return _addMoreService();
-                                  },
-                                );
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(responsiveHeight(2)),
-                                decoration: BoxDecoration(
-                                  color: AppColor.gray400,
-                                  borderRadius: BorderRadius.circular(4),
+                          ),
+                          SizedBox(height: responsiveHeight(12)),
+                          _infoHouse(),
+                          SizedBox(height: responsiveHeight(16)),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: responsiveWidth(16),
+                              right: responsiveWidth(16),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Tiện ích',
+                                  style: TextStyle(
+                                    fontFamily: 'SF Pro Display',
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: responsiveFont(20),
+                                    color: AppColor.blackText,
+                                  ),
                                 ),
-                                child: const Icon(Icons.add),
+                                InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (BuildContext context) {
+                                        return _addMoreService();
+                                      },
+                                    );
+                                  },
+                                  child: Container(
+                                    padding:
+                                        EdgeInsets.all(responsiveHeight(2)),
+                                    decoration: BoxDecoration(
+                                      color: AppColor.gray400,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: const Icon(Icons.add),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: responsiveHeight(12)),
+                          _serviceBlock(),
+                          SizedBox(height: responsiveHeight(16)),
+                          Padding(
+                            padding: EdgeInsets.only(left: responsiveWidth(16)),
+                            child: Text(
+                              'Danh sách khách thuê',
+                              style: TextStyle(
+                                fontFamily: 'SF Pro Display',
+                                fontWeight: FontWeight.w600,
+                                fontSize: responsiveFont(20),
+                                color: AppColor.blackText,
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: responsiveHeight(12)),
-                      _serviceBlock(),
-                      SizedBox(height: responsiveHeight(16)),
-                      Padding(
-                        padding: EdgeInsets.only(left: responsiveWidth(16)),
-                        child: Text(
-                          'Danh sách khách thuê',
-                          style: TextStyle(
-                            fontFamily: 'SF Pro Display',
-                            fontWeight: FontWeight.w600,
-                            fontSize: responsiveFont(20),
-                            color: AppColor.blackText,
                           ),
-                        ),
+                          _memberBlock(),
+                        ],
                       ),
-                      _memberBlock(),
-                    ],
-                  ),
-                ),
+                    )),
         ),
       ),
     );

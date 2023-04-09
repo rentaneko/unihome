@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -10,7 +10,6 @@ import 'package:unihome/repositories/models/renter.model.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
 import 'package:unihome/routes/pages.dart';
 import 'package:unihome/utils/metric.dart';
-import 'package:unihome/views/renter/home/home.controller.dart';
 
 class ProfileController extends GetxController {
   //
@@ -24,8 +23,7 @@ class ProfileController extends GetxController {
 
   // change pw
   TextEditingController passCtrl = TextEditingController();
-  TextEditingController passNewCtrl = TextEditingController();
-  TextEditingController passNewRepeatCtrl = TextEditingController();
+  TextEditingController confirmCtrl = TextEditingController();
 
   var isLoading = true.obs;
   var renter = Renter().obs;
@@ -107,5 +105,24 @@ class ProfileController extends GetxController {
     } on PlatformException catch (e) {
       print(e);
     }
+  }
+
+  Future<void> changePassword() async {
+    await _userRepo
+        .changePassword(passCtrl.text.trim(), confirmCtrl.text.trim())
+        .then(
+      (value) {
+        if (value) {
+          showToast(
+              'Thay đổi mật khẩu thành công\nBạn vui lòng đăng nhập lại tài khoản');
+          Future.delayed(
+            const Duration(seconds: 2),
+            () => goToAndRemoveAll(screen: ROUTE_SPLASH),
+          );
+        } else {
+          showToast('Mật khẩu không khớp với nhau');
+        }
+      },
+    );
   }
 }

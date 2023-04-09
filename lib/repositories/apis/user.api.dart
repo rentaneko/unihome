@@ -112,4 +112,18 @@ class UserApi extends BaseConnect {
       body: listService,
     );
   }
+
+  Future<BaseResponse?> changePassword(String password, String confirm) async {
+    return await putRequest(
+      '/api/renters/change-password',
+      body: jsonEncode(<String, dynamic>{
+        "password": password,
+        "confirmPassword": confirm,
+      }),
+    );
+  }
+
+  Future<BaseResponse?> getDueDateInvoice() async {
+    return await getResponse('/api/invoices/latest');
+  }
 }

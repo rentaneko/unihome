@@ -111,6 +111,7 @@ class InvoiceScreen extends GetWidget<InvoiceController> {
           shrinkWrap: true,
           itemCount: listByType.length,
           itemBuilder: (context, index) {
+            // ignore: unnecessary_cast
             listByType as List<Invoice>;
             return Container(
               margin: EdgeInsets.only(bottom: responsiveHeight(12)),
@@ -126,6 +127,15 @@ class InvoiceScreen extends GetWidget<InvoiceController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  Text(
+                    '${controller.listInvoice[index].invoiceName}',
+                    style: TextStyle(
+                      fontFamily: 'SF Pro Display',
+                      fontWeight: FontWeight.w700,
+                      fontSize: responsiveFont(16),
+                      color: AppColor.blackText,
+                    ),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -246,6 +256,15 @@ class InvoiceScreen extends GetWidget<InvoiceController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Text(
+                  '${controller.listInvoice[index].invoiceName}',
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Display',
+                    fontWeight: FontWeight.w700,
+                    fontSize: responsiveFont(16),
+                    color: AppColor.blackText,
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

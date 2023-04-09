@@ -53,5 +53,9 @@
 	<string> Need to upload image</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string> Need to upload image</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+  		<string>tel</string>
+	</array>
 </dict>
 </plist>

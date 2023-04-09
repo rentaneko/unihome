@@ -104,4 +104,15 @@ class UserRepo {
     var res = await userApi.addService(listService);
     return res!.code == SUCCESS ? true : false;
   }
+
+  Future<bool> changePassword(String password, String confirm) async {
+    var res = await userApi.changePassword(password, confirm);
+
+    return res!.code == SUCCESS ? true : false;
+  }
+
+  Future<Invoice?> getDueDateInvoice() async {
+    var res = await userApi.getDueDateInvoice();
+    return res!.code == SUCCESS ? Invoice.fromJson(res.data) : null;
+  }
 }

@@ -14,7 +14,7 @@ class AdminAccount {
   });
 
   AdminAccount.fromJson(dynamic json) {
-    id = json['AccountId'] == null ? null : json['AccountId'] as int;
+    id = json['EmployeeId'] == null ? null : json['EmployeeId'] as int;
     username = json['Username'] == null ? null : json['Username'] as String;
     fullname = json['FullName'] == null ? null : json['FullName'] as String;
     email = json['Email'] == null ? null : json['Email'] as String;

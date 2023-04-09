@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:unihome/routes/pages.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/dummy_data.dart';
 import 'package:unihome/utils/metric.dart';
+import 'package:unihome/utils/widget.dart';
 import 'package:unihome/views/renter/home/home.controller.dart';
 
 class HomeScreen extends GetWidget<HomeController> {
@@ -75,7 +78,7 @@ class HomeScreen extends GetWidget<HomeController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _infoBlock(),
-                      _managerBlocl(),
+                      _managerBlock(),
                       Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: responsiveWidth(16)),
@@ -92,11 +95,11 @@ class HomeScreen extends GetWidget<HomeController> {
                       GridView.builder(
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
+                          crossAxisCount: 4,
                         ),
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 6,
+                        itemCount: serviceData.length,
                         itemBuilder: (context, index) {
                           return _buildServiceComponent(index);
                         },
@@ -145,7 +148,7 @@ class HomeScreen extends GetWidget<HomeController> {
     );
   }
 
-  Widget _managerBlocl() {
+  Widget _managerBlock() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -163,36 +166,26 @@ class HomeScreen extends GetWidget<HomeController> {
         ),
         SizedBox(height: responsiveHeight(12)),
         ListTile(
-          leading: Container(
-            height: responsiveHeight(42),
-            width: responsiveWidth(42),
-            clipBehavior: Clip.hardEdge,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColor.white,
-            ),
-            child: Image.asset('assets/icons/user-2.png'),
-          ),
           title: Text(
-            'Louise Vuitton',
+            '${controller.invoice.value.admin!.fullname}',
             style: TextStyle(
               fontFamily: 'SF Pro Display',
-              fontWeight: FontWeight.w400,
-              fontSize: responsiveFont(16),
+              fontWeight: FontWeight.w700,
+              fontSize: responsiveFont(20),
               color: AppColor.blackText,
             ),
           ),
           subtitle: Text(
-            '0901234567',
+            '${controller.invoice.value.admin!.phone}',
             style: TextStyle(
               fontFamily: 'SF Pro Display',
               fontWeight: FontWeight.w400,
-              fontSize: responsiveFont(14),
+              fontSize: responsiveFont(16),
               color: AppColor.grayText,
             ),
           ),
           trailing: InkWell(
-            onTap: () {},
+            onTap: () => controller.callNumber(),
             child: Container(
               padding: EdgeInsets.all(responsiveHeight(6)),
               decoration: BoxDecoration(
@@ -238,7 +231,10 @@ class HomeScreen extends GetWidget<HomeController> {
           ),
           SizedBox(height: responsiveHeight(4)),
           Text(
-            'controller.contract.value.dateSigned!',
+            controller.invoice.value.dueDate != null
+                ? Jiffy('${controller.invoice.value.dueDate}')
+                    .format('dd/MM/yyyy')
+                : 'Chưa cập nhật',
             style: TextStyle(
               fontFamily: 'SF Pro Display',
               fontWeight: FontWeight.w500,
@@ -247,16 +243,16 @@ class HomeScreen extends GetWidget<HomeController> {
             ),
           ),
           SizedBox(height: responsiveHeight(6)),
-          // button('Trả ngay ${controller.contract.value.priceForRent} đ', () {}),
+          button(
+            'Trả ngay ${controller.invoice.value.amount.toVND(unit: 'VNĐ')} ',
+            () {},
+          ),
           SizedBox(height: responsiveHeight(10)),
           const Divider(color: AppColor.black, thickness: 1),
           _buildRow(
             title: 'Mã hợp đồng ',
-            value: 'controller.contract.value.id',
+            value: '${controller.invoice.value.invoiceId}',
           ),
-          const Divider(color: AppColor.black, thickness: 0.2),
-          _buildRow(
-              title: 'Số dư còn lại', value: 'controller.contract.value.name'),
           const Divider(color: AppColor.black, thickness: 0.2),
         ],
       ),
