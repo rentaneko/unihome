@@ -28,8 +28,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> getRenterProfile() async {
-    _preferences = await SharedPreferences.getInstance();
-    _userRepo.getRenterProfile(_preferences.getString(USER_ID)!).then(
+    _userRepo.getRenterProfile().then(
       (value) {
         if (value != null) {
           renter.value = value;

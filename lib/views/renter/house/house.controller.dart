@@ -22,9 +22,24 @@ class HouseController extends GetxController {
         getRentalDetail(),
         getListServices(),
       ],
-    ).then((_) => isLoading.value = false);
+    ).then((_) {
+      isLoading.value = false;
+      removeDuplicate();
+    });
 
     super.onInit();
+  }
+
+  void removeDuplicate() {
+    listService.forEach((service) {
+      rental.value.listService!.forEach((rental) {
+        if (rental.id == service.id) {
+          service.checked = true;
+        }
+      });
+    });
+
+    listService.removeWhere((element) => element.checked == true);
   }
 
   Future<void> getRentalDetail() async {
@@ -52,7 +67,14 @@ class HouseController extends GetxController {
     );
   }
 
-  void checkDuplicate(bool? value, int index) {
-    listService[index].checked = value;
+  Future<void> addService() async {
+    await _userRepo
+        .addService(listService
+            .map((element) => int.parse(element.id.toString()))
+            .toList())
+        .then((value) {
+      goBack();
+      showToast('Đăng ký dịch vụ thành công');
+    });
   }
 }

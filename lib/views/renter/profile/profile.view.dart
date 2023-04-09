@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:unihome/routes/pages.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
 import 'package:unihome/utils/widget.dart';
@@ -24,7 +25,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
                   elevation: 0,
                   automaticallyImplyLeading: false,
                   leading: IconButton(
-                    onPressed: () => goBack(),
+                    onPressed: () => goToAndRemoveAll(screen: ROUTE_HOME),
                     icon: Icon(
                       Icons.arrow_back_ios,
                       color: AppColor.black,

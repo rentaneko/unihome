@@ -3,6 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
+import 'package:unihome/utils/widget.dart';
 import 'package:unihome/views/renter/house/house.controller.dart';
 
 class HouseScreen extends GetWidget<HouseController> {
@@ -66,10 +67,11 @@ class HouseScreen extends GetWidget<HouseController> {
                             ),
                             InkWell(
                               onTap: () {
-                                showModalBottomSheet(
+                                showDialog(
                                   context: context,
+                                  barrierDismissible: false,
                                   builder: (BuildContext context) {
-                                    return Obx(() => _addMoreService());
+                                    return _addMoreService();
                                   },
                                 );
                               },
@@ -333,32 +335,94 @@ class HouseScreen extends GetWidget<HouseController> {
   }
 
   Widget _addMoreService() {
-    return Column(
-      children: [
-        Text(
-          'Danh sách tiện ích',
-          style: TextStyle(
-            fontFamily: 'SF Pro Display',
-            fontSize: responsiveFont(16),
-            fontWeight: FontWeight.w600,
-            color: AppColor.blackText,
+    return Dialog(
+      elevation: 2,
+      insetPadding: EdgeInsets.all(responsiveHeight(16)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: EdgeInsets.all(responsiveHeight(16)),
+            child: Text(
+              'Danh sách tiện ích',
+              style: TextStyle(
+                fontFamily: 'SF Pro Display',
+                fontSize: responsiveFont(16),
+                fontWeight: FontWeight.w600,
+                color: AppColor.blackText,
+              ),
+            ),
           ),
-        ),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: controller.listService.length,
-          itemBuilder: (BuildContext context, int index) {
-            return CheckboxListTile(
-              value: controller.listService[index].checked,
-              onChanged: (bool? value) {
-                controller.checkDuplicate(value!, index);
+          Obx(
+            () => ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: controller.listService.length,
+              itemBuilder: (BuildContext context, int index) {
+                return CheckboxListTile(
+                  value: controller.listService[index].checked,
+                  onChanged: (bool? value) {
+                    controller.listService[index].checked = value ?? false;
+                    controller.listService.refresh();
+                  },
+                  title: Text('${controller.listService[index].name}'),
+                  activeColor: AppColor.complete,
+                );
               },
-              title: Text('${controller.listService[index].name}'),
-              activeColor: AppColor.complete,
-            );
-          },
-        ),
-      ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(responsiveHeight(16)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  onPressed: () => controller.addService(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColor.darkBlue,
+                    minimumSize: Size(
+                      responsiveWidth(140),
+                      responsiveHeight(36),
+                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24)),
+                  ),
+                  child: Text(
+                    'Đăng ký',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'SF Pro Display',
+                      fontSize: responsiveFont(16),
+                      color: AppColor.white,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () => goBack(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColor.darkBlue,
+                    minimumSize: Size(
+                      responsiveWidth(140),
+                      responsiveHeight(36),
+                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24)),
+                  ),
+                  child: Text(
+                    'Huỷ bỏ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontFamily: 'SF Pro Display',
+                      fontSize: responsiveFont(16),
+                      color: AppColor.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

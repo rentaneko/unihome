@@ -34,8 +34,9 @@ class Invoice {
         json['Amount'] == null ? null : int.parse(json['Amount'].toString());
     status = json['Status'] == null ? null : json['Status'] as bool;
     renter = json['Renter'] == null ? null : Renter.fromJson(json['Renter']);
-    admin =
-        json['Account'] == null ? null : AdminAccount.fromJson(json['Account']);
+    admin = json['Employee'] == null
+        ? null
+        : AdminAccount.fromJson(json['Employee']);
     invoiceDetails = json['InvoiceDetails'] == null
         ? null
         : (json['InvoiceDetails'] as List)

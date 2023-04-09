@@ -38,8 +38,8 @@ class UserRepo {
         : null;
   }
 
-  Future<Renter?> getRenterProfile(String idRenter) async {
-    var res = await userApi.getRenterProfile(idRenter);
+  Future<Renter?> getRenterProfile() async {
+    var res = await userApi.getRenterProfile();
     return res!.code == SUCCESS ? Renter.fromJson(res.data) : null;
   }
 
@@ -58,9 +58,11 @@ class UserRepo {
   }
 
   Future<bool> requestTicket(
-      String renterId, String ticketName, String ticketDesc, int type) async {
-    var res =
-        await userApi.requestTicket(renterId, ticketName, ticketDesc, type);
+      {required String ticketDesc,
+      required int type,
+      required List<File> images}) async {
+    var res = await userApi.requestTicket(
+        ticketDesc: ticketDesc, type: type, images: images);
     return res!.code == SUCCESS ? true : false;
   }
 
@@ -95,6 +97,11 @@ class UserRepo {
 
   Future<bool> uploadFile(File image) async {
     var res = await userApi.uploadFiles(image);
+    return res!.code == SUCCESS ? true : false;
+  }
+
+  Future<bool> addService(List<int> listService) async {
+    var res = await userApi.addService(listService);
     return res!.code == SUCCESS ? true : false;
   }
 }

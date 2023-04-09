@@ -104,4 +104,33 @@ class BaseConnect extends GetConnect {
       );
     }
   }
+
+  Future<BaseResponse?> postFormDataRequest(
+    String url, {
+    required List<File> file,
+    required int ticketTypeId,
+    required String desc,
+    headers,
+  }) async {
+    final form = FormData({
+      "TicketTypeId": ticketTypeId,
+      "Description": desc,
+      "ImageUploadRequest": file.map(
+        (e) => MultipartFile(e.path, filename: 'file'),
+      ),
+      //  MultipartFile(file.path, filename: "file"),
+    });
+    var response = await post(url, form,
+        decoder: (map) => BaseResponse.fromMap(map), headers: headers);
+    if (response.isOk) {
+      Get.log('[RESPONSE] : ${response.body?.toMap()}');
+      return response.body;
+    } else {
+      hideLoading();
+      return BaseResponse(
+        message: response.statusText,
+        code: response.status.code.toString(),
+      );
+    }
+  }
 }

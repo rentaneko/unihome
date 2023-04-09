@@ -1,6 +1,5 @@
 class Ticket {
   int? id;
-  String? name;
   String? desc;
   String? type;
   String? status;
@@ -10,7 +9,6 @@ class Ticket {
   Ticket({
     this.desc,
     this.id,
-    this.name,
     this.type,
     this.amount,
     this.createdDate,
@@ -19,7 +17,6 @@ class Ticket {
 
   Ticket.fromJson(dynamic json) {
     id = json['TicketId'] == null ? null : json['TicketId'] as int;
-    name = json['TicketName'] == null ? null : json['TicketName'] as String;
     desc = json['Description'] == null ? null : json['Description'] as String;
     type = json['TicketType']['TicketTypeName'] == null
         ? null

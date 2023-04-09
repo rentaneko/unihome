@@ -13,7 +13,7 @@ class UserApi extends BaseConnect {
       '/api/auth/user/v1/login',
       body: jsonEncode(
         <String, String>{
-          "username": username,
+          "usernameOrPhoneNumber": username,
           "password": password,
           "deviceToken": deviceId.toString(),
         },
@@ -31,8 +31,8 @@ class UserApi extends BaseConnect {
     return await getResponse('/api/invoices/$invoiceId/user/$idRenter');
   }
 
-  Future<BaseResponse?> getRenterProfile(String idRenter) async {
-    return await getResponse('/api/renters/$idRenter');
+  Future<BaseResponse?> getRenterProfile() async {
+    return await getResponse('/api/renters/profile');
   }
 
   Future<BaseResponse?> getListService() async {
@@ -71,14 +71,14 @@ class UserApi extends BaseConnect {
   }
 
   Future<BaseResponse?> requestTicket(
-      String renterId, String ticketName, String ticketDesc, int type) async {
-    return await postRequest(
+      {required String ticketDesc,
+      required int type,
+      required List<File> images}) async {
+    return await postFormDataRequest(
       '/api/tickets',
-      body: jsonEncode(<String, dynamic>{
-        "ticketTypeId": type,
-        "ticketName": ticketName,
-        "description": ticketDesc,
-      }),
+      ticketTypeId: type,
+      desc: ticketDesc,
+      file: images,
     );
   }
 
@@ -104,5 +104,12 @@ class UserApi extends BaseConnect {
 
   Future<BaseResponse?> uploadFiles(File image) async {
     return await putFormDataRequest('/api/upload/renter', image);
+  }
+
+  Future<BaseResponse?> addService(List<int> listService) async {
+    return await putRequest(
+      '/api/services/select',
+      body: listService,
+    );
   }
 }

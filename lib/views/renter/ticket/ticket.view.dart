@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -62,33 +64,35 @@ class TicketScreen extends GetWidget<TicketController> {
   }
 
   Widget _openDialog() {
-    return AlertDialog(
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          SizedBox(width: responsiveWidth(20)),
-          Text(
-            'Tạo yêu cầu mới',
-            style: TextStyle(
-              fontFamily: 'SF Pro Display',
-              fontSize: responsiveFont(18),
-              color: AppColor.blackText,
-              fontWeight: FontWeight.w700,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          IconButton(
-            onPressed: () => goBack(),
-            alignment: Alignment.centerRight,
-            icon: const Icon(Icons.close_sharp),
-          ),
-        ],
-      ),
-      content: Column(
+    return Container(
+      color: AppColor.white,
+      padding: EdgeInsets.all(responsiveHeight(16)),
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(width: responsiveWidth(20)),
+              Text(
+                'Tạo yêu cầu mới',
+                style: TextStyle(
+                  fontFamily: 'SF Pro Display',
+                  fontSize: responsiveFont(18),
+                  color: AppColor.blackText,
+                  fontWeight: FontWeight.w700,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              IconButton(
+                onPressed: () => goBack(),
+                alignment: Alignment.centerRight,
+                icon: const Icon(Icons.close_sharp),
+              ),
+            ],
+          ),
           Text(
             'Loại sự cố',
             style: TextStyle(
@@ -174,21 +178,37 @@ class TicketScreen extends GetWidget<TicketController> {
           Obx(
             () => Container(
               width: double.infinity,
-              height: responsiveHeight(120),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: AppColor.grayBorder),
               ),
-              child: controller.fileImagePath.value == 'no-image'
+              child: controller.imageList.isEmpty
                   ? IconButton(
                       onPressed: () =>
                           controller.pickImage(ImageSource.gallery),
-                      icon: Image.asset('assets/icons/add-photo.png'),
+                      icon: Image.asset('assets/icons/add-photo.png',
+                          color: AppColor.black),
                     )
-                  : Container(
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: FileImage(controller.img!)))),
+                  : Column(
+                      children: [
+                        GridView.count(
+                          shrinkWrap: true,
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 2.5,
+                          children: controller.imageList
+                              .map((img) => Image.file(File(img.path)))
+                              .toList(),
+                        ),
+                        IconButton(
+                          onPressed: () =>
+                              controller.pickImage(ImageSource.gallery),
+                          icon: Image.asset('assets/icons/add-photo.png',
+                              height: responsiveHeight(24),
+                              width: responsiveWidth(24),
+                              color: AppColor.black),
+                        ),
+                      ],
+                    ),
             ),
           ),
           SizedBox(height: responsiveHeight(12)),
@@ -240,16 +260,339 @@ class TicketScreen extends GetWidget<TicketController> {
     return Expanded(
       child: TabBarView(
         children: [
-          _allTab(),
-          _sendTab(),
-          _processingTab(),
-          _doneTab(),
+          _allTab(null),
+          _allTab('active'),
+          _allTab('processing'),
+          _allTab('completed'),
         ],
       ),
     );
   }
 
-  Widget _allTab() {
+  Widget _allTab(String? status) {
+    switch (status) {
+      case 'active':
+        RxList<Ticket> tmp = <Ticket>[].obs;
+        controller.listTicket.forEach(
+          (e) {
+            if (e.status!.toLowerCase() == status) {
+              tmp.add(e);
+            }
+          },
+        );
+        return Container(
+          height: getHeightDevice(),
+          width: getWidthDevice(),
+          padding: EdgeInsets.symmetric(
+              horizontal: responsiveWidth(22), vertical: responsiveHeight(24)),
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: tmp.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: responsiveWidth(16),
+                  vertical: responsiveHeight(12),
+                ),
+                margin: EdgeInsets.only(bottom: responsiveHeight(16)),
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColor.grayLight, width: 1.5),
+                  borderRadius: BorderRadius.circular(6),
+                  color: AppColor.white,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Trạng thái',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.secondary,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                        Text(
+                          _statusText(
+                              tmp[index].status.toString().toLowerCase()),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color:
+                                _statusColor(status.toString().toLowerCase()),
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Loại dịch vụ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.secondary,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                        Text(
+                          '${tmp[index].type}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.black,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Ngày được tạo',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.secondary,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                        Text(
+                          Jiffy(tmp[index].createdDate.toString())
+                              .format('dd/MM/yyyy'),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.black,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      case 'processing':
+        RxList<Ticket> tmp = <Ticket>[].obs;
+        controller.listTicket.forEach(
+          (e) {
+            if (e.status!.toLowerCase() == status) {
+              tmp.add(e);
+            }
+          },
+        );
+        return Container(
+          height: getHeightDevice(),
+          width: getWidthDevice(),
+          padding: EdgeInsets.symmetric(
+              horizontal: responsiveWidth(22), vertical: responsiveHeight(24)),
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: tmp.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: responsiveWidth(16),
+                  vertical: responsiveHeight(12),
+                ),
+                margin: EdgeInsets.only(bottom: responsiveHeight(16)),
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColor.grayLight, width: 1.5),
+                  borderRadius: BorderRadius.circular(6),
+                  color: AppColor.white,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Trạng thái',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.secondary,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                        Text(
+                          _statusText(
+                              tmp[index].status.toString().toLowerCase()),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color:
+                                _statusColor(status.toString().toLowerCase()),
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Loại dịch vụ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.secondary,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                        Text(
+                          '${tmp[index].type}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.black,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Ngày được tạo',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.secondary,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                        Text(
+                          Jiffy(tmp[index].createdDate.toString())
+                              .format('dd/MM/yyyy'),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.black,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+
+      case 'completed':
+        RxList<Ticket> tmp = <Ticket>[].obs;
+        controller.listTicket.forEach(
+          (e) {
+            if (e.status!.toLowerCase() == status) {
+              tmp.add(e);
+            }
+          },
+        );
+        return Container(
+          height: getHeightDevice(),
+          width: getWidthDevice(),
+          padding: EdgeInsets.symmetric(
+              horizontal: responsiveWidth(22), vertical: responsiveHeight(24)),
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: tmp.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: responsiveWidth(16),
+                  vertical: responsiveHeight(12),
+                ),
+                margin: EdgeInsets.only(bottom: responsiveHeight(16)),
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColor.grayLight, width: 1.5),
+                  borderRadius: BorderRadius.circular(6),
+                  color: AppColor.white,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Trạng thái',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.secondary,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                        Text(
+                          _statusText(
+                              tmp[index].status.toString().toLowerCase()),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color:
+                                _statusColor(status.toString().toLowerCase()),
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Loại dịch vụ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.secondary,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                        Text(
+                          '${tmp[index].type}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.black,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Ngày được tạo',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.secondary,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                        Text(
+                          Jiffy(tmp[index].createdDate.toString())
+                              .format('dd/MM/yyyy'),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.black,
+                            fontSize: responsiveFont(16),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+
+      default:
+    }
     return Container(
       height: getHeightDevice(),
       width: getWidthDevice(),
@@ -275,27 +618,6 @@ class TicketScreen extends GetWidget<TicketController> {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tên',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.secondary,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                    Text(
-                      '${controller.listTicket[index].name}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.black,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                  ],
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -355,381 +677,6 @@ class TicketScreen extends GetWidget<TicketController> {
                     ),
                     Text(
                       Jiffy(controller.listTicket[index].createdDate.toString())
-                          .format('dd/MM/yyyy'),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.black,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _sendTab() {
-    return Container(
-      height: getHeightDevice(),
-      width: getWidthDevice(),
-      padding: EdgeInsets.symmetric(
-          horizontal: responsiveWidth(22), vertical: responsiveHeight(24)),
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: controller.listTicketSend.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: responsiveWidth(16),
-              vertical: responsiveHeight(12),
-            ),
-            margin: EdgeInsets.only(bottom: responsiveHeight(16)),
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColor.grayLight, width: 1.5),
-              borderRadius: BorderRadius.circular(6),
-              color: AppColor.white,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tên',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.secondary,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                    Text(
-                      '${controller.listTicketSend[index].name}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.black,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Trạng thái',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.secondary,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                    Text(
-                      _statusText(controller.listTicketSend[index].status
-                          .toString()
-                          .toLowerCase()),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: _statusColor(controller
-                            .listTicketSend[index].status
-                            .toString()
-                            .toLowerCase()),
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Loại dịch vụ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.secondary,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                    Text(
-                      '${controller.listTicketSend[index].type}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.black,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Ngày được tạo',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.secondary,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                    Text(
-                      Jiffy(controller.listTicketSend[index].createdDate
-                              .toString())
-                          .format('dd/MM/yyyy'),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.black,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _processingTab() {
-    return Container(
-      height: getHeightDevice(),
-      width: getWidthDevice(),
-      padding: EdgeInsets.symmetric(
-          horizontal: responsiveWidth(22), vertical: responsiveHeight(24)),
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: controller.listTicketProcess.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: responsiveWidth(16),
-              vertical: responsiveHeight(12),
-            ),
-            margin: EdgeInsets.only(bottom: responsiveHeight(16)),
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColor.grayLight, width: 1.5),
-              borderRadius: BorderRadius.circular(6),
-              color: AppColor.white,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tên',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.secondary,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                    Text(
-                      '${controller.listTicketProcess[index].name}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.black,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Trạng thái',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.secondary,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                    Text(
-                      _statusText(controller.listTicketProcess[index].status
-                          .toString()
-                          .toLowerCase()),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: _statusColor(controller
-                            .listTicketProcess[index].status
-                            .toString()
-                            .toLowerCase()),
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Loại dịch vụ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.secondary,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                    Text(
-                      '${controller.listTicketProcess[index].type}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.black,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Ngày được tạo',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.secondary,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                    Text(
-                      Jiffy(controller.listTicketProcess[index].createdDate
-                              .toString())
-                          .format('dd/MM/yyyy'),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.black,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _doneTab() {
-    return Container(
-      height: getHeightDevice(),
-      width: getWidthDevice(),
-      padding: EdgeInsets.symmetric(
-          horizontal: responsiveWidth(22), vertical: responsiveHeight(24)),
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: controller.listTicketDone.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: responsiveWidth(16),
-              vertical: responsiveHeight(12),
-            ),
-            margin: EdgeInsets.only(bottom: responsiveHeight(16)),
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColor.grayLight, width: 1.5),
-              borderRadius: BorderRadius.circular(6),
-              color: AppColor.white,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tên',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.secondary,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                    Text(
-                      '${controller.listTicketDone[index].name}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.black,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Trạng thái',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.secondary,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                    Text(
-                      _statusText(controller.listTicketDone[index].status
-                          .toString()
-                          .toLowerCase()),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: _statusColor(controller
-                            .listTicketDone[index].status
-                            .toString()
-                            .toLowerCase()),
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Loại dịch vụ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.secondary,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                    Text(
-                      '${controller.listTicketDone[index].type}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.black,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Ngày được tạo',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: AppColor.secondary,
-                        fontSize: responsiveFont(16),
-                      ),
-                    ),
-                    Text(
-                      Jiffy(controller.listTicketDone[index].createdDate
-                              .toString())
                           .format('dd/MM/yyyy'),
                       style: TextStyle(
                         fontWeight: FontWeight.w600,

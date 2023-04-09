@@ -21,11 +21,15 @@ class SplashScreen extends StatelessWidget {
                   itemCount: 9,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
+                  mainAxisSpacing: responsiveHeight(16),
+                  crossAxisSpacing: responsiveWidth(16),
                   gridDelegate:
                       const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3),
-                  itemBuilder: (context, index) =>
-                      Image.asset('assets/images/Image-${index + 1}.png'),
+                  itemBuilder: (context, index) => Image.asset(
+                    'assets/images/Image-${index + 1}.png',
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
               Text(
@@ -54,19 +58,9 @@ class SplashScreen extends StatelessWidget {
               SizedBox(height: responsiveHeight(12)),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: responsiveWidth(16)),
-                child: button(
-                    'Đăng nhập cho người thuê',
-                    () => goTo(
-                        screen: ROUTE_LOGIN, argument: {'role': 'renter'})),
+                child: button('Tiếp theo', () => goTo(screen: ROUTE_LOGIN)),
               ),
               SizedBox(height: responsiveHeight(16)),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: responsiveWidth(16)),
-                child: button(
-                    'Đăng nhập cho nhân viên',
-                    () => goTo(
-                        screen: ROUTE_LOGIN, argument: {'role': 'technician'})),
-              ),
             ],
           ),
         ),

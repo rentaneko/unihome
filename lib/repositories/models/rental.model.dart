@@ -43,15 +43,15 @@ class Rental {
         ? null
         : json['BuildingDetailEntity']['BuildingPhoneNumber'] as String;
 
-    accountId = json['BuildingDetailEntity']['Account']['AccountId'] == null
+    accountId = json['BuildingDetailEntity']['Employee']['EmployeeId'] == null
         ? null
-        : json['BuildingDetailEntity']['Account']['AccountId'] as int;
-    accountName = json['BuildingDetailEntity']['Account']['FullName'] == null
+        : json['BuildingDetailEntity']['Employee']['EmployeeId'] as int;
+    accountName = json['BuildingDetailEntity']['Employee']['FullName'] == null
         ? null
-        : json['BuildingDetailEntity']['Account']['FullName'] as String;
-    accountPhone = json['BuildingDetailEntity']['Account']['Phone'] == null
+        : json['BuildingDetailEntity']['Employee']['FullName'] as String;
+    accountPhone = json['BuildingDetailEntity']['Employee']['Phone'] == null
         ? null
-        : json['BuildingDetailEntity']['Account']['Phone'] as String;
+        : json['BuildingDetailEntity']['Employee']['Phone'] as String;
 
     waterMeterAfter = json['FlatMeterEntity']['WaterMeterAfter'] == null
         ? 0

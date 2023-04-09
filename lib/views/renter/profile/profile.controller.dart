@@ -10,6 +10,7 @@ import 'package:unihome/repositories/models/renter.model.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
 import 'package:unihome/routes/pages.dart';
 import 'package:unihome/utils/metric.dart';
+import 'package:unihome/views/renter/home/home.controller.dart';
 
 class ProfileController extends GetxController {
   //
@@ -43,8 +44,7 @@ class ProfileController extends GetxController {
   }
 
   Future<void> getRenterProfile() async {
-    _preferences = await SharedPreferences.getInstance();
-    _userRepo.getRenterProfile(_preferences.getString(USER_ID)!).then(
+    _userRepo.getRenterProfile().then(
       (value) {
         if (value != null) {
           renter.value = value;

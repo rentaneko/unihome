@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unihome/routes/pages.dart';
@@ -19,30 +20,39 @@ class HomeScreen extends GetWidget<HomeController> {
                 appBar: AppBar(
                   backgroundColor: AppColor.primary,
                   automaticallyImplyLeading: false,
-                  leading:
-                      // controller.renter.value.imageUrl == null?
-                      InkWell(
-                    onTap: () => goTo(screen: ROUTE_PROFILE),
-                    child: Container(
-                        margin: EdgeInsets.all(responsiveHeight(8)),
-                        decoration: const BoxDecoration(
-                          color: AppColor.white,
-                          shape: BoxShape.circle,
+                  leading: controller.renter.value.imageUrl == null
+                      ? Padding(
+                          padding: EdgeInsets.all(responsiveHeight(8)),
+                          child: InkWell(
+                            onTap: () => goTo(screen: ROUTE_PROFILE),
+                            child: ClipRRect(
+                              clipBehavior: Clip.hardEdge,
+                              borderRadius: BorderRadius.circular(100),
+                              child: Container(
+                                color: AppColor.white,
+                                child: Image.asset('assets/icons/user.png'),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Padding(
+                          padding: EdgeInsets.all(responsiveHeight(8)),
+                          child: InkWell(
+                            onTap: () => goTo(screen: ROUTE_PROFILE),
+                            child: ClipRRect(
+                              clipBehavior: Clip.hardEdge,
+                              borderRadius: BorderRadius.circular(100),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl: "${controller.renter.value.imageUrl}",
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator.adaptive(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
+                            ),
+                          ),
                         ),
-                        child: Image.asset('assets/icons/user-2.png')),
-                  ),
-                  // : InkWell(
-                  //     onTap: () => goTo(screen: ROUTE_PROFILE),
-                  //     child: Container(
-                  //         margin: EdgeInsets.all(responsiveHeight(8)),
-                  //         clipBehavior: Clip.hardEdge,
-                  //         decoration: const BoxDecoration(
-                  //           color: AppColor.white,
-                  //           shape: BoxShape.circle,
-                  //         ),
-                  //         child: Image.network(
-                  //             '${controller.renter.value.imageUrl}')),
-                  //   ),
                   title: Text(
                     'VinFlat',
                     style: TextStyle(

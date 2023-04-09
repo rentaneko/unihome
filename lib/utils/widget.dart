@@ -11,7 +11,7 @@ Widget button(String title, VoidCallback onPress) {
         borderRadius: BorderRadius.circular(100),
       ),
       padding: EdgeInsets.symmetric(vertical: responsiveHeight(8)),
-      minimumSize: Size(double.infinity, responsiveHeight(40)),
+      minimumSize: Size(double.infinity, responsiveHeight(48)),
     ),
     child: Text(
       title,
