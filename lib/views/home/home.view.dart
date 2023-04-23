@@ -1,13 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:get/get.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:unihome/routes/pages.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/dummy_data.dart';
 import 'package:unihome/utils/metric.dart';
-import 'package:unihome/utils/widget.dart';
 import 'package:unihome/views/home/home.controller.dart';
 
 class HomeScreen extends GetWidget<HomeController> {
@@ -21,7 +18,7 @@ class HomeScreen extends GetWidget<HomeController> {
             ? const Center(child: CircularProgressIndicator.adaptive())
             : Scaffold(
                 appBar: AppBar(
-                  backgroundColor: AppColor.primary,
+                  backgroundColor: AppColor.white,
                   automaticallyImplyLeading: false,
                   leading: controller.renter.value.imageUrl == null
                       ? Padding(
@@ -32,7 +29,7 @@ class HomeScreen extends GetWidget<HomeController> {
                               clipBehavior: Clip.hardEdge,
                               borderRadius: BorderRadius.circular(100),
                               child: Container(
-                                color: AppColor.white,
+                                color: AppColor.gray300,
                                 child: Image.asset('assets/icons/user.png'),
                               ),
                             ),
@@ -57,15 +54,15 @@ class HomeScreen extends GetWidget<HomeController> {
                           ),
                         ),
                   title: Text(
-                    'VinFlat',
+                    '${controller.renter.value.fullname}',
                     style: TextStyle(
                       fontFamily: 'SF Pro Display',
                       fontWeight: FontWeight.w700,
                       fontSize: responsiveFont(24),
-                      color: AppColor.white,
+                      color: AppColor.black,
                     ),
                   ),
-                  centerTitle: true,
+                  centerTitle: false,
                   actions: [
                     IconButton(
                       onPressed: () {},
@@ -78,7 +75,6 @@ class HomeScreen extends GetWidget<HomeController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _infoBlock(),
-                      _managerBlock(),
                       Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: responsiveWidth(16)),
@@ -93,11 +89,14 @@ class HomeScreen extends GetWidget<HomeController> {
                         ),
                       ),
                       GridView.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: responsiveWidth(16),
+                          mainAxisSpacing: responsiveHeight(16),
+                          mainAxisExtent: responsiveHeight(54),
                         ),
                         shrinkWrap: true,
+                        padding: EdgeInsets.all(responsiveWidth(16)),
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: serviceData.length,
                         itemBuilder: (context, index) {
@@ -113,177 +112,63 @@ class HomeScreen extends GetWidget<HomeController> {
   }
 
   Widget _buildServiceComponent(int index) {
-    return InkWell(
+    return ListTile(
       onTap: () => goTo(screen: serviceData[index]['route'].toString()),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: responsiveWidth(20),
-              vertical: responsiveHeight(20),
-            ),
-            decoration: BoxDecoration(
-              color: AppColor.main,
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: Image.asset(
-              serviceData[index]['icon'].toString(),
-              color: AppColor.white,
-            ),
-          ),
-          SizedBox(height: responsiveHeight(8)),
-          Text(
-            '${serviceData[index]['title']}',
-            style: TextStyle(
-              fontFamily: 'SF Pro Display',
-              fontWeight: FontWeight.w600,
-              fontSize: responsiveFont(16),
-              color: AppColor.blackText,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+      tileColor: AppColor.main,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      trailing: Image.asset(
+        '${serviceData[index]['icon']}',
+        height: responsiveHeight(45),
+        width: responsiveWidth(45),
+        color: AppColor.white,
       ),
-    );
-  }
-
-  Widget _managerBlock() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: responsiveWidth(16)),
-          child: Text(
-            'Quản lí',
-            style: TextStyle(
-              fontFamily: 'SF Pro Display',
-              fontWeight: FontWeight.w600,
-              color: AppColor.blackText,
-              fontSize: responsiveFont(18),
-            ),
-          ),
+      leading: Text(
+        '${serviceData[index]['title']}',
+        style: TextStyle(
+          fontSize: responsiveFont(20),
+          fontWeight: FontWeight.w600,
+          color: AppColor.white,
+          fontFamily: 'SF Pro Display',
         ),
-        SizedBox(height: responsiveHeight(12)),
-        ListTile(
-          title: Text(
-            '${controller.invoice.value.admin!.fullname}',
-            style: TextStyle(
-              fontFamily: 'SF Pro Display',
-              fontWeight: FontWeight.w700,
-              fontSize: responsiveFont(20),
-              color: AppColor.blackText,
-            ),
-          ),
-          subtitle: Text(
-            '${controller.invoice.value.admin!.phone}',
-            style: TextStyle(
-              fontFamily: 'SF Pro Display',
-              fontWeight: FontWeight.w400,
-              fontSize: responsiveFont(16),
-              color: AppColor.grayText,
-            ),
-          ),
-          trailing: InkWell(
-            onTap: () => controller.callNumber(),
-            child: Container(
-              padding: EdgeInsets.all(responsiveHeight(6)),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: AppColor.grayBorder),
-              ),
-              child: Icon(Icons.phone),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
   Widget _infoBlock() {
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(
-        horizontal: responsiveWidth(20),
-        vertical: responsiveHeight(24),
+      margin: EdgeInsets.symmetric(
+        vertical: responsiveHeight(20),
+        horizontal: responsiveWidth(16),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'Hóa đơn đến hạn thanh toán',
-            style: TextStyle(
-              fontFamily: 'SF Pro Display',
-              fontWeight: FontWeight.w600,
-              fontSize: responsiveFont(18),
-              color: AppColor.blackText,
-            ),
-          ),
-          SizedBox(height: responsiveHeight(4)),
-          Text(
-            'Hạn thanh toán',
-            style: TextStyle(
-              fontFamily: 'SF Pro Display',
-              fontWeight: FontWeight.w400,
-              fontSize: responsiveFont(14),
-              color: AppColor.grayText,
-            ),
-          ),
-          SizedBox(height: responsiveHeight(4)),
-          Text(
-            controller.invoice.value.dueDate != null
-                ? Jiffy('${controller.invoice.value.dueDate}')
-                    .format('dd/MM/yyyy')
-                : 'Chưa cập nhật',
-            style: TextStyle(
-              fontFamily: 'SF Pro Display',
-              fontWeight: FontWeight.w500,
-              fontSize: responsiveFont(20),
-              color: AppColor.price,
-            ),
-          ),
-          SizedBox(height: responsiveHeight(6)),
-          button(
-            'Trả ngay ${controller.invoice.value.amount.toVND(unit: 'VNĐ')} ',
-            () {},
-          ),
-          SizedBox(height: responsiveHeight(10)),
-          const Divider(color: AppColor.black, thickness: 1),
-          _buildRow(
-            title: 'Mã hợp đồng ',
-            value: '${controller.invoice.value.invoiceId}',
-          ),
-          const Divider(color: AppColor.black, thickness: 0.2),
-        ],
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppColor.black, width: 1),
       ),
-    );
-  }
-
-  Widget _buildRow({required String title, required String value}) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: responsiveWidth(16)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontFamily: 'SF Pro Display',
-              fontSize: responsiveFont(14),
-              color: AppColor.black,
-              fontWeight: FontWeight.w400,
-            ),
+      child: ListTile(
+        leading: Image.asset(
+          'assets/logos/logo.png',
+          height: responsiveHeight(75),
+          width: responsiveWidth(60),
+        ),
+        title: Text(
+          '${controller.basicRental.value.roomId}',
+          style: TextStyle(
+            fontFamily: 'SF Pro Display',
+            fontSize: responsiveFont(14),
+            fontWeight: FontWeight.w400,
+            color: AppColor.blackText,
           ),
-          Text(
-            value,
-            style: TextStyle(
-              fontFamily: 'SF Pro Display',
-              fontSize: responsiveFont(14),
-              color: AppColor.black,
-              fontWeight: FontWeight.w400,
-            ),
+        ),
+        subtitle: Text(
+          '${controller.basicRental.value.buildingName}',
+          style: TextStyle(
+            fontFamily: 'SF Pro Display',
+            fontSize: responsiveFont(14),
+            fontWeight: FontWeight.w700,
+            color: AppColor.blackText,
           ),
-        ],
+        ),
       ),
     );
   }

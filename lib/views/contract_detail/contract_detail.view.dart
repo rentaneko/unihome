@@ -13,15 +13,17 @@ class ContractDetailScreen extends GetWidget<ContractDetailController> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'HỢP ĐỒNG',
+          'Chi tiết hợp đồng',
           style: TextStyle(
             fontWeight: FontWeight.w600,
-            fontSize: responsiveFont(22),
-            color: AppColor.white,
+            fontSize: responsiveFont(24),
+            color: AppColor.black,
           ),
         ),
         centerTitle: true,
-        backgroundColor: AppColor.primary,
+        backgroundColor: AppColor.white,
+        elevation: 2,
+        iconTheme: const IconThemeData(color: AppColor.black),
       ),
       body: Obx(
         () => controller.isLoading.value
@@ -69,6 +71,7 @@ class ContractDetailScreen extends GetWidget<ContractDetailController> {
                       ),
                     ),
                     _infoContract(),
+                    SizedBox(height: responsiveHeight(30)),
                   ],
                 ),
               ),
@@ -118,7 +121,7 @@ class ContractDetailScreen extends GetWidget<ContractDetailController> {
         children: [
           ListTile(
             leading: Image.asset(
-              'assets/icons/home.png',
+              'assets/icons/house.png',
               height: responsiveHeight(40),
               width: responsiveWidth(40),
             ),
@@ -168,7 +171,7 @@ class ContractDetailScreen extends GetWidget<ContractDetailController> {
           ),
           ListTile(
             leading: Image.asset(
-              'assets/icons/electric.png',
+              'assets/icons/lighting.png',
               height: responsiveHeight(40),
               width: responsiveWidth(40),
             ),
@@ -183,6 +186,32 @@ class ContractDetailScreen extends GetWidget<ContractDetailController> {
             ),
             subtitle: Text(
               controller.contract.value.priceForElectric.toVND(unit: 'đ'),
+              style: TextStyle(
+                fontFamily: 'SF Pro Display',
+                fontSize: responsiveFont(14),
+                fontWeight: FontWeight.w400,
+                color: AppColor.blackText,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Image.asset(
+              'assets/icons/request.png',
+              height: responsiveHeight(40),
+              width: responsiveWidth(40),
+              color: AppColor.black,
+            ),
+            title: Text(
+              'Tiền dịch vụ tòa nhà',
+              style: TextStyle(
+                fontFamily: 'SF Pro Display',
+                fontSize: responsiveFont(18),
+                fontWeight: FontWeight.w400,
+                color: AppColor.blackText,
+              ),
+            ),
+            subtitle: Text(
+              controller.contract.value.priceForService.toVND(unit: 'đ'),
               style: TextStyle(
                 fontFamily: 'SF Pro Display',
                 fontSize: responsiveFont(14),
@@ -217,7 +246,6 @@ class ContractDetailScreen extends GetWidget<ContractDetailController> {
           _buildRow(
               title: 'Số điện thoại',
               value: '${controller.contract.value.buildingPhone}'),
-          const Divider(color: AppColor.gray400, thickness: 1),
         ],
       ),
     );

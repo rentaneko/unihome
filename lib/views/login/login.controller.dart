@@ -66,7 +66,7 @@ class LoginController extends GetxController {
         if (value != null) {
           _preferences.setString(TOKEN, value.data['token'].toString());
           _preferences.setString(USER_ID, value.data['id'].toString());
-          goTo(screen: ROUTE_HOME);
+          goTo(screen: ROUTE_NAV_BAR);
         } else {
           showToast('Username or password is wrong');
         }

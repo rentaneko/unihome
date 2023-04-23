@@ -22,7 +22,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
               child: Scaffold(
                 appBar: AppBar(
                   backgroundColor: AppColor.white,
-                  elevation: 0,
+                  elevation: 2,
                   automaticallyImplyLeading: false,
                   leading: IconButton(
                     onPressed: () => goToAndRemoveAll(screen: ROUTE_HOME),
@@ -32,12 +32,22 @@ class ProfileScreen extends GetWidget<ProfileController> {
                       size: responsiveFont(18),
                     ),
                   ),
+                  title: Text(
+                    'Hồ sơ',
+                    style: TextStyle(
+                      color: AppColor.blackText,
+                      fontSize: responsiveFont(24),
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
                 body: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      SizedBox(height: responsiveHeight(36)),
                       Center(child: _avatarBlock()),
+                      SizedBox(height: responsiveHeight(36)),
                       Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: responsiveWidth(16)),

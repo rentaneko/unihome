@@ -68,6 +68,7 @@ class ContractScreen extends GetWidget<ContractController> {
                 color: AppColor.blackText,
               ),
             ),
+            SizedBox(height: responsiveHeight(12)),
             Text(
               '${controller.contract[index].startDate} - ${controller.contract[index].endDate}',
               style: TextStyle(
@@ -77,15 +78,9 @@ class ContractScreen extends GetWidget<ContractController> {
                 color: AppColor.blackText,
               ),
             ),
-            Text(
-              '${controller.contract[index].status}',
-              style: TextStyle(
-                fontFamily: 'SF Pro Display',
-                fontWeight: FontWeight.w400,
-                fontSize: responsiveFont(14),
-                color: AppColor.blackText,
-              ),
-            ),
+            SizedBox(height: responsiveHeight(12)),
+            getStatus(index),
+            SizedBox(height: responsiveHeight(12)),
             Text(
               '${controller.contract[index].description}',
               style: TextStyle(
@@ -97,6 +92,29 @@ class ContractScreen extends GetWidget<ContractController> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget getStatus(int index) {
+    if (controller.contract[index].status!.toLowerCase() == 'active') {
+      return Text(
+        'Đang hoạt động',
+        style: TextStyle(
+          fontFamily: 'SF Pro Display',
+          fontWeight: FontWeight.w400,
+          fontSize: responsiveFont(14),
+          color: AppColor.complete,
+        ),
+      );
+    }
+    return Text(
+      'Đã huỷ',
+      style: TextStyle(
+        fontFamily: 'SF Pro Display',
+        fontWeight: FontWeight.w400,
+        fontSize: responsiveFont(14),
+        color: AppColor.price,
       ),
     );
   }

@@ -96,3 +96,28 @@ class Rental {
     this.waterMeterAfter,
   });
 }
+
+class BasicRental {
+  int? buildingId;
+  String? buildingName;
+  int? flatId;
+  String? flatName;
+  int? roomId;
+
+  BasicRental.fromJson(dynamic json) {
+    buildingId = json['BuildingId'] == null ? null : json['BuildingId'] as int;
+    flatId = json['FlatId'] == null ? null : json['FlatId'] as int;
+    roomId = json['RoomId'] == null ? null : json['RoomId'] as int;
+    buildingName =
+        json['BuildingName'] == null ? null : json['BuildingName'] as String;
+    flatName = json['FlatName'] == null ? null : json['FlatName'] as String;
+  }
+
+  BasicRental({
+    this.buildingId,
+    this.buildingName,
+    this.flatId,
+    this.flatName,
+    this.roomId,
+  });
+}

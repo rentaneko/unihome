@@ -2,14 +2,9 @@ import 'package:unihome/routes/pages.dart';
 
 const serviceData = [
   {
-    'icon': 'assets/icons/home.png',
-    'title': 'Nhà',
-    'route': ROUTE_HOUSE,
-  },
-  {
     'icon': 'assets/icons/invoice.png',
-    'title': 'Hóa đơn',
-    'route': ROUTE_INVOICE,
+    'title': 'Hoá đơn',
+    'route': ROUTE_TICKET,
   },
   {
     'icon': 'assets/icons/contract.png',
@@ -17,8 +12,18 @@ const serviceData = [
     'route': ROUTE_CONTRACT,
   },
   {
-    'icon': 'assets/icons/danger.png',
-    'title': 'Sự cố',
+    'icon': 'assets/icons/absent.png',
+    'title': 'Tạm vắng',
+    'route': ROUTE_TICKET,
+  },
+  {
+    'icon': 'assets/icons/electric.png',
+    'title': 'Mức điện',
+    'route': ROUTE_TICKET,
+  },
+  {
+    'icon': 'assets/icons/request.png',
+    'title': 'Yêu cầu',
     'route': ROUTE_TICKET,
   },
 ];

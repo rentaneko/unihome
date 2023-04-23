@@ -14,15 +14,17 @@ class HouseScreen extends GetWidget<HouseController> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'THÔNG TIN NHÀ',
+            'Căn hộ',
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              fontSize: responsiveFont(22),
-              color: AppColor.white,
+              fontSize: responsiveFont(24),
+              color: AppColor.black,
             ),
           ),
           centerTitle: true,
-          backgroundColor: AppColor.primary,
+          automaticallyImplyLeading: false,
+          backgroundColor: AppColor.white,
+          elevation: 2,
         ),
         body: Obx(
           () => controller.isLoading.value
@@ -47,7 +49,7 @@ class HouseScreen extends GetWidget<HouseController> {
                           Padding(
                             padding: EdgeInsets.only(left: responsiveWidth(16)),
                             child: Text(
-                              'Thông tin',
+                              'Thông tin căn hộ/phòng ',
                               style: TextStyle(
                                 fontFamily: 'SF Pro Display',
                                 fontWeight: FontWeight.w600,
@@ -211,6 +213,7 @@ class HouseScreen extends GetWidget<HouseController> {
       child: GridView.builder(
         shrinkWrap: true,
         itemCount: controller.rental.value.renters!.length,
+        physics: const NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: responsiveWidth(10),

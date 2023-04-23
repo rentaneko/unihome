@@ -95,11 +95,11 @@ class UserApi extends BaseConnect {
   }
 
   Future<BaseResponse?> getListInvoice() async {
-    return await getResponse('/api/invoices/user/all');
+    return await getResponse('/api/invoices');
   }
 
   Future<BaseResponse?> getListContract() async {
-    return await getResponse('/api/contracts/renter');
+    return await getResponse('/api/contracts');
   }
 
   Future<BaseResponse?> uploadFiles(File image) async {
@@ -123,7 +123,11 @@ class UserApi extends BaseConnect {
     );
   }
 
-  Future<BaseResponse?> getDueDateInvoice() async {
-    return await getResponse('/api/invoices/latest');
+  Future<BaseResponse?> getBasicRental() async {
+    return await getResponse('/api/renters/basic-rental');
+  }
+
+  Future<BaseResponse?> getInvoiceDetail(String id) async {
+    return await getResponse('/api/invoices/$id/user');
   }
 }

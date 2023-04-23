@@ -87,8 +87,11 @@ class TicketController extends GetxController {
   Future pickImage(ImageSource source) async {
     try {
       final List<XFile> pickedList = await ImagePicker().pickMultiImage();
-      if (pickedList != null) {
-        imageList.clear();
+      imageList.clear();
+      if (pickedList.length > 3) {
+        showToast('Bạn chỉ được chọn tối đa 3 bức ảnh');
+        pickedList.clear();
+      } else {
         pickedList.forEach((element) {
           imageList.add(File(element.path));
         });

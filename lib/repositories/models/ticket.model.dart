@@ -1,31 +1,54 @@
+import 'package:jiffy/jiffy.dart';
+import 'package:unihome/repositories/models/contract.model.dart';
+
 class Ticket {
   int? id;
   String? desc;
-  String? type;
   String? status;
   String? createdDate;
+  String? solveDate;
+  List<String>? imageUrl;
   double? amount;
+
+  Contract? contract;
+
+  TicketType? ticketType;
 
   Ticket({
     this.desc,
     this.id,
-    this.type,
     this.amount,
     this.createdDate,
     this.status,
+    this.contract,
+    this.imageUrl,
+    this.solveDate,
+    this.ticketType,
   });
 
   Ticket.fromJson(dynamic json) {
     id = json['TicketId'] == null ? null : json['TicketId'] as int;
-    desc = json['Description'] == null ? null : json['Description'] as String;
-    type = json['TicketType']['TicketTypeName'] == null
-        ? null
-        : json['TicketType']['TicketTypeName'] as String;
-    status = json['Status'] == null ? null : json['Status'] as String;
-    createdDate =
-        json['CreateDate'] == null ? null : json['CreateDate'] as String;
+    desc = json['Description'] == null
+        ? 'Chưa cập nhật'
+        : json['Description'] as String;
+    status =
+        json['Status'] == null ? 'Chưa cập nhật' : json['Status'] as String;
+    createdDate = json['CreateDate'] == null
+        ? 'Chưa cập nhật'
+        : Jiffy(json['CreateDate']).format('dd/MM/yyyy');
+    solveDate = json['SolveDate'] == null
+        ? 'Chưa cập nhật'
+        : Jiffy(json['SolveDate']).format('dd/MM/yyyy');
     amount =
         json['Amount'] == null ? 0 : double.parse(json['Amount'].toString());
+    contract =
+        json['Contract'] == null ? null : Contract.fromJson(json['Contract']);
+    ticketType = json['TicketType'] == null
+        ? null
+        : TicketType.fromJson(json['TicketType']);
+    // imageUrl = json[''] == null
+    //     ? null
+    //     : (json[''] as List).map((e) => e.toString()).toList();
   }
 }
 

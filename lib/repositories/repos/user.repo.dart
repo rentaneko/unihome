@@ -111,8 +111,13 @@ class UserRepo {
     return res!.code == SUCCESS ? true : false;
   }
 
-  Future<Invoice?> getDueDateInvoice() async {
-    var res = await userApi.getDueDateInvoice();
+  Future<BasicRental?> getBasicRental() async {
+    var res = await userApi.getBasicRental();
+    return res!.code == SUCCESS ? BasicRental.fromJson(res.data) : null;
+  }
+
+  Future<Invoice?> getIndvoiceDetail(String id) async {
+    var res = await userApi.getInvoiceDetail(id);
     return res!.code == SUCCESS ? Invoice.fromJson(res.data) : null;
   }
 }

@@ -75,6 +75,7 @@ class LoginScreen extends GetWidget<LoginController> {
                 ),
                 SizedBox(height: responsiveHeight(10)),
                 TextFormField(
+                  key: const Key('username_controller'),
                   controller: controller.usernameCtrl,
                   validator: (value) => controller.validateUsername(value),
                   decoration: InputDecoration(
@@ -123,6 +124,7 @@ class LoginScreen extends GetWidget<LoginController> {
                 ),
                 SizedBox(height: responsiveHeight(10)),
                 TextFormField(
+                  key: const Key('password_controller'),
                   controller: controller.passwordCtrl,
                   validator: (value) => controller.validatePassword(value),
                   obscureText: true,
