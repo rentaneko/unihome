@@ -8,8 +8,8 @@
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
     
    <application
-        android:label="unihome"
-        android:name="${applicationName}"
+        android:label="VinFlat"
+        android:name="VinFlat"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

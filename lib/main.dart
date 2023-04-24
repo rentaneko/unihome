@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Unihome Demo',
+      title: 'VinFlat',
       debugShowCheckedModeBanner: false,
       builder: (_, child) => FlutterEasyLoading(child: child),
       getPages: RoutePage.routes,
