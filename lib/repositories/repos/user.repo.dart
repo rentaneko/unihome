@@ -22,6 +22,12 @@ class UserRepo {
     return res!.code == SUCCESS ? res : null;
   }
 
+  Future<BaseResponse?> loginWithTechnician(
+      String username, String password) async {
+    var res = await userApi.loginWithTechnician(username, password);
+    return res!.code == SUCCESS ? res : null;
+  }
+
   Future<ContractDetail?> getContractByRenterId(
       {required String idRenter, required String contractId}) async {
     var res = await userApi.getContractByRenterId(
@@ -60,9 +66,13 @@ class UserRepo {
   Future<bool> requestTicket(
       {required String ticketDesc,
       required int type,
+      required String ticketName,
       required List<File> images}) async {
     var res = await userApi.requestTicket(
-        ticketDesc: ticketDesc, type: type, images: images);
+        ticketName: ticketName,
+        ticketDesc: ticketDesc,
+        type: type,
+        images: images);
     return res!.code == SUCCESS ? true : false;
   }
 
@@ -119,5 +129,15 @@ class UserRepo {
   Future<Invoice?> getIndvoiceDetail(String id) async {
     var res = await userApi.getInvoiceDetail(id);
     return res!.code == SUCCESS ? Invoice.fromJson(res.data) : null;
+  }
+
+  Future<String?> acceptTicket(String idTicket) async {
+    var res = await userApi.acceptTicket(idTicket);
+    return res!.code == SUCCESS ? 'true' : res.message;
+  }
+
+  Future<String?> deleteTicket(String idTicket) async {
+    var res = await userApi.deleteTicket(idTicket);
+    return res!.code == SUCCESS ? 'true' : res.message;
   }
 }

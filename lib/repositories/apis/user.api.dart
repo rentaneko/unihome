@@ -21,6 +21,21 @@ class UserApi extends BaseConnect {
     );
   }
 
+  Future<BaseResponse?> loginWithTechnician(
+      String username, String password) async {
+    String? deviceId = await PlatformDeviceId.getDeviceId;
+    return await postRequest(
+      '/api/auth/management/v1/login',
+      body: jsonEncode(
+        <String, String>{
+          "usernameOrPhoneNumber": username,
+          "password": password,
+          "deviceToken": deviceId.toString(),
+        },
+      ),
+    );
+  }
+
   Future<BaseResponse?> getContractByRenterId(
       {required String idContract, required String idRenter}) async {
     return await getResponse('/api/contracts/$idContract/user/$idRenter');
@@ -73,12 +88,14 @@ class UserApi extends BaseConnect {
   Future<BaseResponse?> requestTicket(
       {required String ticketDesc,
       required int type,
+      required String ticketName,
       required List<File> images}) async {
     return await postFormDataRequest(
       '/api/tickets',
       ticketTypeId: type,
       desc: ticketDesc,
       file: images,
+      name: ticketName,
     );
   }
 
@@ -129,5 +146,13 @@ class UserApi extends BaseConnect {
 
   Future<BaseResponse?> getInvoiceDetail(String id) async {
     return await getResponse('/api/invoices/$id/user');
+  }
+
+  Future<BaseResponse?> deleteTicket(String idTicket) async {
+    return await deleteRequest('/api/tickets/$idTicket/user');
+  }
+
+  Future<BaseResponse?> acceptTicket(String idTicket) async {
+    return await putRequest('/api/tickets/$idTicket/accept');
   }
 }

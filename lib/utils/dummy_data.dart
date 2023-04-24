@@ -12,19 +12,14 @@ const serviceData = [
     'route': ROUTE_CONTRACT,
   },
   {
-    'icon': 'assets/icons/absent.png',
-    'title': 'Tạm vắng',
-    'route': ROUTE_TICKET,
-  },
-  {
-    'icon': 'assets/icons/electric.png',
-    'title': 'Mức điện',
-    'route': ROUTE_TICKET,
-  },
-  {
     'icon': 'assets/icons/request.png',
     'title': 'Yêu cầu',
     'route': ROUTE_TICKET,
+  },
+  {
+    'icon': 'assets/icons/user.png',
+    'title': 'Hồ sơ',
+    'route': ROUTE_PROFILE,
   },
 ];
 

@@ -4,6 +4,7 @@ import 'package:unihome/repositories/models/contract.model.dart';
 class Ticket {
   int? id;
   String? desc;
+  String? name;
   String? status;
   String? createdDate;
   String? solveDate;
@@ -15,6 +16,7 @@ class Ticket {
   TicketType? ticketType;
 
   Ticket({
+    this.name,
     this.desc,
     this.id,
     this.amount,
@@ -31,6 +33,9 @@ class Ticket {
     desc = json['Description'] == null
         ? 'Chưa cập nhật'
         : json['Description'] as String;
+    name = json['TicketName'] == null
+        ? 'Chưa cập nhật'
+        : json['TicketName'] as String;
     status =
         json['Status'] == null ? 'Chưa cập nhật' : json['Status'] as String;
     createdDate = json['CreateDate'] == null

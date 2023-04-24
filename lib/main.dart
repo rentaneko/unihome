@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       builder: (_, child) => FlutterEasyLoading(child: child),
       getPages: RoutePage.routes,
-      initialRoute: ROUTE_LOGIN,
+      initialRoute: ROUTE_SPLASH,
     );
   }
 }

@@ -58,7 +58,18 @@ class SplashScreen extends StatelessWidget {
               SizedBox(height: responsiveHeight(12)),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: responsiveWidth(16)),
-                child: button('Tiếp theo', () => goTo(screen: ROUTE_LOGIN)),
+                child: button(
+                  'Đăng nhập cho người thuê',
+                  () => goTo(screen: ROUTE_LOGIN),
+                ),
+              ),
+              SizedBox(height: responsiveHeight(16)),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: responsiveWidth(16)),
+                child: button(
+                  'Đăng nhập cho nhân viên',
+                  () => goTo(screen: ROUTE_LOGIN_TECH),
+                ),
               ),
               SizedBox(height: responsiveHeight(16)),
             ],

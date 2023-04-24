@@ -1,28 +1,38 @@
 import 'package:get/get.dart';
 import 'package:unihome/routes/pages.dart';
-import 'package:unihome/views/bottom_nav_bar/bottom_nav_bar.binding.dart';
-import 'package:unihome/views/bottom_nav_bar/bottom_nav_bar.view.dart';
-import 'package:unihome/views/contract/contract.binding.dart';
-import 'package:unihome/views/contract/contract.view.dart';
-import 'package:unihome/views/contract_detail/contract_detail.binding.dart';
-import 'package:unihome/views/contract_detail/contract_detail.view.dart';
-import 'package:unihome/views/home/home.binding.dart';
-import 'package:unihome/views/home/home.view.dart';
-import 'package:unihome/views/house/house.binding.dart';
-import 'package:unihome/views/house/house.view.dart';
-import 'package:unihome/views/invoice_detail/invoice_detail.binding.dart';
-import 'package:unihome/views/invoice_detail/invoice_detail.view.dart';
-import 'package:unihome/views/invoices/invoice.binding.dart';
-import 'package:unihome/views/invoices/invoice.view.dart';
-import 'package:unihome/views/login/login.binding.dart';
-import 'package:unihome/views/login/login.view.dart';
-import 'package:unihome/views/profile/profile.binding.dart';
-import 'package:unihome/views/profile/profile.view.dart';
-import 'package:unihome/views/service/service.binding.dart';
-import 'package:unihome/views/service/service.view.dart';
+import 'package:unihome/views/renter/login/login.binding.dart';
+import 'package:unihome/views/renter/login/login.view.dart';
+import 'package:unihome/views/renter/bottom_nav_bar/bottom_nav_bar.binding.dart';
+import 'package:unihome/views/renter/bottom_nav_bar/bottom_nav_bar.view.dart';
+import 'package:unihome/views/renter/contract/contract.binding.dart';
+import 'package:unihome/views/renter/contract/contract.view.dart';
+import 'package:unihome/views/renter/contract_detail/contract_detail.binding.dart';
+import 'package:unihome/views/renter/contract_detail/contract_detail.view.dart';
+import 'package:unihome/views/renter/home/home.binding.dart';
+import 'package:unihome/views/renter/home/home.view.dart';
+import 'package:unihome/views/renter/house/house.binding.dart';
+import 'package:unihome/views/renter/house/house.view.dart';
+import 'package:unihome/views/renter/invoice_detail/invoice_detail.binding.dart';
+import 'package:unihome/views/renter/invoice_detail/invoice_detail.view.dart';
+import 'package:unihome/views/renter/invoices/invoice.binding.dart';
+import 'package:unihome/views/renter/invoices/invoice.view.dart';
+import 'package:unihome/views/renter/profile/profile.binding.dart';
+import 'package:unihome/views/renter/profile/profile.view.dart';
+import 'package:unihome/views/renter/service/service.binding.dart';
+import 'package:unihome/views/renter/service/service.view.dart';
+import 'package:unihome/views/renter/ticket/ticket.binding.dart';
+import 'package:unihome/views/renter/ticket/ticket.view.dart';
+import 'package:unihome/views/renter/ticket_detail/ticket_detail.binding.dart';
+import 'package:unihome/views/renter/ticket_detail/ticket_detail.view.dart';
 import 'package:unihome/views/splash.view.dart';
-import 'package:unihome/views/ticket/ticket.binding.dart';
-import 'package:unihome/views/ticket/ticket.view.dart';
+import 'package:unihome/views/technician/login_tech/login_tech.binding.dart';
+import 'package:unihome/views/technician/login_tech/login_tech.view.dart';
+import 'package:unihome/views/technician/nav_bar/nav_bar.binding.dart';
+import 'package:unihome/views/technician/nav_bar/nav_bar.view.dart';
+import 'package:unihome/views/technician/ticket_detai_tech/ticket_detail_tech.binding.dart';
+import 'package:unihome/views/technician/ticket_detai_tech/ticket_detail_tech.view.dart';
+import 'package:unihome/views/technician/ticket_tech/ticket_tech.binding.dart';
+import 'package:unihome/views/technician/ticket_tech/ticket_tech.view.dart';
 
 class RoutePage {
   static final routes = [
@@ -56,6 +66,11 @@ class RoutePage {
       binding: TicketBinding(),
     ),
     GetPage(
+      name: ROUTE_TICKET_TECH,
+      page: () => const TicketTechScreen(),
+      binding: TicketTechBinding(),
+    ),
+    GetPage(
       name: ROUTE_SERVICE,
       page: () => const ServiceScreen(),
       binding: ServiceBinding(),
@@ -76,14 +91,42 @@ class RoutePage {
       binding: LoginBinding(),
     ),
     GetPage(
+      name: ROUTE_LOGIN_TECH,
+      page: () => const LoginTechScreen(),
+      binding: LoginTechBinding(),
+    ),
+    GetPage(
       name: ROUTE_HOME,
       page: () => const HomeScreen(),
       binding: HomeBinding(),
     ),
     GetPage(
+      name: ROUTE_TICKET_DETAIL,
+      page: () => const TicketDetailScreen(),
+      binding: TicketDetailBinding(),
+    ),
+    GetPage(
+      name: ROUTE_TICKET_DETAIL_TECH,
+      page: () => const TicketDetailTechScreen(),
+      binding: TicketDetailTechBinding(),
+    ),
+    GetPage(
       name: ROUTE_NAV_BAR,
       page: () => const BottomNavBarScreen(),
-      binding: BottomNavBarBinding(),
+      bindings: [
+        BottomNavBarBinding(),
+        HomeBinding(),
+        HouseBinding(),
+        InvoiceBinding(),
+        TicketBinding(),
+      ],
+    ),
+    GetPage(
+      name: ROUTE_NAV_BAR_TECH,
+      page: () => const NavBarScreen(),
+      bindings: [
+        NavBarBinding(),
+      ],
     ),
   ];
 }

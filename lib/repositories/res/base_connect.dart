@@ -110,11 +110,13 @@ class BaseConnect extends GetConnect {
     required List<File> file,
     required int ticketTypeId,
     required String desc,
+    required String name,
     headers,
   }) async {
     final form = FormData({
       "TicketTypeId": ticketTypeId,
       "Description": desc,
+      "TicketName": name,
       "ImageUploadRequest": file.map(
         (e) => MultipartFile(e.path, filename: 'file'),
       ),
@@ -131,6 +133,24 @@ class BaseConnect extends GetConnect {
         message: response.statusText,
         code: response.status.code.toString(),
       );
+    }
+  }
+
+  Future<BaseResponse?> deleteRequest(String url,
+      {dynamic body,
+      Map<String, dynamic>? query,
+      Map<String, String>? headers}) async {
+    var response = await delete(url,
+        decoder: (map) => BaseResponse.fromMap(map),
+        query: query,
+        headers: headers);
+
+    if (response.isOk) {
+      return response.body;
+    } else {
+      hideLoading();
+      return BaseResponse(
+          message: response.statusText, code: response.status.code.toString());
     }
   }
 }
