@@ -56,7 +56,8 @@ class ContractDetail {
   String? description;
   String? lastUpdated;
   String? status;
-  int? roomId;
+  int? roomFlatId;
+  String? roomName;
   String? priceForRent;
   String? priceForWater;
   String? priceForElectric;
@@ -71,6 +72,7 @@ class ContractDetail {
   List<String>? imageUrls;
 
   ContractDetail({
+    this.roomName,
     this.imageUrls,
     this.buildingAddress,
     this.buildingId,
@@ -88,7 +90,7 @@ class ContractDetail {
     this.priceForService,
     this.priceForWater,
     this.renter,
-    this.roomId,
+    this.roomFlatId,
     this.status,
   });
 
@@ -121,9 +123,12 @@ class ContractDetail {
     status = json['ContractMeterDetail']['ContractStatus'] == null
         ? null
         : json['ContractMeterDetail']['ContractStatus'] as String;
-    roomId = json['ContractMeterDetail']['RoomId'] == null
+    roomFlatId = json['ContractMeterDetail']['RoomFlatId'] == null
         ? null
-        : json['ContractMeterDetail']['RoomId'] as int;
+        : json['ContractMeterDetail']['RoomFlatId'] as int;
+    roomName = json['ContractMeterDetail']['RoomName'] == null
+        ? null
+        : json['ContractMeterDetail']['RoomName'] as String;
     priceForElectric =
         json['ContractMeterDetail']['PriceForElectricity'] == null
             ? null

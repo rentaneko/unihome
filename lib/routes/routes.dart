@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:unihome/routes/pages.dart';
+import 'package:unihome/views/renter/forget_password/forget_password.binding.dart';
+import 'package:unihome/views/renter/forget_password/forget_password.view.dart';
 import 'package:unihome/views/renter/login/login.binding.dart';
 import 'package:unihome/views/renter/login/login.view.dart';
 import 'package:unihome/views/renter/bottom_nav_bar/bottom_nav_bar.binding.dart';
@@ -36,6 +38,11 @@ import 'package:unihome/views/technician/ticket_tech/ticket_tech.view.dart';
 
 class RoutePage {
   static final routes = [
+    GetPage(
+      name: ROUTE_FORGET_PASSWORD,
+      page: () => const ForgetPasswordScreen(),
+      binding: ForgetPasswordBinding(),
+    ),
     GetPage(
       name: ROUTE_INVOICE_DETAIL,
       page: () => const InvoiceDetailScreen(),

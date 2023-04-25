@@ -115,8 +115,30 @@ class UserRepo {
     return res!.code == SUCCESS ? true : false;
   }
 
-  Future<bool> changePassword(String password, String confirm) async {
-    var res = await userApi.changePassword(password, confirm);
+  Future<String> changePasswordRenter(
+      {required String oldPass,
+      required String password,
+      required String confirm}) async {
+    var res = await userApi.changePasswordRenter(
+      confirm: confirm,
+      oldPass: oldPass,
+      password: password,
+    );
+
+    var msg = '';
+    if (res!.message!.contains('other')) {}
+    return msg;
+  }
+
+  Future<bool> changePasswordTech(
+      {required String oldPass,
+      required String password,
+      required String confirm}) async {
+    var res = await userApi.changePasswordTech(
+      confirm: confirm,
+      oldPass: oldPass,
+      password: password,
+    );
 
     return res!.code == SUCCESS ? true : false;
   }
@@ -139,5 +161,10 @@ class UserRepo {
   Future<String?> deleteTicket(String idTicket) async {
     var res = await userApi.deleteTicket(idTicket);
     return res!.code == SUCCESS ? 'true' : res.message;
+  }
+
+  Future<bool> resetPassword(String email) async {
+    var res = await userApi.resetPassword(email);
+    return res!.code == SUCCESS ? true : false;
   }
 }

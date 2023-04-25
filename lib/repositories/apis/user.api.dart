@@ -130,10 +130,28 @@ class UserApi extends BaseConnect {
     );
   }
 
-  Future<BaseResponse?> changePassword(String password, String confirm) async {
+  Future<BaseResponse?> changePasswordRenter(
+      {required String oldPass,
+      required String password,
+      required String confirm}) async {
     return await putRequest(
       '/api/renters/change-password',
       body: jsonEncode(<String, dynamic>{
+        "oldPassword": oldPass,
+        "password": password,
+        "confirmPassword": confirm,
+      }),
+    );
+  }
+
+  Future<BaseResponse?> changePasswordTech(
+      {required String oldPass,
+      required String password,
+      required String confirm}) async {
+    return await putRequest(
+      '/api/employees/change-password',
+      body: jsonEncode(<String, dynamic>{
+        "oldPassword": oldPass,
         "password": password,
         "confirmPassword": confirm,
       }),
@@ -154,5 +172,16 @@ class UserApi extends BaseConnect {
 
   Future<BaseResponse?> acceptTicket(String idTicket) async {
     return await putRequest('/api/tickets/$idTicket/accept');
+  }
+
+  Future<BaseResponse?> resetPassword(String email) async {
+    return await postRequest(
+      '/api/auth/reset-password',
+      body: jsonEncode(
+        <String, String>{
+          "registeredEmail": email,
+        },
+      ),
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unihome/routes/pages.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
 import 'package:unihome/utils/widget.dart';
@@ -163,6 +164,21 @@ class LoginScreen extends GetWidget<LoginController> {
                 ),
                 SizedBox(height: responsiveHeight(64)),
                 button('Đăng nhập', () => controller.login()),
+                SizedBox(height: responsiveHeight(24)),
+                Center(
+                  child: TextButton(
+                    onPressed: () => goTo(screen: ROUTE_FORGET_PASSWORD),
+                    child: Text(
+                      'Bạn quên mật khẩu ?',
+                      style: TextStyle(
+                        color: AppColor.main,
+                        fontWeight: FontWeight.w600,
+                        fontSize: responsiveFont(16),
+                        fontFamily: 'SF Pro Display',
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

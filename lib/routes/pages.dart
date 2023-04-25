@@ -11,6 +11,7 @@ const ROUTE_HOUSE = '/house';
 const ROUTE_CONTRACT_DETAIL = '/contractDetail';
 const ROUTE_INVOICE_DETAIL = '/invoiceDetail';
 const ROUTE_TICKET_DETAIL = '/ticketDetail';
+const ROUTE_FORGET_PASSWORD = '/forgetPassword';
 
 // TECH
 const ROUTE_NAV_BAR_TECH = '/navBar';

@@ -22,12 +22,14 @@ class ProfileController extends GetxController {
   TextEditingController majorCtrl = TextEditingController();
 
   // change pw
+  TextEditingController oldPassCtrl = TextEditingController();
   TextEditingController passCtrl = TextEditingController();
   TextEditingController confirmCtrl = TextEditingController();
 
   var isLoading = true.obs;
   var renter = Renter().obs;
   var isEditing = false.obs;
+  var isVisible = false.obs;
   var birthdate = DateTime.now();
   var _image;
 
@@ -89,7 +91,7 @@ class ProfileController extends GetxController {
     _preferences = await SharedPreferences.getInstance();
     _preferences.remove(USER_ID);
     _preferences.remove(TOKEN);
-    goToAndRemoveAll(screen: ROUTE_LOGIN);
+    goToAndRemoveAll(screen: ROUTE_SPLASH);
   }
 
   Future<void> uploadImage() async {
@@ -109,10 +111,14 @@ class ProfileController extends GetxController {
 
   Future<void> changePassword() async {
     await _userRepo
-        .changePassword(passCtrl.text.trim(), confirmCtrl.text.trim())
+        .changePasswordRenter(
+      password: passCtrl.text.trim(),
+      confirm: confirmCtrl.text.trim(),
+      oldPass: oldPassCtrl.text.trim(),
+    )
         .then(
       (value) {
-        if (value) {
+        if (value == '') {
           showToast(
               'Thay đổi mật khẩu thành công\nBạn vui lòng đăng nhập lại tài khoản');
           Future.delayed(
