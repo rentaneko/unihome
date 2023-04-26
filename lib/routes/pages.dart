@@ -18,3 +18,4 @@ const ROUTE_NAV_BAR_TECH = '/navBar';
 const ROUTE_LOGIN_TECH = '/loginTech';
 const ROUTE_TICKET_TECH = '/ticketTech';
 const ROUTE_TICKET_DETAIL_TECH = '/ticketDetailTech';
+const ROUTE_PROFILE_TECH = '/profileTech';

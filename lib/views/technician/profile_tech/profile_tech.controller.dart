@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -6,13 +5,12 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unihome/constant/value.constant.dart';
-import 'package:unihome/repositories/models/renter.model.dart';
+import 'package:unihome/repositories/models/technician.model.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
 import 'package:unihome/routes/pages.dart';
 import 'package:unihome/utils/metric.dart';
 
-class ProfileController extends GetxController {
-  //
+class ProfileTechController extends GetxController {
   late SharedPreferences _preferences;
   TextEditingController emailCtrl = TextEditingController();
   TextEditingController phoneCtrl = TextEditingController();
@@ -27,24 +25,51 @@ class ProfileController extends GetxController {
   TextEditingController confirmCtrl = TextEditingController();
 
   var isLoading = true.obs;
-  var renter = Renter().obs;
+  var renter = Technician().obs;
   var isEditing = false.obs;
   var isVisible = false.obs;
-  var birthdate = DateTime.now();
   var _image;
-
   File? avatar;
 
   final _userRepo = Get.find<UserRepo>();
+  final editFormKey = GlobalKey<FormState>();
+  final changePassFormKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
-    getRenterProfile();
+    Future.wait(
+      [
+        getProfile(),
+      ],
+    ).then((value) => isLoading.value = false);
     super.onInit();
   }
 
-  Future<void> getRenterProfile() async {
-    _userRepo.getRenterProfile().then(
+  Future<void> editProfile() async {
+    showLoading('Đang cập nhật thông tin');
+    await _userRepo
+        .editProfileTech(
+      email: emailCtrl.text,
+      phone: phoneCtrl.text,
+      fullname: fullnameCtrl.text,
+      address: addressCtrl.text,
+    )
+        .then(
+      (value) {
+        if (value) {
+          hideLoading();
+          isEditing.value = false;
+          showToast('Cập nhật thông tin thành công');
+        } else {
+          hideLoading();
+          showToast('Cập nhật thông tin không thành công');
+        }
+      },
+    );
+  }
+
+  Future<void> getProfile() async {
+    _userRepo.getTechProfile().then(
       (value) {
         if (value != null) {
           renter.value = value;
@@ -52,39 +77,13 @@ class ProfileController extends GetxController {
           phoneCtrl.text = renter.value.phone!;
           fullnameCtrl.text = renter.value.fullname!;
           addressCtrl.text = renter.value.address!;
+          Get.log('AVATAR ================ ${renter.value.imageUrl}');
         } else {
           showToast('BUG!!!');
         }
         isLoading.value = false;
       },
     );
-  }
-
-  Future<void> editRenterProfile() async {
-    // _preferences = await SharedPreferences.getInstance();
-    // isLoading.value = true;
-    // await _userRepo
-    //     .editProfileRenter(
-    //       _preferences.getString(USER_ID)!,
-    //       emailCtrl.text.trim(),
-    //       phoneCtrl.text.trim(),
-    //       fullnameCtrl.text.trim(),
-    //       addressCtrl.text.trim(),
-    //       int.parse(universityCtrl.text.trim().toString()),
-    //       int.parse(majorCtrl.text.trim().toString()),
-    //     )
-    //     .then(
-    //       (value) => {
-    //         if (value == true)
-    //           {
-    //             getRenterProfile(),
-    //             isEditing.value = false,
-    //           }
-    //         else
-    //           {showToast('BUG!!!!')},
-    //         isLoading.value = false,
-    //       },
-    //     );
   }
 
   Future<void> logOut() async {
@@ -95,14 +94,14 @@ class ProfileController extends GetxController {
   }
 
   Future<void> uploadImage() async {
-    await _userRepo.uploadFile(_image).then((_) => getRenterProfile());
+    await _userRepo.uploadAvatar(_image).then((_) => getProfile());
   }
 
   Future pickImage(ImageSource source) async {
     try {
-      final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
-      _image = File(image.path);
+      final tmp = await ImagePicker().pickImage(source: source);
+      if (tmp == null) return;
+      _image = File(tmp.path);
       uploadImage();
     } on PlatformException catch (e) {
       print(e);
@@ -111,14 +110,14 @@ class ProfileController extends GetxController {
 
   Future<void> changePassword() async {
     await _userRepo
-        .changePasswordRenter(
+        .changePasswordTech(
       password: passCtrl.text.trim(),
       confirm: confirmCtrl.text.trim(),
       oldPass: oldPassCtrl.text.trim(),
     )
         .then(
       (value) {
-        if (value == '') {
+        if (value == 'Mật khẩu đã được cập nhật') {
           showToast(
               'Thay đổi mật khẩu thành công\nBạn vui lòng đăng nhập lại tài khoản');
           Future.delayed(
@@ -126,7 +125,7 @@ class ProfileController extends GetxController {
             () => goToAndRemoveAll(screen: ROUTE_SPLASH),
           );
         } else {
-          showToast('Mật khẩu không khớp với nhau');
+          showToast(value.toString());
         }
       },
     );

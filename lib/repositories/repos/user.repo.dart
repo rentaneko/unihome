@@ -9,6 +9,7 @@ import 'package:unihome/repositories/models/invoice.model.dart';
 import 'package:unihome/repositories/models/rental.model.dart';
 import 'package:unihome/repositories/models/renter.model.dart';
 import 'package:unihome/repositories/models/service.model.dart';
+import 'package:unihome/repositories/models/technician.model.dart';
 import 'package:unihome/repositories/models/ticket.model.dart';
 import 'package:unihome/repositories/res/base_response.dart';
 
@@ -49,6 +50,11 @@ class UserRepo {
     return res!.code == SUCCESS ? Renter.fromJson(res.data) : null;
   }
 
+  Future<Technician?> getTechProfile() async {
+    var res = await userApi.getTechProfile();
+    return res!.code == SUCCESS ? Technician.fromJson(res.data) : null;
+  }
+
   Future<List<Services>?> getListService() async {
     var res = await userApi.getListService();
     return res!.code == SUCCESS
@@ -56,10 +62,24 @@ class UserRepo {
         : null;
   }
 
-  Future<bool> editProfileRenter(String idRenter, String email, String phone,
-      String fullname, String address, int universityId, int majorId) async {
+  Future<bool> editProfileRenter(
+      {required String email,
+      required String phone,
+      required String fullname,
+      required String address,
+      required String birthday,
+      required String gender}) async {
     var res = await userApi.editProfileRenter(
-        idRenter, email, phone, fullname, address, universityId, majorId);
+        email, phone, fullname, address, birthday, gender);
+    return res!.code == SUCCESS ? true : false;
+  }
+
+  Future<bool> editProfileTech(
+      {required String email,
+      required String phone,
+      required String fullname,
+      required String address}) async {
+    var res = await userApi.editProfileTech(email, phone, fullname, address);
     return res!.code == SUCCESS ? true : false;
   }
 
@@ -110,6 +130,11 @@ class UserRepo {
     return res!.code == SUCCESS ? true : false;
   }
 
+  Future<bool> uploadAvatar(File image) async {
+    var res = await userApi.uploadAvatar(image);
+    return res!.code == SUCCESS ? true : false;
+  }
+
   Future<bool> addService(List<int> listService) async {
     var res = await userApi.addService(listService);
     return res!.code == SUCCESS ? true : false;
@@ -130,7 +155,7 @@ class UserRepo {
     return msg;
   }
 
-  Future<bool> changePasswordTech(
+  Future<String> changePasswordTech(
       {required String oldPass,
       required String password,
       required String confirm}) async {
@@ -139,8 +164,13 @@ class UserRepo {
       oldPass: oldPass,
       password: password,
     );
-
-    return res!.code == SUCCESS ? true : false;
+    var msg = '';
+    if (res!.message!.contains('Mật khẩu đã được cập nhật')) {
+      msg = res.message.toString();
+    } else {
+      msg = res.message.toString();
+    }
+    return msg;
   }
 
   Future<BasicRental?> getBasicRental() async {
@@ -166,5 +196,15 @@ class UserRepo {
   Future<bool> resetPassword(String email) async {
     var res = await userApi.resetPassword(email);
     return res!.code == SUCCESS ? true : false;
+  }
+
+  Future<String?> acceptTicketTech(String idTicket) async {
+    var res = await userApi.acceptTicketTech(idTicket);
+    return res!.code == SUCCESS ? 'true' : res.message;
+  }
+
+  Future<String?> solveTicketTech(String idTicket) async {
+    var res = await userApi.solveTicketTech(idTicket);
+    return res!.code == SUCCESS ? 'true' : res.message;
   }
 }

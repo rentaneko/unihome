@@ -50,36 +50,51 @@ class UserApi extends BaseConnect {
     return await getResponse('/api/renters/profile');
   }
 
+  Future<BaseResponse?> getTechProfile() async {
+    return await getResponse('/api/employees/profile');
+  }
+
   Future<BaseResponse?> getListService() async {
     return await getResponse('/api/services');
   }
 
   Future<BaseResponse?> editProfileRenter(
-      String idRenter,
-      String email,
-      String phone,
-      String fullname,
-      String address,
-      int universityId,
-      int majorId) async {
-    String? deviceId = await PlatformDeviceId.getDeviceId;
+    String email,
+    String phone,
+    String fullname,
+    String address,
+    String birthday,
+    String gender,
+  ) async {
     return await putRequest(
-      '/api/renters/$idRenter',
+      '/api/renters/profile/update',
       body: jsonEncode(
         <String, dynamic>{
-          "username": "renter3",
           "email": email,
-          "password": "renter3",
-          "phone": int.parse(phone),
+          "phone": phone,
           "fullName": fullname,
           "birthDate": "2005-08-18T17:18:18.303Z",
-          "status": true,
-          "contractId": 3,
           "address": address,
           "gender": "Male",
-          "universityId": universityId,
-          "majorId": majorId,
-          "deviceToken": deviceId.toString(),
+        },
+      ),
+    );
+  }
+
+  Future<BaseResponse?> editProfileTech(
+    String email,
+    String phone,
+    String fullname,
+    String address,
+  ) async {
+    return await putRequest(
+      '/api/employees/profile/update',
+      body: jsonEncode(
+        <String, dynamic>{
+          "email": email,
+          "phone": phone,
+          "fullName": fullname,
+          "address": address,
         },
       ),
     );
@@ -121,6 +136,10 @@ class UserApi extends BaseConnect {
 
   Future<BaseResponse?> uploadFiles(File image) async {
     return await putFormDataRequest('/api/upload/renter', image);
+  }
+
+  Future<BaseResponse?> uploadAvatar(File image) async {
+    return await putFormDataRequest('/api/upload/employee', image);
   }
 
   Future<BaseResponse?> addService(List<int> listService) async {
@@ -183,5 +202,13 @@ class UserApi extends BaseConnect {
         },
       ),
     );
+  }
+
+  Future<BaseResponse?> acceptTicketTech(String idTicket) async {
+    return await putRequest('/api/tickets/$idTicket/accept-ticket');
+  }
+
+  Future<BaseResponse?> solveTicketTech(String idTicket) async {
+    return await putRequest('/api/tickets/$idTicket/solve-ticket');
   }
 }

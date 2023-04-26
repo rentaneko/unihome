@@ -20,7 +20,7 @@ class TicketTechScreen extends GetWidget<TicketTechController> {
         automaticallyImplyLeading: false,
         elevation: 2,
         title: Text(
-          'Chi tiết yêu cầu',
+          'Danh sách yêu cầu',
           style: TextStyle(
             color: AppColor.black,
             fontSize: responsiveFont(24),

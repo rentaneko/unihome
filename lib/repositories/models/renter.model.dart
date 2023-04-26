@@ -1,6 +1,3 @@
-import 'package:unihome/repositories/models/major.model.dart';
-import 'package:unihome/repositories/models/university.model.dart';
-
 class Renter {
   String? username;
   String? email;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/views/technician/nav_bar/nav_bar.controller.dart';
+import 'package:unihome/views/technician/profile_tech/profile_tech.view.dart';
 import 'package:unihome/views/technician/ticket_tech/ticket_tech.view.dart';
 
 class NavBarScreen extends GetWidget<NavBarController> {
@@ -13,9 +14,9 @@ class NavBarScreen extends GetWidget<NavBarController> {
       body: Obx(
         () => IndexedStack(
           index: controller.selectedIndex.value,
-          children: [
+          children: const [
             TicketTechScreen(),
-            Container(),
+            ProfileTechScreen(),
           ],
         ),
       ),

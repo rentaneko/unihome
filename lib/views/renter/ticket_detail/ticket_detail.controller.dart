@@ -28,7 +28,7 @@ class TicketDetailController extends GetxController {
     await _userRepo.acceptTicket(ticket.id.toString()).then((value) {
       if (value == 'true') {
         showToast('Xác nhận yêu cầu thành công');
-        goBack();
+        goToAndRemoveAll(screen: ROUTE_NAV_BAR);
       } else {
         showToast(value.toString());
       }

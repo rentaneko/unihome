@@ -31,6 +31,8 @@ import 'package:unihome/views/technician/login_tech/login_tech.binding.dart';
 import 'package:unihome/views/technician/login_tech/login_tech.view.dart';
 import 'package:unihome/views/technician/nav_bar/nav_bar.binding.dart';
 import 'package:unihome/views/technician/nav_bar/nav_bar.view.dart';
+import 'package:unihome/views/technician/profile_tech/profile_tech.binding.dart';
+import 'package:unihome/views/technician/profile_tech/profile_tech.view.dart';
 import 'package:unihome/views/technician/ticket_detai_tech/ticket_detail_tech.binding.dart';
 import 'package:unihome/views/technician/ticket_detai_tech/ticket_detail_tech.view.dart';
 import 'package:unihome/views/technician/ticket_tech/ticket_tech.binding.dart';
@@ -86,6 +88,11 @@ class RoutePage {
       name: ROUTE_PROFILE,
       page: () => const ProfileScreen(),
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: ROUTE_PROFILE_TECH,
+      page: () => const ProfileTechScreen(),
+      binding: ProfileTechBinding(),
     ),
     GetPage(
       name: ROUTE_INVOICE,
