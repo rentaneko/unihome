@@ -73,9 +73,9 @@ class UserApi extends BaseConnect {
           "email": email,
           "phone": phone,
           "fullName": fullname,
-          "birthDate": "2005-08-18T17:18:18.303Z",
+          'birthDate': birthday,
           "address": address,
-          "gender": "Male",
+          "gender": gender,
         },
       ),
     );

@@ -80,6 +80,8 @@ class UserRepo {
       required String fullname,
       required String address}) async {
     var res = await userApi.editProfileTech(email, phone, fullname, address);
+    Get.log('[CODE] ====================== ${res!.code}');
+    Get.log('[MESSAGE] ====================== ${res!.message}');
     return res!.code == SUCCESS ? true : false;
   }
 

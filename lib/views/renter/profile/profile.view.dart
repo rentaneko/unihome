@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:unihome/routes/pages.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
 import 'package:unihome/utils/widget.dart';
@@ -381,49 +380,147 @@ class ProfileScreen extends GetWidget<ProfileController> {
         borderRadius: BorderRadius.circular(4),
       ),
       child: controller.isEditing.value
-          ? Column(
-              children: [
-                _buildRow(
-                  title: 'Username',
-                  value: '${controller.renter.value.username}',
-                ),
-                const Divider(color: AppColor.grayLight, thickness: 1),
-                SizedBox(height: responsiveHeight(10)),
-                _buildRow(
-                  title: 'Email',
-                  value: '${controller.renter.value.email}',
-                ),
-                const Divider(color: AppColor.grayLight, thickness: 1),
-                SizedBox(height: responsiveHeight(10)),
-                _buildRow(
-                  title: 'Số điện thoại',
-                  value: '${controller.renter.value.phone}',
-                ),
-                const Divider(color: AppColor.grayLight, thickness: 1),
-                SizedBox(height: responsiveHeight(10)),
-                _buildRow(
-                  title: 'Ngày sinh',
-                  value: Jiffy('${controller.renter.value.birthdate}')
-                      .format('dd/MM/yyyy'),
-                ),
-                const Divider(color: AppColor.grayLight, thickness: 1),
-                SizedBox(height: responsiveHeight(10)),
-                _buildRow(
-                  title: 'Địa chỉ',
-                  value: '${controller.renter.value.address}',
-                ),
-                const Divider(color: AppColor.grayLight, thickness: 1),
-                SizedBox(height: responsiveHeight(10)),
-                _buildRow(
-                  title: 'Giới tính',
-                  value: '${controller.renter.value.gender}',
-                ),
-                const Divider(color: AppColor.grayLight, thickness: 1),
-                button(
+          ? Form(
+              key: controller.editFormKey,
+              child: Column(
+                children: [
+                  const Divider(color: AppColor.grayLight, thickness: 1),
+                  SizedBox(height: responsiveHeight(10)),
+                  _buildRowTextField((value) {
+                    if (value!.isEmpty) {
+                      return 'Vui lòng nhập email của bạn';
+                    } else if (!GetUtils.isEmail(value)) {
+                      return 'Địa chỉ email không hợp lệ';
+                    }
+                    return null;
+                  }, ctrl: controller.emailCtrl),
+                  const Divider(color: AppColor.grayLight, thickness: 1),
+                  SizedBox(height: responsiveHeight(10)),
+                  _buildRowTextField((value) {
+                    if (value!.isEmpty) {
+                      return 'Vui lòng nhập số điện thoại';
+                    } else if (!value.isPhoneNumber) {
+                      return 'Số điện thoại không hợp lệ';
+                    } else if (value.length != 10) {
+                      return 'Số điện thoại không hợp lệ';
+                    }
+                    return null;
+                  }, ctrl: controller.phoneCtrl),
+                  const Divider(color: AppColor.grayLight, thickness: 1),
+                  SizedBox(height: responsiveHeight(10)),
+                  _buildRowTextField(
+                    (value) {
+                      if (value!.isEmpty) {
+                        return 'Vui lòng nhập ngày sinh';
+                      } else if (!GetUtils.hasMatch(
+                          value, '\\d{2}/\\d{2}/\\d{4}')) {
+                        return 'Vui lòng nhập đúng định dạng dd/MM/yyyy';
+                      }
+                      return null;
+                    },
+                    ctrl: controller.birthdateCtrl,
+                  ),
+                  const Divider(color: AppColor.grayLight, thickness: 1),
+                  SizedBox(height: responsiveHeight(10)),
+                  _buildRowTextField((value) {
+                    return null;
+                  }, ctrl: controller.addressCtrl),
+                  const Divider(color: AppColor.grayLight, thickness: 1),
+                  SizedBox(height: responsiveHeight(10)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          onPressed: controller.gender.value == 'nam'
+                              ? null
+                              : () => controller.gender.value = 'nam',
+                          icon: Icon(
+                            Icons.male,
+                            color: controller.gender.value == 'nam'
+                                ? AppColor.main
+                                : AppColor.gray800,
+                          ),
+                          label: Text(
+                            'Nam',
+                            style: TextStyle(
+                              fontWeight: controller.gender.value == 'nam'
+                                  ? FontWeight.w500
+                                  : FontWeight.w400,
+                              color: controller.gender.value == 'nam'
+                                  ? AppColor.main
+                                  : AppColor.gray800,
+                              fontSize: responsiveFont(14),
+                              fontFamily: 'SF Pro Display',
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColor.white,
+                            alignment: Alignment.center,
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  color: controller.gender.value == 'nam'
+                                      ? AppColor.main
+                                      : AppColor.gray800),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            disabledBackgroundColor: AppColor.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: responsiveWidth(24)),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          onPressed: controller.gender.value == 'nữ'
+                              ? null
+                              : () => controller.gender.value = 'nữ',
+                          icon: Icon(
+                            Icons.female,
+                            color: controller.gender.value == 'nữ'
+                                ? AppColor.main
+                                : AppColor.gray800,
+                          ),
+                          label: Text(
+                            'Nữ',
+                            style: TextStyle(
+                              fontWeight: controller.gender.value == 'nữ'
+                                  ? FontWeight.w400
+                                  : FontWeight.w500,
+                              color: controller.gender.value == 'nữ'
+                                  ? AppColor.main
+                                  : AppColor.gray800,
+                              fontSize: responsiveFont(14),
+                              fontFamily: 'SF Pro Display',
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColor.white,
+                            alignment: Alignment.center,
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                color: controller.gender.value == 'nữ'
+                                    ? AppColor.main
+                                    : AppColor.gray800,
+                              ),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            disabledBackgroundColor: AppColor.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(color: AppColor.grayLight, thickness: 1),
+                  button(
                     'Xác nhận',
-                    () => controller.isEditing.value =
-                        !controller.isEditing.value),
-              ],
+                    () {
+                      if (controller.editFormKey.currentState!.validate()) {
+                        controller.editRenterProfile();
+                      }
+                    },
+                  ),
+                ],
+              ),
             )
           : Column(
               children: [
@@ -460,7 +557,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
                 SizedBox(height: responsiveHeight(10)),
                 _buildRow(
                   title: 'Giới tính',
-                  value: '${controller.renter.value.gender}',
+                  value: controller.renter.value.gender == 'nam' ? 'Nam' : 'Nữ',
                 ),
                 const Divider(color: AppColor.grayLight, thickness: 1),
                 button(
@@ -544,6 +641,7 @@ class ProfileScreen extends GetWidget<ProfileController> {
           style: TextStyle(
             fontSize: responsiveFont(16),
             fontWeight: FontWeight.w400,
+            fontFamily: 'SF Pro Display',
             color: AppColor.black,
           ),
         ),
@@ -553,15 +651,18 @@ class ProfileScreen extends GetWidget<ProfileController> {
             fontSize: responsiveFont(16),
             fontWeight: FontWeight.w500,
             color: AppColor.black,
+            fontFamily: 'SF Pro Display',
           ),
         ),
       ],
     );
   }
 
-  Widget _buildRowTextField({required TextEditingController ctrl}) {
+  Widget _buildRowTextField(String? Function(String?) validator,
+      {required TextEditingController ctrl}) {
     return TextFormField(
       controller: ctrl,
+      validator: validator,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
           horizontal: responsiveWidth(8),

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unihome/constant/value.constant.dart';
 import 'package:unihome/repositories/models/renter.model.dart';
@@ -18,8 +19,7 @@ class ProfileController extends GetxController {
   TextEditingController phoneCtrl = TextEditingController();
   TextEditingController fullnameCtrl = TextEditingController();
   TextEditingController addressCtrl = TextEditingController();
-  TextEditingController universityCtrl = TextEditingController();
-  TextEditingController majorCtrl = TextEditingController();
+  TextEditingController birthdateCtrl = TextEditingController();
 
   // change pw
   TextEditingController oldPassCtrl = TextEditingController();
@@ -30,16 +30,20 @@ class ProfileController extends GetxController {
   var renter = Renter().obs;
   var isEditing = false.obs;
   var isVisible = false.obs;
-  var birthdate = DateTime.now();
+  var gender = ''.obs;
   var _image;
 
   File? avatar;
 
   final _userRepo = Get.find<UserRepo>();
+  final editFormKey = GlobalKey<FormState>();
+  final changePwFormKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
-    getRenterProfile();
+    Future.wait(
+      [getRenterProfile()],
+    );
     super.onInit();
   }
 
@@ -52,6 +56,17 @@ class ProfileController extends GetxController {
           phoneCtrl.text = renter.value.phone!;
           fullnameCtrl.text = renter.value.fullname!;
           addressCtrl.text = renter.value.address!;
+          birthdateCtrl.text =
+              Jiffy(renter.value.birthdate).format('dd/MM/yyyy');
+          if (renter.value.gender == 'Male' ||
+              renter.value.gender!.toLowerCase() == 'nam') {
+            gender.value = 'Male';
+          } else if (renter.value.gender == 'Female' ||
+              renter.value.gender!.toLowerCase() == 'nữ') {
+            gender.value = 'Female';
+          } else {
+            gender.value = 'Chưa cập nhật';
+          }
         } else {
           showToast('BUG!!!');
         }
@@ -61,30 +76,32 @@ class ProfileController extends GetxController {
   }
 
   Future<void> editRenterProfile() async {
-    // _preferences = await SharedPreferences.getInstance();
-    // isLoading.value = true;
-    // await _userRepo
-    //     .editProfileRenter(
-    //       _preferences.getString(USER_ID)!,
-    //       emailCtrl.text.trim(),
-    //       phoneCtrl.text.trim(),
-    //       fullnameCtrl.text.trim(),
-    //       addressCtrl.text.trim(),
-    //       int.parse(universityCtrl.text.trim().toString()),
-    //       int.parse(majorCtrl.text.trim().toString()),
-    //     )
-    //     .then(
-    //       (value) => {
-    //         if (value == true)
-    //           {
-    //             getRenterProfile(),
-    //             isEditing.value = false,
-    //           }
-    //         else
-    //           {showToast('BUG!!!!')},
-    //         isLoading.value = false,
-    //       },
-    //     );
+    _preferences = await SharedPreferences.getInstance();
+    showLoading('Đang cập nhật thông tin');
+    await _userRepo
+        .editProfileRenter(
+          email: emailCtrl.text.trim(),
+          phone: phoneCtrl.text.trim(),
+          fullname: fullnameCtrl.text.trim(),
+          address: addressCtrl.text.trim(),
+          birthday: birthdateCtrl.text.trim(),
+          gender: gender.value.toLowerCase() == 'nam' ? 'nam' : 'nữ',
+        )
+        .then(
+          (value) => {
+            if (value == true)
+              {
+                getRenterProfile(),
+                isEditing.value = false,
+                hideLoading(),
+              }
+            else
+              {
+                showToast('BUG!!!!'),
+              },
+            hideLoading(),
+          },
+        );
   }
 
   Future<void> logOut() async {

@@ -76,7 +76,7 @@ class BaseConnect extends GetConnect {
         decoder: (map) => BaseResponse.fromMap(map),
         query: query,
         headers: headers);
-
+    print(response.body?.toMap());
     if (response.isOk) {
       return response.body;
     } else {

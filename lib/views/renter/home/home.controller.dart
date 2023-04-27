@@ -30,7 +30,6 @@ class HomeController extends GetxController {
       (value) {
         if (value != null) {
           renter.value = value;
-          Get.log('[NAME] ======================== ${renter.value.fullname}');
         } else {
           showToast('BUG!!!');
         }

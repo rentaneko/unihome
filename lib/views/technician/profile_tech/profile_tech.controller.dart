@@ -57,6 +57,7 @@ class ProfileTechController extends GetxController {
         .then(
       (value) {
         if (value) {
+          getProfile();
           hideLoading();
           isEditing.value = false;
           showToast('Cập nhật thông tin thành công');

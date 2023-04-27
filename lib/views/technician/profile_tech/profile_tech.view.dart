@@ -21,14 +21,6 @@ class ProfileTechScreen extends GetWidget<ProfileTechController> {
           backgroundColor: AppColor.main,
           elevation: 0,
           automaticallyImplyLeading: false,
-          leading: IconButton(
-            onPressed: () => goBack(),
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: AppColor.white,
-              size: responsiveFont(18),
-            ),
-          ),
           title: Text(
             'Hồ sơ',
             style: TextStyle(
@@ -425,6 +417,9 @@ class ProfileTechScreen extends GetWidget<ProfileTechController> {
                   const Divider(color: AppColor.grayLight, thickness: 1),
                   SizedBox(height: responsiveHeight(10)),
                   _buildRowTextField(ctrl: controller.emailCtrl, (value) {
+                    if (!GetUtils.isEmail(value!)) {
+                      return 'Địa chỉ email không hợp lệ';
+                    }
                     return null;
                   }),
                   const Divider(color: AppColor.grayLight, thickness: 1),
