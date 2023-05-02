@@ -12,19 +12,21 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: ListView(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
               padding: EdgeInsets.symmetric(horizontal: responsiveWidth(8)),
               child: MasonryGridView.builder(
-                itemCount: 9,
+                itemCount: 6,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 mainAxisSpacing: responsiveHeight(16),
                 crossAxisSpacing: responsiveWidth(16),
                 gridDelegate:
                     const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3),
+                  crossAxisCount: 3,
+                ),
                 itemBuilder: (context, index) => Image.asset(
                   'assets/images/Image-${index + 1}.png',
                   fit: BoxFit.contain,

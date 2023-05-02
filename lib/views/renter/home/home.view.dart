@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unihome/routes/pages.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/dummy_data.dart';
 import 'package:unihome/utils/metric.dart';
@@ -33,21 +34,31 @@ class HomeScreen extends GetWidget<HomeController> {
                           ),
                         ),
                       ),
-                      GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: responsiveWidth(16),
-                          mainAxisSpacing: responsiveHeight(16),
-                          mainAxisExtent: responsiveHeight(54),
+                      SizedBox(height: responsiveHeight(16)),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: responsiveWidth(16)),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: _buildServiceComponent(
+                                'assets/icons/contract.png',
+                                'Hợp đồng',
+                                () => goTo(screen: ROUTE_CONTRACT),
+                              ),
+                            ),
+                            SizedBox(width: responsiveWidth(16)),
+                            Expanded(
+                              child: _buildServiceComponent(
+                                'assets/icons/user.png',
+                                'Hồ sơ',
+                                () => goTo(screen: ROUTE_PROFILE),
+                              ),
+                            ),
+                          ],
                         ),
-                        shrinkWrap: true,
-                        padding: EdgeInsets.all(responsiveWidth(16)),
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: serviceData.length,
-                        itemBuilder: (context, index) {
-                          return _buildServiceComponent(index);
-                        },
                       ),
+                      SizedBox(height: responsiveHeight(16)),
                     ],
                   ),
                 ),
@@ -56,21 +67,28 @@ class HomeScreen extends GetWidget<HomeController> {
     );
   }
 
-  Widget _buildServiceComponent(int index) {
-    return ListTile(
-      onTap: () => goTo(screen: serviceData[index]['route'].toString()),
-      tileColor: AppColor.main,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      trailing: Image.asset(
-        '${serviceData[index]['icon']}',
-        height: responsiveHeight(45),
-        width: responsiveWidth(45),
+  Widget _buildServiceComponent(
+      String icon, String title, VoidCallback onPress) {
+    return ElevatedButton.icon(
+      onPressed: onPress,
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+        backgroundColor: AppColor.main,
+        padding: EdgeInsets.symmetric(
+          vertical: responsiveHeight(8),
+          horizontal: responsiveWidth(12),
+        ),
+      ),
+      icon: Image.asset(
+        icon,
+        height: responsiveHeight(35),
+        width: responsiveWidth(35),
         color: AppColor.white,
       ),
-      leading: Text(
-        '${serviceData[index]['title']}',
+      label: Text(
+        title,
         style: TextStyle(
-          fontSize: responsiveFont(20),
+          fontSize: responsiveFont(18),
           fontWeight: FontWeight.w600,
           color: AppColor.white,
           fontFamily: 'SF Pro Display',
@@ -97,7 +115,7 @@ class HomeScreen extends GetWidget<HomeController> {
           width: responsiveWidth(60),
         ),
         title: Text(
-          '${controller.basicRental.value.roomId}',
+          '${controller.basicRental.value.roomName}',
           style: TextStyle(
             fontFamily: 'SF Pro Display',
             fontSize: responsiveFont(14),

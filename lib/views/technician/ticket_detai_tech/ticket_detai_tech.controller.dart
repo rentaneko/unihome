@@ -19,7 +19,7 @@ class TicketDetailTechController extends GetxController {
   @override
   void onInit() {
     desc.text = ticket.desc.toString();
-
+    Get.log('[IMGAE] ================= ${ticket.imageUrl}');
     super.onInit();
   }
 

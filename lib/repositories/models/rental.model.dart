@@ -103,6 +103,7 @@ class BasicRental {
   int? flatId;
   String? flatName;
   int? roomId;
+  String? roomName;
 
   BasicRental.fromJson(dynamic json) {
     buildingId = json['BuildingId'] == null ? null : json['BuildingId'] as int;
@@ -111,6 +112,7 @@ class BasicRental {
     buildingName =
         json['BuildingName'] == null ? null : json['BuildingName'] as String;
     flatName = json['FlatName'] == null ? null : json['FlatName'] as String;
+    roomName = json['RoomName'] == null ? null : json['RoomName'] as String;
   }
 
   BasicRental({
@@ -119,5 +121,6 @@ class BasicRental {
     this.flatId,
     this.flatName,
     this.roomId,
+    this.roomName,
   });
 }

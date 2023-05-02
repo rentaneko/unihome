@@ -20,7 +20,7 @@ class TicketDetailController extends GetxController {
   @override
   void onInit() {
     desc.text = ticket.desc.toString();
-
+    Get.log('[IMAGE] ============== ${ticket.imageUrl}');
     super.onInit();
   }
 

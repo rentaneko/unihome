@@ -78,7 +78,6 @@ class ProfileTechController extends GetxController {
           phoneCtrl.text = renter.value.phone!;
           fullnameCtrl.text = renter.value.fullname!;
           addressCtrl.text = renter.value.address!;
-          Get.log('AVATAR ================ ${renter.value.imageUrl}');
         } else {
           showToast('BUG!!!');
         }

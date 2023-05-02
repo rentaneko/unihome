@@ -22,7 +22,7 @@ class ContractScreen extends GetWidget<ContractController> {
             ),
           ),
           centerTitle: true,
-          backgroundColor: AppColor.primary,
+          backgroundColor: AppColor.main,
         ),
         body: Obx(
           () => controller.isLoading.value

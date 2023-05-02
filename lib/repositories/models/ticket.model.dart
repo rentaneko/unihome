@@ -51,9 +51,9 @@ class Ticket {
     ticketType = json['TicketType'] == null
         ? null
         : TicketType.fromJson(json['TicketType']);
-    // imageUrl = json[''] == null
-    //     ? null
-    //     : (json[''] as List).map((e) => e.toString()).toList();
+    imageUrl = json['ImageUrls'] == null
+        ? null
+        : (json['ImageUrls'] as List).map((e) => e.toString()).toList();
   }
 }
 

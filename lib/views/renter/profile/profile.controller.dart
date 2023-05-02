@@ -58,12 +58,10 @@ class ProfileController extends GetxController {
           addressCtrl.text = renter.value.address!;
           birthdateCtrl.text =
               Jiffy(renter.value.birthdate).format('dd/MM/yyyy');
-          if (renter.value.gender == 'Male' ||
-              renter.value.gender!.toLowerCase() == 'nam') {
-            gender.value = 'Male';
-          } else if (renter.value.gender == 'Female' ||
-              renter.value.gender!.toLowerCase() == 'nữ') {
-            gender.value = 'Female';
+          if (renter.value.gender!.toLowerCase() == 'nam') {
+            gender.value = 'nam';
+          } else if (renter.value.gender!.toLowerCase() == 'nữ') {
+            gender.value = 'nữ';
           } else {
             gender.value = 'Chưa cập nhật';
           }

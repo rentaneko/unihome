@@ -200,93 +200,98 @@ class TicketDetailScreen extends GetWidget<TicketDetailController> {
                   ),
                 ),
                 SizedBox(height: responsiveHeight(8)),
-                Obx(
-                  () => Container(
-                    width: double.infinity,
-                    padding:
-                        EdgeInsets.symmetric(vertical: responsiveHeight(24)),
-                    decoration: BoxDecoration(
-                      color: AppColor.white,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: AppColor.grayBorder),
-                    ),
-                    child: controller.imageList.isEmpty
-                        ? IconButton(
-                            onPressed: () =>
-                                controller.pickImage(ImageSource.gallery),
-                            icon: Image.asset(
-                              'assets/icons/add-image.png',
-                              color: AppColor.black,
-                            ),
-                          )
-                        : Column(
-                            children: [
-                              GridView.count(
-                                shrinkWrap: true,
-                                crossAxisCount: 3,
-                                crossAxisSpacing: 2.5,
-                                children: controller.imageList
-                                    .map((img) => Image.file(File(img.path)))
-                                    .toList(),
-                              ),
-                              IconButton(
-                                onPressed: () =>
-                                    controller.pickImage(ImageSource.gallery),
-                                icon: Image.asset('assets/icons/add-photo.png',
-                                    height: responsiveHeight(24),
-                                    width: responsiveWidth(24),
-                                    color: AppColor.black),
-                              ),
-                            ],
-                          ),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: responsiveHeight(24)),
+                  decoration: BoxDecoration(
+                    color: AppColor.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: AppColor.grayBorder),
                   ),
+                  child: controller.ticket.imageUrl == null
+                      ? IconButton(
+                          onPressed: () =>
+                              controller.pickImage(ImageSource.gallery),
+                          icon: Image.asset(
+                            'assets/icons/add-image.png',
+                            color: AppColor.black,
+                          ),
+                        )
+                      : Column(
+                          children: [
+                            GridView.count(
+                              shrinkWrap: true,
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 2.5,
+                              children: controller.imageList
+                                  .map((img) => Image.file(File(img.path)))
+                                  .toList(),
+                            ),
+                            IconButton(
+                              onPressed: () =>
+                                  controller.pickImage(ImageSource.gallery),
+                              icon: Image.asset('assets/icons/add-photo.png',
+                                  height: responsiveHeight(24),
+                                  width: responsiveWidth(24),
+                                  color: AppColor.black),
+                            ),
+                          ],
+                        ),
                 ),
                 SizedBox(height: responsiveHeight(24)),
-                ElevatedButton(
-                  onPressed: controller.ticket.status == 'Confirming'
-                      ? () {
-                          controller.acceptTicket();
-                        }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColor.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    minimumSize: Size(double.infinity, responsiveHeight(48)),
-                    disabledBackgroundColor: AppColor.white.withOpacity(0.8),
-                  ),
-                  child: Text(
-                    'Xác nhận đã giải quyết',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: responsiveFont(16),
-                      color: AppColor.main,
-                      fontFamily: 'SF Pro Display',
-                    ),
-                  ),
-                ),
-                Center(
-                  child: TextButton(
-                    onPressed: () {
-                      controller.deleteTicket();
-                    },
-                    child: Text(
-                      'Hủy bỏ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: responsiveFont(16),
-                        color: AppColor.white,
-                        fontFamily: 'SF Pro Display',
-                      ),
-                    ),
-                  ),
-                ),
+                getStatus(controller.ticket.status!),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  Widget getStatus(String status) {
+    if (status == 'Confirming') {
+      return ElevatedButton(
+        onPressed: () => controller.acceptTicket(),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColor.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100),
+          ),
+          minimumSize: Size(double.infinity, responsiveHeight(48)),
+          disabledBackgroundColor: AppColor.white.withOpacity(0.8),
+        ),
+        child: Text(
+          'Xác nhận đã giải quyết',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: responsiveFont(16),
+            color: AppColor.main,
+            fontFamily: 'SF Pro Display',
+          ),
+        ),
+      );
+    } else if (status == 'Active') {
+      return ElevatedButton(
+        onPressed: () => controller.deleteTicket(),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColor.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100),
+          ),
+          minimumSize: Size(double.infinity, responsiveHeight(48)),
+          disabledBackgroundColor: AppColor.white.withOpacity(0.8),
+        ),
+        child: Text(
+          'Huỷ',
+          style: TextStyle(
+            fontWeight: FontWeight.w500,
+            fontSize: responsiveFont(16),
+            color: AppColor.main,
+            fontFamily: 'SF Pro Display',
+          ),
+        ),
+      );
+    }
+    return const SizedBox();
   }
 }

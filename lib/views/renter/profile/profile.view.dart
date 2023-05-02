@@ -557,7 +557,9 @@ class ProfileScreen extends GetWidget<ProfileController> {
                 SizedBox(height: responsiveHeight(10)),
                 _buildRow(
                   title: 'Giới tính',
-                  value: controller.renter.value.gender == 'nam' ? 'Nam' : 'Nữ',
+                  value: controller.renter.value.gender!.toLowerCase() == 'nam'
+                      ? 'Nam'
+                      : 'Nữ',
                 ),
                 const Divider(color: AppColor.grayLight, thickness: 1),
                 button(

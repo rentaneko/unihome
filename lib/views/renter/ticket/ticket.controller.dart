@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:unihome/repositories/models/ticket.model.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
+import 'package:unihome/routes/pages.dart';
 import 'package:unihome/utils/metric.dart';
 
 class TicketController extends GetxController {
@@ -61,8 +62,7 @@ class TicketController extends GetxController {
           ticketDesc.clear();
           selectedType.value = listTicketType[0];
           imageList.clear();
-          getListTicket();
-          goBack();
+          goToAndRemoveAll(screen: ROUTE_NAV_BAR);
           showToast('SUCCESSFUL');
         } else {
           showToast('BUG!!!');
