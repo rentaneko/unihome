@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:unihome/constant/value.constant.dart';
 import 'package:unihome/repositories/apis/user.api.dart';
 import 'package:unihome/repositories/models/contract.model.dart';
@@ -80,8 +81,6 @@ class UserRepo {
       required String fullname,
       required String address}) async {
     var res = await userApi.editProfileTech(email, phone, fullname, address);
-    Get.log('[CODE] ====================== ${res!.code}');
-    Get.log('[MESSAGE] ====================== ${res!.message}');
     return res!.code == SUCCESS ? true : false;
   }
 
@@ -89,7 +88,7 @@ class UserRepo {
       {required String ticketDesc,
       required int type,
       required String ticketName,
-      required List<File> images}) async {
+      required List<XFile> images}) async {
     var res = await userApi.requestTicket(
         ticketName: ticketName,
         ticketDesc: ticketDesc,
@@ -208,5 +207,10 @@ class UserRepo {
   Future<String?> solveTicketTech(String idTicket) async {
     var res = await userApi.solveTicketTech(idTicket);
     return res!.code == SUCCESS ? 'true' : res.message;
+  }
+
+  Future<Ticket?> getTicketDetail(String idTicket) async {
+    var response = await userApi.getTicketDetail(idTicket);
+    return response!.code == SUCCESS ? Ticket.fromJson(response.data) : null;
   }
 }

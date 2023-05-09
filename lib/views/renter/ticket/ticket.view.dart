@@ -55,7 +55,12 @@ class TicketScreen extends GetWidget<TicketController> {
                     children: <Widget>[
                       SizedBox(height: responsiveHeight(12)),
                       _buildTabbar(),
-                      _buildBody(),
+                      controller.listTicket.isEmpty
+                          ? Padding(
+                              padding:
+                                  EdgeInsets.only(top: responsiveHeight(48)),
+                              child: const Text('Hiện tại chưa có yêu cầu nào'))
+                          : _buildBody(),
                     ],
                   ),
                 ),
@@ -310,6 +315,10 @@ class TicketScreen extends GetWidget<TicketController> {
             }
           },
         );
+        if (tmp.isEmpty) {
+          return Center(child: Text('Không có yêu cầu phù hợp'));
+        }
+
         return Container(
           height: getHeightDevice(),
           width: getWidthDevice(),
@@ -321,7 +330,7 @@ class TicketScreen extends GetWidget<TicketController> {
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
                 onTap: () =>
-                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index]),
+                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index].id),
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: responsiveWidth(16),
@@ -410,6 +419,9 @@ class TicketScreen extends GetWidget<TicketController> {
             }
           },
         );
+        if (tmp.isEmpty) {
+          return Center(child: Text('Không có yêu cầu phù hợp'));
+        }
         return Container(
           height: getHeightDevice(),
           width: getWidthDevice(),
@@ -421,7 +433,7 @@ class TicketScreen extends GetWidget<TicketController> {
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
                 onTap: () =>
-                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index]),
+                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index].id),
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: responsiveWidth(16),
@@ -510,6 +522,9 @@ class TicketScreen extends GetWidget<TicketController> {
             }
           },
         );
+        if (tmp.isEmpty) {
+          return Center(child: Text('Không có yêu cầu phù hợp'));
+        }
         return Container(
           height: getHeightDevice(),
           width: getWidthDevice(),
@@ -521,7 +536,7 @@ class TicketScreen extends GetWidget<TicketController> {
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
                 onTap: () =>
-                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index]),
+                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index].id),
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: responsiveWidth(16),
@@ -611,6 +626,9 @@ class TicketScreen extends GetWidget<TicketController> {
             }
           },
         );
+        if (tmp.isEmpty) {
+          return Center(child: Text('Không có yêu cầu phù hợp'));
+        }
         return Container(
           height: getHeightDevice(),
           width: getWidthDevice(),
@@ -622,7 +640,7 @@ class TicketScreen extends GetWidget<TicketController> {
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
                 onTap: () =>
-                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index]),
+                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index].id),
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: responsiveWidth(16),
@@ -717,7 +735,7 @@ class TicketScreen extends GetWidget<TicketController> {
           return InkWell(
             onTap: () => goTo(
                 screen: ROUTE_TICKET_DETAIL,
-                argument: controller.listTicket[index]),
+                argument: controller.listTicket[index].id),
             child: Container(
               padding: EdgeInsets.symmetric(
                 horizontal: responsiveWidth(16),

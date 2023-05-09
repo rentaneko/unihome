@@ -10,7 +10,9 @@ import 'package:unihome/routes/pages.dart';
 import 'package:unihome/utils/metric.dart';
 
 class TicketDetailController extends GetxController {
-  var ticket = getArgument() as Ticket;
+  var id = getArgument() as int;
+  var ticket = Ticket().obs;
+  var isLoading = true.obs;
 
   TextEditingController desc = TextEditingController();
   var imageList = <File>[].obs;
@@ -19,13 +21,28 @@ class TicketDetailController extends GetxController {
 
   @override
   void onInit() {
-    desc.text = ticket.desc.toString();
-    Get.log('[IMAGE] ============== ${ticket.imageUrl}');
+    Future.wait(
+      [
+        getTicketDetail(),
+      ],
+    ).then((_) => isLoading.value = false);
+
     super.onInit();
   }
 
+  Future<void> getTicketDetail() async {
+    await _userRepo.getTicketDetail(id.toString()).then(
+      (value) {
+        if (value != null) {
+          ticket.value = value;
+          desc.text = ticket.value.desc.toString();
+        }
+      },
+    );
+  }
+
   Future<void> acceptTicket() async {
-    await _userRepo.acceptTicket(ticket.id.toString()).then((value) {
+    await _userRepo.acceptTicket(ticket.value.id.toString()).then((value) {
       if (value == 'true') {
         showToast('Xác nhận yêu cầu thành công');
         goToAndRemoveAll(screen: ROUTE_NAV_BAR);
@@ -36,7 +53,7 @@ class TicketDetailController extends GetxController {
   }
 
   Future<void> deleteTicket() async {
-    await _userRepo.deleteTicket(ticket.id.toString()).then((value) {
+    await _userRepo.deleteTicket(ticket.value.id.toString()).then((value) {
       if (value == 'true') {
         showToast('Xoá yêu cầu thành công');
         goBack();

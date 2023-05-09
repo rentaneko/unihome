@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unihome/constant/value.constant.dart';
 import 'package:unihome/repositories/res/base_response.dart';
@@ -94,7 +95,6 @@ class BaseConnect extends GetConnect {
         query: query,
         headers: headers);
     if (response.isOk) {
-      Get.log('[RESPONSE] : ${response.body?.toMap()}');
       return response.body;
     } else {
       hideLoading();
@@ -107,23 +107,48 @@ class BaseConnect extends GetConnect {
 
   Future<BaseResponse?> postFormDataRequest(
     String url, {
-    required List<File> file,
+    required List<XFile> file,
     required int ticketTypeId,
     required String desc,
     required String name,
     headers,
   }) async {
-    final form = FormData({
-      "TicketTypeId": ticketTypeId,
-      "Description": desc,
-      "TicketName": name,
-      "ImageUploadRequest": file.map(
-        (e) => MultipartFile(e.path, filename: 'file'),
-      ),
-      //  MultipartFile(file.path, filename: "file"),
-    });
+    var form = FormData({});
+    if (file.length == 1) {
+      form = FormData({
+        "TicketTypeId": ticketTypeId,
+        "Description": desc,
+        "TicketName": name,
+        "ImageUploadRequest": [
+          MultipartFile(file[0].path, filename: file[0].path),
+        ],
+      });
+    } else if (file.length == 2) {
+      form = FormData({
+        "TicketTypeId": ticketTypeId,
+        "Description": desc,
+        "TicketName": name,
+        "ImageUploadRequest": [
+          MultipartFile(file[0].path, filename: file[0].path),
+          MultipartFile(file[1].path, filename: file[1].path),
+        ],
+      });
+    } else if (file.length == 3) {
+      form = FormData({
+        "TicketTypeId": ticketTypeId,
+        "Description": desc,
+        "TicketName": name,
+        "ImageUploadRequest": [
+          MultipartFile(file[0].path, filename: file[0].path),
+          MultipartFile(file[1].path, filename: file[1].path),
+          MultipartFile(file[2].path, filename: file[2].path),
+        ],
+      });
+    }
+
     var response = await post(url, form,
         decoder: (map) => BaseResponse.fromMap(map), headers: headers);
+
     if (response.isOk) {
       Get.log('[RESPONSE] : ${response.body?.toMap()}');
       return response.body;

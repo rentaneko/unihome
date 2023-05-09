@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:unihome/repositories/models/ticket.model.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
-import 'package:unihome/routes/pages.dart';
 import 'package:unihome/utils/metric.dart';
 
 class TicketController extends GetxController {
@@ -17,7 +16,7 @@ class TicketController extends GetxController {
   var listTicket = <Ticket>[].obs;
   var listTicketType = <TicketType>[].obs;
   var selectedType = TicketType().obs;
-  var imageList = <File>[].obs;
+  var imageList = <XFile>[].obs;
 
   final _userRepo = Get.find<UserRepo>();
 
@@ -62,8 +61,9 @@ class TicketController extends GetxController {
           ticketDesc.clear();
           selectedType.value = listTicketType[0];
           imageList.clear();
-          goToAndRemoveAll(screen: ROUTE_NAV_BAR);
+          goBack();
           showToast('SUCCESSFUL');
+          getListTicket();
         } else {
           showToast('BUG!!!');
         }
@@ -95,9 +95,7 @@ class TicketController extends GetxController {
         showToast('Bạn chỉ được chọn tối đa 3 bức ảnh');
         pickedList.clear();
       } else {
-        pickedList.forEach((element) {
-          imageList.add(File(element.path));
-        });
+        imageList.value = pickedList;
       }
     } on PlatformException catch (e) {
       print(e);
