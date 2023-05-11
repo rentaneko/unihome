@@ -99,46 +99,46 @@ class TicketDetailScreen extends GetWidget<TicketDetailController> {
                     ),
                     SizedBox(height: responsiveHeight(8)),
 
-                    // TextFormField(
-                    //   decoration: InputDecoration(
-                    //     contentPadding: EdgeInsets.symmetric(
-                    //       horizontal: responsiveWidth(8),
-                    //       vertical: responsiveHeight(4),
-                    //     ),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //       borderSide: const BorderSide(
-                    //         color: AppColor.grayBorder,
-                    //         width: 0.5,
-                    //       ),
-                    //     ),
-                    //     enabledBorder: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //       borderSide: const BorderSide(
-                    //         color: AppColor.main,
-                    //         width: 0.5,
-                    //       ),
-                    //     ),
-                    //     errorBorder: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(10),
-                    //       borderSide: const BorderSide(
-                    //         color: AppColor.price,
-                    //         width: 0.5,
-                    //       ),
-                    //     ),
-                    //     fillColor: AppColor.white,
-                    //     filled: true,
-                    //     enabled: false,
-                    //     hintText:
-                    //         '${controller.ticket.value.ticketType!.name}',
-                    //     hintStyle: TextStyle(
-                    //       fontWeight: FontWeight.w500,
-                    //       fontSize: responsiveFont(16),
-                    //       color: AppColor.blackText,
-                    //       fontFamily: 'SF Pro Display',
-                    //     ),
-                    //   ),
-                    // ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: responsiveWidth(8),
+                          vertical: responsiveHeight(4),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: AppColor.grayBorder,
+                            width: 0.5,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: AppColor.main,
+                            width: 0.5,
+                          ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: AppColor.price,
+                            width: 0.5,
+                          ),
+                        ),
+                        fillColor: AppColor.white,
+                        filled: true,
+                        enabled: false,
+                        hintText:
+                            '${controller.ticket.value.ticketType!.name}',
+                        hintStyle: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: responsiveFont(16),
+                          color: AppColor.blackText,
+                          fontFamily: 'SF Pro Display',
+                        ),
+                      ),
+                    ),
                     SizedBox(height: responsiveHeight(12)),
                     Text(
                       'Miêu tả thêm',
