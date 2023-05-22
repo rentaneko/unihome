@@ -136,14 +136,15 @@ class HouseScreen extends GetWidget<HouseController> {
       child: Column(
         children: [
           _buildRow(
-              title: 'Ký túc xá', value: '${controller.rental.value.flatName}'),
+              title: 'Ký túc xá',
+              value: '${controller.rental.value.buildingName}'),
           const Divider(color: AppColor.gray400, thickness: 1),
           _buildRow(
               title: 'Địa chỉ',
               value: '${controller.rental.value.buildingAddress}'),
           const Divider(color: AppColor.gray400, thickness: 1),
           _buildRow(
-              title: 'Phòng', value: '${controller.rental.value.buildingName}'),
+              title: 'Phòng', value: '${controller.rental.value.flatName}'),
           const Divider(color: AppColor.gray400, thickness: 1),
           _managerBlock(),
         ],

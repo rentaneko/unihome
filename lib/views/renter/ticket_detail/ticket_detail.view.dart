@@ -98,7 +98,6 @@ class TicketDetailScreen extends GetWidget<TicketDetailController> {
                       ),
                     ),
                     SizedBox(height: responsiveHeight(8)),
-
                     TextFormField(
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(
@@ -129,8 +128,7 @@ class TicketDetailScreen extends GetWidget<TicketDetailController> {
                         fillColor: AppColor.white,
                         filled: true,
                         enabled: false,
-                        hintText:
-                            '${controller.ticket.value.ticketType!.name}',
+                        hintText: '${controller.ticket.value.ticketType!.name}',
                         hintStyle: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: responsiveFont(16),
@@ -290,9 +288,7 @@ class TicketDetailScreen extends GetWidget<TicketDetailController> {
       );
     } else if (status == 'Active') {
       return ElevatedButton(
-        // onPressed: () => controller.deleteTicket(),
-        onPressed: () =>
-            Get.log('IMAGE ============== ${controller.ticket.value.imageUrl}'),
+        onPressed: () => controller.deleteTicket(),
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColor.white,
           shape: RoundedRectangleBorder(

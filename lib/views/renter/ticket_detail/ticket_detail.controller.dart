@@ -8,6 +8,7 @@ import 'package:unihome/repositories/models/ticket.model.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
 import 'package:unihome/routes/pages.dart';
 import 'package:unihome/utils/metric.dart';
+import 'package:unihome/views/renter/ticket/ticket.controller.dart';
 
 class TicketDetailController extends GetxController {
   var id = getArgument() as int;
@@ -18,6 +19,7 @@ class TicketDetailController extends GetxController {
   var imageList = <File>[].obs;
 
   final _userRepo = Get.find<UserRepo>();
+  final _ticketCtrl = Get.find<TicketController>();
 
   @override
   void onInit() {
@@ -44,8 +46,10 @@ class TicketDetailController extends GetxController {
   Future<void> acceptTicket() async {
     await _userRepo.acceptTicket(ticket.value.id.toString()).then((value) {
       if (value == 'true') {
-        showToast('Xác nhận yêu cầu thành công');
-        goToAndRemoveAll(screen: ROUTE_NAV_BAR);
+        _ticketCtrl.getListTicket().then((_) {
+          showToast('Xác nhận yêu cầu thành công');
+          goBack();
+        });
       } else {
         showToast(value.toString());
       }
@@ -55,8 +59,10 @@ class TicketDetailController extends GetxController {
   Future<void> deleteTicket() async {
     await _userRepo.deleteTicket(ticket.value.id.toString()).then((value) {
       if (value == 'true') {
-        showToast('Xoá yêu cầu thành công');
-        goBack();
+        _ticketCtrl.getListTicket().then((_) {
+          showToast('Xoá yêu cầu thành công');
+          goBack();
+        });
       } else {
         showToast(value.toString());
       }

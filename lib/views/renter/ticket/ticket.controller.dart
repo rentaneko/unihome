@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -42,12 +40,14 @@ class TicketController extends GetxController {
   Future<void> getListTicket() async {
     await _userRepo.getListTicket().then((value) {
       if (value != null) {
+        listTicket.clear();
         listTicket.value = value;
       }
     });
   }
 
   Future<void> requestTicket() async {
+    showLoading();
     await _userRepo
         .requestTicket(
       images: imageList,
@@ -69,6 +69,7 @@ class TicketController extends GetxController {
         }
       },
     );
+    hideLoading();
   }
 
   Future<void> getTicketType() async {
