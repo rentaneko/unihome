@@ -187,7 +187,7 @@ class UserApi extends BaseConnect {
   }
 
   Future<BaseResponse?> deleteTicket(String idTicket) async {
-    return await deleteRequest('/api/tickets/$idTicket/user');
+    return await putRequest('/api/tickets/$idTicket/user');
   }
 
   Future<BaseResponse?> acceptTicket(String idTicket) async {
