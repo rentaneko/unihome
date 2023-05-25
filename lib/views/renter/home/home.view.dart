@@ -4,12 +4,17 @@ import 'package:unihome/routes/pages.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
 import 'package:unihome/views/renter/home/home.controller.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class HomeScreen extends GetWidget<HomeController> {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    WebViewController webController = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(const Color(0x00000000))
+      ..loadRequest(Uri.parse('https://vinflat.myouri.cyou/'));
     return SafeArea(
       child: Obx(
         () => controller.isLoading.value
@@ -58,6 +63,9 @@ class HomeScreen extends GetWidget<HomeController> {
                         ),
                       ),
                       SizedBox(height: responsiveHeight(16)),
+                      SizedBox(
+                          height: 500,
+                          child: WebViewWidget(controller: webController)),
                     ],
                   ),
                 ),

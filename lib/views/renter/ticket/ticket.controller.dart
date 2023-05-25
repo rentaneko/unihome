@@ -62,10 +62,10 @@ class TicketController extends GetxController {
           selectedType.value = listTicketType[0];
           imageList.clear();
           goBack();
-          showToast('SUCCESSFUL');
+          showToast('Tạo yêu cầu thành công');
           getListTicket();
         } else {
-          showToast('BUG!!!');
+          showToast('Có lỗi khi tạo yêu cầu');
         }
       },
     );

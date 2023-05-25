@@ -50,7 +50,7 @@ class TicketScreen extends GetWidget<TicketController> {
           () => controller.isLoading.value
               ? const Center(child: CircularProgressIndicator.adaptive())
               : DefaultTabController(
-                  length: 5,
+                  length: 6,
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: responsiveHeight(12)),
@@ -282,9 +282,10 @@ class TicketScreen extends GetWidget<TicketController> {
         tabs: const [
           Tab(text: 'Tất cả'),
           Tab(text: 'Gửi'),
-          Tab(text: 'Thảo luận'),
           Tab(text: 'Đang xử lý'),
+          Tab(text: 'Đợi xác nhận'),
           Tab(text: 'Đã xong'),
+          Tab(text: 'Đã huỷ'),
         ],
       ),
     );
@@ -299,6 +300,7 @@ class TicketScreen extends GetWidget<TicketController> {
           _allTab('processing'),
           _allTab('confirming'),
           _allTab('solved'),
+          _allTab('cancelled'),
         ],
       ),
     );
@@ -940,11 +942,11 @@ class TicketScreen extends GetWidget<TicketController> {
       case 'active':
         return 'Gửi';
       case 'processing':
-        return 'Thảo luận';
+        return 'Đang xử lý';
       case 'solved':
         return 'Hoàn thành';
       case 'confirming':
-        return 'Đang xử lí';
+        return 'Đợi xác nhận';
       default:
         return 'Đã huỷ';
     }

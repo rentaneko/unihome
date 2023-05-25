@@ -95,9 +95,11 @@ class ContractDetail {
   });
 
   ContractDetail.fromJson(dynamic json) {
-    imageUrls = json['ImageUrls'] == null
+    imageUrls = json['ContractMeterDetail']['ImageUrls'] == null
         ? null
-        : (json['ImageUrls'] as List).map((e) => e.toString()).toList();
+        : (json['ContractMeterDetail']['ImageUrls'] as List)
+            .map((e) => e.toString())
+            .toList();
     contractId = json['ContractMeterDetail']['ContractId'] == null
         ? null
         : json['ContractMeterDetail']['ContractId'] as int;

@@ -48,26 +48,10 @@ class InvoiceDetailScreen extends GetWidget<InvoiceDetailController> {
                           height: responsiveHeight(250),
                           child: _moneyBlock(),
                         ),
-                        _imageBlock(),
                       ],
                     ),
         ),
       ),
-    );
-  }
-
-  Widget _imageBlock() {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: responsiveWidth(16),
-        vertical: responsiveHeight(12),
-      ),
-      padding: EdgeInsets.all(responsiveWidth(16)),
-      decoration: BoxDecoration(
-        color: AppColor.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Image.asset('assets/icons/add-image.png'),
     );
   }
 

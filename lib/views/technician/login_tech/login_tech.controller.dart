@@ -14,6 +14,8 @@ class LoginTechController extends GetxController {
   late SharedPreferences _preferences;
   final formKey = GlobalKey<FormState>();
 
+  var isVisible = false.obs;
+
   final _userRepo = Get.find<UserRepo>();
   @override
   void onClose() {

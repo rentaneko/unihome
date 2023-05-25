@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
@@ -87,14 +86,10 @@ class ContractDetailScreen extends GetWidget<ContractDetailController> {
   }
 
   Widget _imageDetail() {
-    return MasonryGridView.builder(
+    return ListView.builder(
       itemCount: controller.contract.value.imageUrls!.length,
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: responsiveHeight(16),
-      crossAxisSpacing: responsiveWidth(16),
-      gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3),
+      physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) => Image.network(
         controller.contract.value.imageUrls![index].toString(),
         fit: BoxFit.contain,

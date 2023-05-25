@@ -27,6 +27,7 @@ dependencies:
   flutter_format_money_vietnam: ^0.0.2
   cached_network_image: ^3.2.3
   flutter_phone_direct_caller: ^2.1.1
+  webview_flutter: ^4.2.1
 
 dev_dependencies:
   integration_test:
