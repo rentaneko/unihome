@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:unihome/routes/pages.dart';
 import 'package:unihome/styles/color.dart';
 import 'package:unihome/utils/metric.dart';
@@ -15,24 +14,8 @@ class SplashScreen extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: responsiveWidth(8)),
-              child: MasonryGridView.builder(
-                itemCount: 6,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                mainAxisSpacing: responsiveHeight(16),
-                crossAxisSpacing: responsiveWidth(16),
-                gridDelegate:
-                    const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                ),
-                itemBuilder: (context, index) => Image.asset(
-                  'assets/images/Image-${index + 1}.png',
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
+            Image.asset('assets/logos/logo.png'),
+            SizedBox(height: responsiveHeight(30)),
             Center(
               child: Text(
                 'VINFLAT',

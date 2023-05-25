@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:platform_device_id/platform_device_id.dart';
 import 'package:unihome/constant/value.constant.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +12,7 @@ class LoginController extends GetxController {
   late TextEditingController passwordCtrl;
   late SharedPreferences _preferences;
 
-  var isVisible = true.obs;
+  var isVisible = false.obs;
 
   final formKey = GlobalKey<FormState>();
 

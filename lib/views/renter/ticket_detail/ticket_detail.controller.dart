@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:unihome/repositories/models/ticket.model.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
-import 'package:unihome/routes/pages.dart';
 import 'package:unihome/utils/metric.dart';
 import 'package:unihome/views/renter/ticket/ticket.controller.dart';
 

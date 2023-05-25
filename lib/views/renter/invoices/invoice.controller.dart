@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unihome/repositories/models/invoice.model.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
 import 'package:unihome/utils/metric.dart';

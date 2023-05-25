@@ -124,41 +124,51 @@ class LoginScreen extends GetWidget<LoginController> {
                   ),
                 ),
                 SizedBox(height: responsiveHeight(10)),
-                TextFormField(
-                  key: const Key('password_controller'),
-                  controller: controller.passwordCtrl,
-                  validator: (value) => controller.validatePassword(value),
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    prefixIcon: Image.asset(
-                      'assets/icons/key.png',
-                      color: AppColor.primary,
-                    ),
-                    focusColor: AppColor.primary,
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(100),
-                      borderSide: const BorderSide(color: AppColor.price),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(100),
-                      borderSide: const BorderSide(color: AppColor.price),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(100),
-                      borderSide: const BorderSide(color: AppColor.primary),
-                    ),
-                    filled: true,
-                    fillColor: AppColor.lightBlue,
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(100),
-                      borderSide: const BorderSide(color: AppColor.grayBorder),
-                    ),
-                    hintText: 'Nhập mật khẩu ở đây',
-                    hintStyle: TextStyle(
-                      fontFamily: 'SF Pro Display',
-                      fontSize: responsiveFont(16),
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.grayText,
+                Obx(
+                  () => TextFormField(
+                    key: const Key('password_controller'),
+                    controller: controller.passwordCtrl,
+                    validator: (value) => controller.validatePassword(value),
+                    obscureText: controller.isVisible.value ? false : true,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        onPressed: () => controller.isVisible.value =
+                            !controller.isVisible.value,
+                        icon: controller.isVisible.value
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off),
+                      ),
+                      prefixIcon: Image.asset(
+                        'assets/icons/key.png',
+                        color: AppColor.primary,
+                      ),
+                      focusColor: AppColor.primary,
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(100),
+                        borderSide: const BorderSide(color: AppColor.price),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(100),
+                        borderSide: const BorderSide(color: AppColor.price),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(100),
+                        borderSide: const BorderSide(color: AppColor.primary),
+                      ),
+                      filled: true,
+                      fillColor: AppColor.lightBlue,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(100),
+                        borderSide:
+                            const BorderSide(color: AppColor.grayBorder),
+                      ),
+                      hintText: 'Nhập mật khẩu ở đây',
+                      hintStyle: TextStyle(
+                        fontFamily: 'SF Pro Display',
+                        fontSize: responsiveFont(16),
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.grayText,
+                      ),
                     ),
                   ),
                 ),

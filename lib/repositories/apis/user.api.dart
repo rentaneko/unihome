@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:unihome/repositories/res/base_connect.dart';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unihome/routes/pages.dart';
 import 'package:unihome/styles/color.dart';
-import 'package:unihome/utils/dummy_data.dart';
 import 'package:unihome/utils/metric.dart';
 import 'package:unihome/views/renter/home/home.controller.dart';
 
