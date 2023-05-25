@@ -12,6 +12,7 @@ class TicketDetailController extends GetxController {
   var id = getArgument() as int;
   var ticket = Ticket().obs;
   var isLoading = true.obs;
+  var isEditing = false.obs;
 
   TextEditingController desc = TextEditingController();
   var imageList = <File>[].obs;

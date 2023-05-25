@@ -147,6 +147,7 @@ class TicketDetailScreen extends GetWidget<TicketDetailController> {
                     SizedBox(height: responsiveHeight(8)),
                     TextFormField(
                       controller: controller.desc,
+                      readOnly: controller.isEditing.value ? false : true,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(
                           horizontal: responsiveWidth(8),
@@ -240,19 +241,49 @@ class TicketDetailScreen extends GetWidget<TicketDetailController> {
                                         .toList(),
                                   ),
                                 ),
-                                IconButton(
-                                  onPressed: () =>
-                                      controller.pickImage(ImageSource.gallery),
-                                  icon: Image.asset(
-                                      'assets/icons/add-photo.png',
-                                      height: responsiveHeight(24),
-                                      width: responsiveWidth(24),
-                                      color: AppColor.black),
-                                ),
+                                controller.isEditing.value
+                                    ? IconButton(
+                                        onPressed: () => controller
+                                            .pickImage(ImageSource.gallery),
+                                        icon: Image.asset(
+                                            'assets/icons/add-photo.png',
+                                            height: responsiveHeight(24),
+                                            width: responsiveWidth(24),
+                                            color: AppColor.black),
+                                      )
+                                    : const SizedBox(),
                               ],
                             ),
                     ),
                     SizedBox(height: responsiveHeight(24)),
+                    controller.ticket.value.status == 'Active'
+                        ? ElevatedButton(
+                            onPressed: () => controller.isEditing.value =
+                                !controller.isEditing.value,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColor.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              minimumSize:
+                                  Size(double.infinity, responsiveHeight(48)),
+                              disabledBackgroundColor:
+                                  AppColor.white.withOpacity(0.8),
+                            ),
+                            child: Text(
+                              controller.isEditing.value
+                                  ? 'Xác nhận'
+                                  : 'Chỉnh sửa yêu cầu',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: responsiveFont(16),
+                                color: AppColor.main,
+                                fontFamily: 'SF Pro Display',
+                              ),
+                            ),
+                          )
+                        : const SizedBox(),
+                    SizedBox(height: responsiveHeight(12)),
                     getStatus(controller.ticket.value.status!),
                   ],
                 ),
