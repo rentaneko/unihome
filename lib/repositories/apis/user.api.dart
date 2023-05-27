@@ -114,6 +114,21 @@ class UserApi extends BaseConnect {
     );
   }
 
+  Future<BaseResponse?> editTicket(
+      {required String ticketDesc,
+      required String ticketId,
+      required int type,
+      required String ticketName,
+      required List<XFile> images}) async {
+    return await putFormData(
+      '/api/tickets/$ticketId',
+      file: images,
+      ticketTypeId: type,
+      desc: ticketDesc,
+      name: ticketName,
+    );
+  }
+
   Future<BaseResponse?> getListTicket() async {
     return await getResponse('/api/tickets?PageSize=25');
   }

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:unihome/constant/value.constant.dart';
 import 'package:unihome/repositories/apis/user.api.dart';
@@ -92,6 +93,24 @@ class UserRepo {
         type: type,
         images: images);
     return res!.code == SUCCESS ? true : false;
+  }
+
+  Future<bool> editTicket(
+      {required String ticketDesc,
+      required String ticketId,
+      required int type,
+      required String ticketName,
+      required List<XFile> images}) async {
+    var res = await userApi.editTicket(
+      ticketId: ticketId,
+      ticketName: ticketName,
+      ticketDesc: ticketDesc,
+      type: type,
+      images: images,
+    );
+    Get.log('[MESSAGE] ==================== ${res!.code}');
+    Get.log('[MESSAGE] ==================== ${res.message}');
+    return res.code == SUCCESS ? true : false;
   }
 
   Future<List<Ticket>?> getListTicket() async {

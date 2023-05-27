@@ -18,7 +18,6 @@ class BaseConnect extends GetConnect {
       ..addAuthenticator<dynamic>((request) async {
         SharedPreferences pref = await SharedPreferences.getInstance();
         var token = pref.getString(TOKEN);
-        Get.log('[TOKEN] $token');
         if (token != null) request.headers[AUTHORIZATION] = "$BEARER $token";
         return request;
       });
@@ -77,7 +76,6 @@ class BaseConnect extends GetConnect {
         decoder: (map) => BaseResponse.fromMap(map),
         query: query,
         headers: headers);
-    print(response.body?.toMap());
     if (response.isOk) {
       return response.body;
     } else {
@@ -94,6 +92,61 @@ class BaseConnect extends GetConnect {
         decoder: (map) => BaseResponse.fromMap(map),
         query: query,
         headers: headers);
+    if (response.isOk) {
+      return response.body;
+    } else {
+      hideLoading();
+      return BaseResponse(
+        message: response.statusText,
+        code: response.status.code.toString(),
+      );
+    }
+  }
+
+  Future<BaseResponse?> putFormData(
+    String url, {
+    required List<XFile> file,
+    required int ticketTypeId,
+    required String desc,
+    required String name,
+    headers,
+  }) async {
+    var form = FormData({});
+    if (file.length == 1) {
+      form = FormData({
+        "TicketTypeId": ticketTypeId,
+        "Description": desc,
+        "TicketName": name,
+        "ImageUploadRequest": [
+          MultipartFile(file[0].path, filename: file[0].path),
+        ],
+      });
+    } else if (file.length == 2) {
+      form = FormData({
+        "TicketTypeId": ticketTypeId,
+        "Description": desc,
+        "TicketName": name,
+        "ImageUploadRequest": [
+          MultipartFile(file[0].path, filename: file[0].path),
+          MultipartFile(file[1].path, filename: file[1].path),
+        ],
+      });
+    } else if (file.length == 3) {
+      form = FormData({
+        "TicketTypeId": ticketTypeId,
+        "Description": desc,
+        "TicketName": name,
+        "ImageUploadRequest": [
+          MultipartFile(file[0].path, filename: file[0].path),
+          MultipartFile(file[1].path, filename: file[1].path),
+          MultipartFile(file[2].path, filename: file[2].path),
+        ],
+      });
+    }
+
+    var response = await put(url, form,
+        decoder: (map) => BaseResponse.fromMap(map), headers: headers);
+
     if (response.isOk) {
       return response.body;
     } else {
@@ -150,7 +203,6 @@ class BaseConnect extends GetConnect {
         decoder: (map) => BaseResponse.fromMap(map), headers: headers);
 
     if (response.isOk) {
-      Get.log('[RESPONSE] : ${response.body?.toMap()}');
       return response.body;
     } else {
       hideLoading();

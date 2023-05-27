@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -15,10 +14,13 @@ class TicketDetailController extends GetxController {
   var isEditing = false.obs;
 
   TextEditingController desc = TextEditingController();
-  var imageList = <File>[].obs;
+  TextEditingController name = TextEditingController();
+
+  var imageList = <XFile>[].obs;
 
   final _userRepo = Get.find<UserRepo>();
   final _ticketCtrl = Get.find<TicketController>();
+  final form = GlobalKey<FormState>();
 
   @override
   void onInit() {
@@ -37,6 +39,7 @@ class TicketDetailController extends GetxController {
         if (value != null) {
           ticket.value = value;
           desc.text = ticket.value.desc.toString();
+          name.text = ticket.value.name.toString();
         }
       },
     );
@@ -76,12 +79,32 @@ class TicketDetailController extends GetxController {
         showToast('Bạn chỉ được chọn tối đa 3 bức ảnh');
         pickedList.clear();
       } else {
-        pickedList.forEach((element) {
-          imageList.add(File(element.path));
-        });
+        imageList.value = pickedList;
       }
     } on PlatformException catch (e) {
       print(e);
     }
+  }
+
+  Future<void> editTicket() async {
+    isLoading.value = true;
+    await _userRepo
+        .editTicket(
+      ticketDesc: desc.text,
+      ticketId: ticket.value.id.toString(),
+      type: ticket.value.ticketType!.id!,
+      ticketName: name.text,
+      images: imageList,
+    )
+        .then((value) {
+      if (value) {
+        getTicketDetail();
+        showToast('Chỉnh sửa yêu cầu thành công');
+        isEditing.value = false;
+      } else {
+        showToast('Có lỗi trong lúc kết nối với server');
+      }
+      isLoading.value = false;
+    });
   }
 }
