@@ -46,7 +46,7 @@ class ServiceInInvoice {
     serviceTypeId = json['ServiceType']['ServiceTypeId'] == null
         ? null
         : json['ServiceType']['ServiceTypeId'] as int;
-    amount = json['Amount'] == null ? null : json['Amount'] as double;
+    amount = json['Amount'] == null ? 0 : json['Amount'] as double;
     status = json['Status'] == null ? false : json['Status'] as bool;
     serviceName = json['Name'] == null ? null : json['Name'] as String;
     desc = json['Description'] == null ? null : json['Description'] as String;

@@ -130,7 +130,7 @@ class UserApi extends BaseConnect {
   }
 
   Future<BaseResponse?> getListTicket() async {
-    return await getResponse('/api/tickets?PageSize=25');
+    return await getResponse('/api/tickets?PageSize=100');
   }
 
   Future<BaseResponse?> getListTicketType() async {

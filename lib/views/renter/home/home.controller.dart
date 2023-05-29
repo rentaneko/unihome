@@ -3,6 +3,7 @@ import 'package:unihome/repositories/models/rental.model.dart';
 import 'package:unihome/repositories/models/renter.model.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
 import 'package:unihome/utils/metric.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeController extends GetxController {
   //
@@ -44,5 +45,13 @@ class HomeController extends GetxController {
         showToast('BUG!!!');
       }
     });
+  }
+
+  Future<void> openUrl() async {
+    final Uri url = Uri.parse('https://vinflat.myouri.cyou/');
+    await launchUrl(
+      url,
+      mode: LaunchMode.externalNonBrowserApplication,
+    );
   }
 }

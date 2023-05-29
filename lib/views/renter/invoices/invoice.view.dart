@@ -1,6 +1,5 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_format_money_vietnam/flutter_format_money_vietnam.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:unihome/repositories/models/invoice.model.dart';
@@ -189,7 +188,7 @@ class InvoiceScreen extends GetWidget<InvoiceController> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              listByType[index].amount.toVND(unit: 'VNĐ'),
+                              refactorMoney(listByType[index].totalAmount!),
                               style: TextStyle(
                                 fontFamily: 'SF Pro Display',
                                 fontWeight: FontWeight.w500,
@@ -313,8 +312,8 @@ class InvoiceScreen extends GetWidget<InvoiceController> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            controller.listInvoice[index].amount
-                                .toVND(unit: 'VNĐ'),
+                            refactorMoney(
+                                controller.listInvoice[index].totalAmount!),
                             style: TextStyle(
                               fontFamily: 'SF Pro Display',
                               fontWeight: FontWeight.w500,

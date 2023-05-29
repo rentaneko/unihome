@@ -1,5 +1,6 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 const DESIGN_WIDTH = 375;
 const DESIGN_HEIGHT = 812;
@@ -37,3 +38,8 @@ showLoading([String? content]) => EasyLoading.show(status: content ?? "");
 hideLoading() => EasyLoading.dismiss();
 
 getArgument() => Get.arguments;
+
+String refactorMoney(double price) {
+  final formatter = NumberFormat('###,###,###');
+  return formatter.format(price).replaceAll(',', '.');
+}

@@ -71,7 +71,7 @@ class InvoiceDetailScreen extends GetWidget<InvoiceDetailController> {
               ),
             ),
             Text(
-              '${controller.invoice.value.amount} đồng',
+              '${refactorMoney(controller.invoice.value.totalAmount!)} đồng',
               style: TextStyle(
                 fontFamily: 'SF Pro Display',
                 fontSize: responsiveFont(20),
@@ -93,28 +93,34 @@ class InvoiceDetailScreen extends GetWidget<InvoiceDetailController> {
             physics: const BouncingScrollPhysics(),
             itemCount: controller.invoice.value.invoiceDetails!.length,
             itemBuilder: (BuildContext context, int index) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '${controller.invoice.value.invoiceDetails![index].service!.serviceName}',
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Display',
-                      fontSize: responsiveFont(16),
-                      color: AppColor.blackText,
-                      fontWeight: FontWeight.w500,
-                    ),
+              return ListTile(
+                title: Text(
+                  '${controller.invoice.value.invoiceDetails![index].service!.serviceName}',
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Display',
+                    fontSize: responsiveFont(16),
+                    color: AppColor.blackText,
+                    fontWeight: FontWeight.w500,
                   ),
-                  Text(
-                    '${controller.invoice.value.invoiceDetails![index].service!.amount} đồng',
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Display',
-                      fontSize: responsiveFont(16),
-                      color: AppColor.blackText,
-                      fontWeight: FontWeight.w500,
-                    ),
+                ),
+                trailing: Text(
+                  '${refactorMoney(controller.invoice.value.invoiceDetails![index].price!)} đồng',
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Display',
+                    fontSize: responsiveFont(16),
+                    color: AppColor.blackText,
+                    fontWeight: FontWeight.w500,
                   ),
-                ],
+                ),
+                subtitle: Text(
+                  'x ${refactorMoney(controller.invoice.value.invoiceDetails![index].amount!)}',
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Display',
+                    fontSize: responsiveFont(16),
+                    color: AppColor.blackText,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               );
             },
           )

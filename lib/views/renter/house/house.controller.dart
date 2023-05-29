@@ -75,11 +75,11 @@ class HouseController extends GetxController {
             .map((element) => int.parse(element.id.toString()))
             .toList())
         .then((value) {
-      listService.forEach((service) {
-        rental.value.listService!.forEach((rental) {
-          service.checked = false;
-        });
-      });
+      // listService.forEach((service) {
+      //   rental.value.listService!.forEach((rental) {
+      //     service.checked = false;
+      //   });
+      // });
       goBack();
       showToast('Đăng ký dịch vụ thành công');
     });

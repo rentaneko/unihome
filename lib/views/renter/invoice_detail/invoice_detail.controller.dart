@@ -24,6 +24,8 @@ class InvoiceDetailController extends GetxController {
     await _userRepo.getIndvoiceDetail(invoiceId.toString()).then((value) {
       if (value != null) {
         invoice.value = value;
+
+        print(value.invoiceDetails.toString());
       } else {
         showToast('BUG!!!');
       }

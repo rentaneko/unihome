@@ -10,7 +10,7 @@ class Invoice {
   String? createTime;
   String? detail;
   String? imageUrl;
-  int? amount;
+  double? totalAmount;
   bool? status;
 
   Renter? renter;
@@ -41,8 +41,9 @@ class Invoice {
         : json['PaymentTime'] as String;
     invoiceTypeId =
         json['InvoiceTypeId'] == null ? null : json['InvoiceTypeId'] as int;
-    amount =
-        json['Amount'] == null ? null : int.parse(json['Amount'].toString());
+    totalAmount = json['TotalAmount'] == null
+        ? 0
+        : double.parse(json['TotalAmount'].toString());
     status = json['Status'] == null ? null : json['Status'] as bool;
     renter = json['Renter'] == null ? null : Renter.fromJson(json['Renter']);
     adminAccount = json['Employee'] == null
@@ -57,7 +58,7 @@ class Invoice {
   }
 
   Invoice({
-    this.amount,
+    this.totalAmount,
     this.detail,
     this.dueDate,
     this.invoiceId,

@@ -319,9 +319,9 @@ class HouseScreen extends GetWidget<HouseController> {
         itemCount: controller.rental.value.listService!.length,
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          crossAxisCount: 3,
         ),
-        crossAxisSpacing: responsiveWidth(12),
+        crossAxisSpacing: responsiveWidth(24),
         mainAxisSpacing: responsiveHeight(12),
         itemBuilder: (context, index) {
           return Container(
