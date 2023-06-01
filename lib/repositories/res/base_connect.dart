@@ -112,35 +112,43 @@ class BaseConnect extends GetConnect {
     headers,
   }) async {
     var form = FormData({});
-    if (file.length == 1) {
+    if (file.isNotEmpty) {
+      if (file.length == 1) {
+        form = FormData({
+          "TicketTypeId": ticketTypeId,
+          "Description": desc,
+          "TicketName": name,
+          "ImageUploadRequest": [
+            MultipartFile(file[0].path, filename: file[0].path),
+          ],
+        });
+      } else if (file.length == 2) {
+        form = FormData({
+          "TicketTypeId": ticketTypeId,
+          "Description": desc,
+          "TicketName": name,
+          "ImageUploadRequest": [
+            MultipartFile(file[0].path, filename: file[0].path),
+            MultipartFile(file[1].path, filename: file[1].path),
+          ],
+        });
+      } else if (file.length == 3) {
+        form = FormData({
+          "TicketTypeId": ticketTypeId,
+          "Description": desc,
+          "TicketName": name,
+          "ImageUploadRequest": [
+            MultipartFile(file[0].path, filename: file[0].path),
+            MultipartFile(file[1].path, filename: file[1].path),
+            MultipartFile(file[2].path, filename: file[2].path),
+          ],
+        });
+      }
+    } else {
       form = FormData({
         "TicketTypeId": ticketTypeId,
         "Description": desc,
         "TicketName": name,
-        "ImageUploadRequest": [
-          MultipartFile(file[0].path, filename: file[0].path),
-        ],
-      });
-    } else if (file.length == 2) {
-      form = FormData({
-        "TicketTypeId": ticketTypeId,
-        "Description": desc,
-        "TicketName": name,
-        "ImageUploadRequest": [
-          MultipartFile(file[0].path, filename: file[0].path),
-          MultipartFile(file[1].path, filename: file[1].path),
-        ],
-      });
-    } else if (file.length == 3) {
-      form = FormData({
-        "TicketTypeId": ticketTypeId,
-        "Description": desc,
-        "TicketName": name,
-        "ImageUploadRequest": [
-          MultipartFile(file[0].path, filename: file[0].path),
-          MultipartFile(file[1].path, filename: file[1].path),
-          MultipartFile(file[2].path, filename: file[2].path),
-        ],
       });
     }
 

@@ -19,7 +19,9 @@ class TicketDetailController extends GetxController {
   var imageList = <XFile>[].obs;
 
   final _userRepo = Get.find<UserRepo>();
-  final _ticketCtrl = Get.find<TicketController>();
+
+  final ticketController = Get.find<TicketController>();
+
   final form = GlobalKey<FormState>();
 
   @override
@@ -48,7 +50,7 @@ class TicketDetailController extends GetxController {
   Future<void> acceptTicket() async {
     await _userRepo.acceptTicket(ticket.value.id.toString()).then((value) {
       if (value == 'true') {
-        _ticketCtrl.getListTicket().then((_) {
+        ticketController.getListTicket().then((_) {
           showToast('Xác nhận yêu cầu thành công');
           goBack();
         });
@@ -61,7 +63,7 @@ class TicketDetailController extends GetxController {
   Future<void> deleteTicket() async {
     await _userRepo.deleteTicket(ticket.value.id.toString()).then((value) {
       if (value == 'true') {
-        _ticketCtrl.getListTicket().then((_) {
+        ticketController.getListTicket().then((_) {
           showToast('Xoá yêu cầu thành công');
           goBack();
         });
@@ -100,6 +102,7 @@ class TicketDetailController extends GetxController {
       if (value) {
         getTicketDetail();
         showToast('Chỉnh sửa yêu cầu thành công');
+        ticketController.getListTicket();
         isEditing.value = false;
       } else {
         showToast('Có lỗi trong lúc kết nối với server');

@@ -83,6 +83,7 @@ class HouseScreen extends GetWidget<HouseController> {
                                     showDialog(
                                       context: context,
                                       barrierDismissible: false,
+                                      useSafeArea: true,
                                       builder: (BuildContext context) {
                                         return _addMoreService();
                                       },
@@ -218,7 +219,6 @@ class HouseScreen extends GetWidget<HouseController> {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: responsiveWidth(10),
-          mainAxisExtent: responsiveHeight(130),
           mainAxisSpacing: responsiveHeight(20),
         ),
         itemBuilder: (BuildContext context, int index) {
@@ -231,7 +231,7 @@ class HouseScreen extends GetWidget<HouseController> {
   Widget _member(int index) {
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: responsiveWidth(16),
+        horizontal: responsiveWidth(12),
         vertical: responsiveHeight(8),
       ),
       decoration: BoxDecoration(
@@ -244,11 +244,11 @@ class HouseScreen extends GetWidget<HouseController> {
         children: [
           CircleAvatar(
             backgroundColor: AppColor.white,
-            minRadius: responsivePercent(8),
+            minRadius: responsivePercent(5),
             child: Image.asset(
               'assets/icons/user-2.png',
-              height: responsiveHeight(20),
-              width: responsiveWidth(20),
+              height: responsiveHeight(12),
+              width: responsiveWidth(12),
             ),
           ),
           SizedBox(height: responsiveHeight(6)),
@@ -271,7 +271,6 @@ class HouseScreen extends GetWidget<HouseController> {
               color: AppColor.blackText,
             ),
           ),
-          SizedBox(height: responsiveHeight(6)),
         ],
       ),
     );
@@ -319,24 +318,25 @@ class HouseScreen extends GetWidget<HouseController> {
         itemCount: controller.rental.value.listService!.length,
         physics: const NeverScrollableScrollPhysics(),
         gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
+          crossAxisCount: 2,
         ),
-        crossAxisSpacing: responsiveWidth(24),
+        crossAxisSpacing: responsiveWidth(12),
         mainAxisSpacing: responsiveHeight(12),
         itemBuilder: (context, index) {
           return Container(
             padding: EdgeInsets.symmetric(
-              vertical: responsiveHeight(10),
-              horizontal: responsiveWidth(24),
+              vertical: responsiveHeight(12),
+              horizontal: responsiveWidth(12),
             ),
             decoration: BoxDecoration(
               color: AppColor.main,
               borderRadius: BorderRadius.circular(92),
             ),
             child: Text(
-              '${controller.rental.value.listService![index].name}',
+              '${controller.rental.value.listService![index].serviceName}',
               overflow: TextOverflow.clip,
-              maxLines: 1,
+              maxLines: 2,
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'SF Pro Display',
                 fontWeight: FontWeight.w400,
@@ -381,7 +381,10 @@ class HouseScreen extends GetWidget<HouseController> {
                     controller.listService[index].checked = value ?? false;
                     controller.listService.refresh();
                   },
-                  title: Text('${controller.listService[index].name}'),
+                  title: Text(
+                    '${controller.listService[index].serviceName}',
+                    style: TextStyle(color: AppColor.blackText),
+                  ),
                   activeColor: AppColor.complete,
                 );
               },
@@ -395,7 +398,7 @@ class HouseScreen extends GetWidget<HouseController> {
                 ElevatedButton(
                   onPressed: () => controller.addService(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColor.darkBlue,
+                    backgroundColor: AppColor.main,
                     minimumSize: Size(
                       responsiveWidth(140),
                       responsiveHeight(36),
@@ -416,7 +419,7 @@ class HouseScreen extends GetWidget<HouseController> {
                 ElevatedButton(
                   onPressed: () => goBack(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColor.darkBlue,
+                    backgroundColor: AppColor.main,
                     minimumSize: Size(
                       responsiveWidth(140),
                       responsiveHeight(36),

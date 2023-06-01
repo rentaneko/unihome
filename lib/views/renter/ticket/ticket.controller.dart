@@ -47,29 +47,33 @@ class TicketController extends GetxController {
   }
 
   Future<void> requestTicket() async {
-    showLoading();
-    await _userRepo
-        .requestTicket(
-      images: imageList,
-      ticketDesc: ticketDesc.text.trim(),
-      ticketName: ticketName.text.trim(),
-      type: selectedType.value.id!,
-    )
-        .then(
-      (value) {
-        if (value == true) {
-          ticketDesc.clear();
-          selectedType.value = listTicketType[0];
-          imageList.clear();
-          goBack();
-          showToast('Tạo yêu cầu thành công');
-          getListTicket();
-        } else {
-          showToast('Có lỗi khi tạo yêu cầu');
-        }
-      },
-    );
-    hideLoading();
+    if (imageList.isEmpty) {
+      showToast('Vui lòng chọn hình ảnh đính kèm');
+    } else {
+      showLoading();
+      await _userRepo
+          .requestTicket(
+        images: imageList,
+        ticketDesc: ticketDesc.text.trim(),
+        ticketName: ticketName.text.trim(),
+        type: selectedType.value.id!,
+      )
+          .then(
+        (value) {
+          if (value == true) {
+            ticketDesc.clear();
+            selectedType.value = listTicketType[0];
+            imageList.clear();
+            goBack();
+            showToast('Tạo yêu cầu thành công');
+            getListTicket();
+          } else {
+            showToast('Có lỗi khi tạo yêu cầu');
+          }
+        },
+      );
+      hideLoading();
+    }
   }
 
   Future<void> getTicketType() async {

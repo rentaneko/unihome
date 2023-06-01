@@ -249,19 +249,23 @@ class TicketDetailScreen extends GetWidget<TicketDetailController> {
                                                 .toList(),
                                           ),
                                         ),
-                                        controller.isEditing.value
-                                            ? IconButton(
-                                                onPressed: () =>
-                                                    controller.pickImage(
-                                                        ImageSource.gallery),
-                                                icon: Image.asset(
-                                                    'assets/icons/add-photo.png',
-                                                    height:
-                                                        responsiveHeight(24),
-                                                    width: responsiveWidth(24),
-                                                    color: AppColor.black),
-                                              )
-                                            : const SizedBox(),
+                                        Obx(
+                                          () => controller.isEditing.value ==
+                                                  true
+                                              ? IconButton(
+                                                  onPressed: () =>
+                                                      controller.pickImage(
+                                                          ImageSource.gallery),
+                                                  icon: Image.asset(
+                                                      'assets/icons/add-photo.png',
+                                                      height:
+                                                          responsiveHeight(24),
+                                                      width:
+                                                          responsiveWidth(24),
+                                                      color: AppColor.black),
+                                                )
+                                              : const SizedBox(),
+                                        ),
                                       ],
                                     ),
                             )

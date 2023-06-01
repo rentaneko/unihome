@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:unihome/constant/value.constant.dart';
 import 'package:unihome/repositories/apis/user.api.dart';
@@ -108,9 +107,7 @@ class UserRepo {
       type: type,
       images: images,
     );
-    Get.log('[MESSAGE] ==================== ${res!.code}');
-    Get.log('[MESSAGE] ==================== ${res.message}');
-    return res.code == SUCCESS ? true : false;
+    return res!.code == SUCCESS ? true : false;
   }
 
   Future<List<Ticket>?> getListTicket() async {
@@ -131,7 +128,6 @@ class UserRepo {
 
   Future<Rental?> getRentalDetail(String renterId) async {
     var res = await userApi.getRentalDetail(renterId);
-
     return res!.code == SUCCESS ? Rental.fromJson(res.data) : null;
   }
 

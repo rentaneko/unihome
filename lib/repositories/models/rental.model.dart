@@ -13,12 +13,12 @@ class Rental {
   String? accountName;
   String? accountPhone;
 
-  int? waterMeterAfter;
-  int? electricityMeterAfter;
-  int? priceForRent;
-  int? priceForWater;
-  int? priceForElectricity;
-  int? priceForService;
+  String? waterMeterAfter;
+  String? electricityMeterAfter;
+  String? priceForRent;
+  String? priceForWater;
+  String? priceForElectricity;
+  String? priceForService;
 
   List<Renter>? renters;
 
@@ -53,26 +53,13 @@ class Rental {
         ? null
         : json['BuildingDetailEntity']['Employee']['Phone'] as String;
 
-    waterMeterAfter = json['FlatMeterEntity']['WaterMeterAfter'] == null
-        ? 0
-        : int.parse(json['FlatMeterEntity']['WaterMeterAfter'].toString());
+    waterMeterAfter = json['FlatMeterEntity']['WaterMeterAfter'] ?? '0';
     electricityMeterAfter =
-        json['FlatMeterEntity']['ElectricityMeterAfter'] == null
-            ? 0
-            : int.parse(
-                json['FlatMeterEntity']['ElectricityMeterAfter'].toString());
-    priceForElectricity = json['FlatMeterEntity']['PriceForElectricity'] == null
-        ? 0
-        : int.parse(json['FlatMeterEntity']['PriceForElectricity']);
-    priceForService = json['FlatMeterEntity']['PriceForService'] == null
-        ? 0
-        : int.parse(json['FlatMeterEntity']['PriceForService']);
-    priceForWater = json['FlatMeterEntity']['PriceForWater'] == null
-        ? 0
-        : int.parse(json['FlatMeterEntity']['PriceForWater']);
-    priceForRent = json['FlatMeterEntity']['PriceForRent'] == null
-        ? 0
-        : int.parse(json['FlatMeterEntity']['PriceForRent']);
+        json['FlatMeterEntity']['ElectricityMeterAfter'] ?? '0';
+    priceForElectricity = json['FlatMeterEntity']['PriceForElectricity'] ?? '0';
+    priceForService = json['FlatMeterEntity']['PriceForService'] ?? '0';
+    priceForWater = json['FlatMeterEntity']['PriceForWater'] ?? '0';
+    priceForRent = json['FlatMeterEntity']['PriceForRent'] ?? '0';
     listService = json['Services'] == null
         ? null
         : (json['Services'] as List).map((e) => Services.fromJson(e)).toList();

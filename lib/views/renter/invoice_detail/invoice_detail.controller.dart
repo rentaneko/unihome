@@ -9,7 +9,6 @@ class InvoiceDetailController extends GetxController {
   var invoiceId = getArgument();
 
   final _userRepo = Get.find<UserRepo>();
-
   @override
   void onInit() {
     Future.wait(

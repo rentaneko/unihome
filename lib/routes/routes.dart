@@ -20,8 +20,6 @@ import 'package:unihome/views/renter/invoices/invoice.binding.dart';
 import 'package:unihome/views/renter/invoices/invoice.view.dart';
 import 'package:unihome/views/renter/profile/profile.binding.dart';
 import 'package:unihome/views/renter/profile/profile.view.dart';
-import 'package:unihome/views/renter/service/service.binding.dart';
-import 'package:unihome/views/renter/service/service.view.dart';
 import 'package:unihome/views/renter/ticket/ticket.binding.dart';
 import 'package:unihome/views/renter/ticket/ticket.view.dart';
 import 'package:unihome/views/renter/ticket_detail/ticket_detail.binding.dart';
@@ -78,11 +76,6 @@ class RoutePage {
       name: ROUTE_TICKET_TECH,
       page: () => const TicketTechScreen(),
       binding: TicketTechBinding(),
-    ),
-    GetPage(
-      name: ROUTE_SERVICE,
-      page: () => const ServiceScreen(),
-      binding: ServiceBinding(),
     ),
     GetPage(
       name: ROUTE_PROFILE,
