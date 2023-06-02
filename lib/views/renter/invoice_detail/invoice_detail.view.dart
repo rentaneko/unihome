@@ -95,7 +95,7 @@ class InvoiceDetailScreen extends GetWidget<InvoiceDetailController> {
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
                 title: Text(
-                  '${controller.invoice.value.invoiceDetails![index].service!.serviceName}',
+                  '${controller.invoice.value.invoiceDetails![index].serviceName}',
                   style: TextStyle(
                     fontFamily: 'SF Pro Display',
                     fontSize: responsiveFont(16),
